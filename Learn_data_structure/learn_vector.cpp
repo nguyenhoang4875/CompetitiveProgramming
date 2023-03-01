@@ -31,6 +31,12 @@ using namespace std;
  *  
  *  resize: resize the vector to n elements
  *      v.resize(n);
+ *
+ *    contains:
+ *      using count function // in algorithm
+ *      using find function // in algorithm
+ *      using find_if, any_of function // in algorithm
+ *      using binary_search function // in algorithm (require sorted)
  * 
  *  iterator:
  *      using index: for(int i = 0; i < n ; i++) cout << v[i];
@@ -98,6 +104,31 @@ int main() {
     vector_resize.resize(5);
     for (int e: vector_resize) cout << e << " ";
     cout << endl;
+
+     // check contains element
+    vector<int> vector_check_contains;
+    vector_check_contains.emplace_back(1);
+    vector_check_contains.emplace_back(2);
+    vector_check_contains.emplace_back(3);
+    vector_check_contains.emplace_back(4);
+    vector_check_contains.emplace_back(4);
+
+    // using count: return total number appear, return 0 if not found
+    // count in range;
+    int cnt = count(vector_check_contains.begin(), vector_check_contains.end(), 4);
+    cout << "Number appear of 4 is = " << cnt << endl;
+    cnt = count(vector_check_contains.begin(), vector_check_contains.end(), 0);
+    cout << "Number appear of 0 is = " << cnt << endl;
+
+    // using find: return iterator to first element appear, else return last (end)
+    // find in range
+    auto iFind = find(vector_check_contains.begin(), vector_check_contains.end(), 9);
+    cout << "First index for 4 = " << iFind - vector_check_contains.begin()<< endl;
+
+    // binary search
+    sort(vector_check_contains.begin(), vector_check_contains.end());
+    bool contains = binary_search(vector_check_contains.begin(), vector_check_contains.end(), 3);
+    cout << "Binary search value 3 is exist: " << contains << endl;
 
     // iterator using index
     for (int i = 0; i < v.size(); i++) {
