@@ -11,6 +11,8 @@ int tcs, n, m;
 char a[105][105];
 bool visited[105][105];
 int dt[5] = {1, 0, -1, 0 , 1};
+int oo = -1e9;
+int dist[105][105];
 
 struct node {
     int r, c, d;
@@ -22,7 +24,7 @@ bool in_bound(int r, int c) {
     return true;
 }
 
-int bfs(node s, node d) {
+int bfs(node s) {
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= m; j++) {
             visited[i][j] = false;
@@ -35,19 +37,17 @@ int bfs(node s, node d) {
     visited[s.r][s.c] = true;
     while (!q.empty()) {
         node t = q.front(); q.pop();
-        if(t.r == d.r && t.c == d.c) return t.d;
-
+        dist[t.r][t.c] = t.d;
         for (int i = 0; i < 4; i++) {
             int nr = t.r + dt[i];
             int nc = t.c + dt[i+1];
 
             if(!in_bound(nr, nc) || visited[nr][nc] || a[nr][nc] == '#') continue;
-            visited[t.r][t.c] = true;
+            visited[nr][nc] = true;
             q.push({nr, nc, t.d + 1});
         }
     }
-    return 0;
-    
+    return oo;
 }
 
 void solve() {
@@ -69,10 +69,13 @@ void solve() {
     int k = vn.size();
     ans = k * 60;
     int mx = 0;
+    bfs(s);
     for (int i = 0; i < k; i++) {
-        int dis = bfs(s, vn[i]);
-        ans += 2 * dis;
-        mx = max(mx, dis);
+        int r = vn[i].r;
+        int c = vn[i].c;
+        int x = dist[r][c];
+        ans += 2 * x;
+        mx = max(mx, x);
     }
     ans -= mx;
     cout << ans << endl;
