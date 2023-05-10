@@ -1,5 +1,9 @@
-.cph
-.vscode
-.cph/*
-**.exe
+*
+!*/
 !*.*
+.cph
+.vscode/*
+.cph/*
+*/.cph/*
+**/.cph/*.*
+**.exe
