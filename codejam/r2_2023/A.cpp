@@ -3,57 +3,54 @@
 
 using namespace std;
 
-int tcs, n;
-int x;
-double sum;
+/**
+ * https://codejam.lge.com/contest/problem/1010/1
+ * 
+ * Observation:
+ * For problems involving arbitrary precision,
+ * we can deal it with integer arithmetic to guarantee certain precision.
+ * For this problem: we multiply 1e4 to every number,
+ * we don't need to introduce float(or double) at all
+*/
+int tcs, n, x, sum;
 int MAX = 1e4;
+int mul = 1e2;
 
+bool check(int i) {
+    int t = sum + sum * i / mul;
+    int q = t / mul;
+    int r = t % mul;
+    
+    if(q / mul == x) return true;
+    if(r > 0 && ((q + 1) / mul == x)) return true;
+    return false;
+}
 void solve() {
+    cin >> n >> x;
     sum = 0;
-    cin >> n;
-    cin >> x;
-    double pi;
-    for (int i = 1; i <= n; i++) {
-        cin >> pi;
-        sum += pi;
+    int mul = 1e2;
+    while (n--) {
+        string p;
+        cin >> p;
+        string t;
+        for (auto c: p) if(c != '.') t += c;
+        sum += stoll(t) * mul;
     }
-    double tax_min;
-    double tax_max;
-    int mnv;
-    int mxv;
-    // if(x == 0) {
-    //     x = sum;
-    //     tax_min = 0;
-    //     tax_max = 1 - sum;
-    //     mnv = 0;
-    //     for (int i = 1; i <= MAX; i++) {
-    //         if((i * sum) >= (tax_max * 100)) {
-    //             mxv = i - 1;
-    //             break;
-    //         }
-    //     }
-    //     cout << mnv << " " << mxv << endl;
-    // } else {
-        tax_min = 1.0*(x - sum) * 100.0;
-        for (int i = 0; i <= MAX; i++) {
-            double temp = ceill(i * sum);
-            if(temp >= tax_min) {
-                mnv = i;
-                break;
-            } 
+    int ans1 = 0, ans2 = 0;
+    for (int i = 0; i <= MAX; i++) {
+        if(check(i)) {
+            ans1 = i;
+            break;
         }
-        tax_max = 1.0*(x - sum + 1) * 100.0;
-        for (int i = 0 ; i <= MAX; i++) {
-            double temp = i * sum;
-            if(temp >= tax_max) {
-                mxv = i - 1;
-                break;
-            } 
-        }
-        cout << mnv << " " << mxv << endl;
     }
-
-// }
+    for (int i = MAX; i >= 0; i--) {
+        if(check(i)) {
+            ans2 = i;
+            break;
+        }
+    }
+    cout << ans1 << " " << ans2 << endl;
+}
 
 int32_t main() {
     ios::sync_with_stdio(false);
