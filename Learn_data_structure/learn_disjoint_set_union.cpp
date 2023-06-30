@@ -80,7 +80,7 @@ struct DsuMinSum {
     }
 
     int findSet(int v) {
-        return v == parent[v] ? v : findSet(parent[v]);
+        return parent[v] = (v == parent[v] ? v : findSet(parent[v]));
     }
 
     void unionSet(int a, int b) {
