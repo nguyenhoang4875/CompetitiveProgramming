@@ -10,6 +10,8 @@ int dr[4] = {0, 0, -1, 1};
 int dc[4] = {1, -1, 0, 0};
 int oo = 1e9;
 int ans = oo;
+int totalGold;
+int cntGold;
 
 struct node {
     int r, c, d;
@@ -17,6 +19,7 @@ struct node {
 vector<node> boom;
 vector<node> dynamite;
 vector<node> v; // can put dynamite;
+vector<node> vb;
 vector<node> g; // position of gold
 
 bool inBound(int r, int c) {
@@ -39,23 +42,8 @@ bool isBoom(char c) {
     return false;
 }
 
-bool checkFinish() {
-    for(node e: g) {
-        if(!visited[e.r][e.c]) return false;
-    }
-    return true;
-}
-
-void case1(int r, int c, int d) {
-    for(int dr = -d; dr <= d; dr++) {
-        for(int dc = -d; dc <= d; dc++) {
-            int nr = r + dr;
-            int nc = c + dc;
-            if(!inBound(nr, nc) || visited[nr][nc]) continue;
-            visited[nr][nc] = true;
-            if(isBoom(a[nr][nc])) boom.push_back({nr, nc, a[nr][nc] - '0'});
-        }
-    }
+bool isFinish() {
+    return cntGold == totalGold;
 }
 
 void exploit(int r, int c, int d) {
@@ -65,19 +53,21 @@ void exploit(int r, int c, int d) {
             int nc = c + dc;
             if(!inBound(nr, nc) || visited[nr][nc]) continue;
             visited[nr][nc] = true;
-            if(isBoom(a[nr][nc])) dynamite.push_back({nr, nc, a[nr][nc] - '0'});
+            vb.push_back({nr, nc});
+            if(a[nr][nc] == 'G') cntGold++;
+            if(isBoom(a[nr][nc])) boom.push_back({nr, nc, a[nr][nc] - '0'});
         }
     }
 }
 
 void afterOne() {
     queue<node> q;
-    for(int r = 1; r <= n; r++) {
-        for(int c = 1; c <= m; c++) {
-            if(!visited[r][c]) continue;
-            q.push({r, c});
-        }
-    }
+    for(node e: vb) q.push(e);
+    vb.clear();
+
+    vector<node> boomPre;
+    boomPre = boom;
+    boom.clear();
     while (!q.empty()) {
         node cn = q.front();
         q.pop();
@@ -86,23 +76,22 @@ void afterOne() {
             int nc = cn.c + dc[i];
             if(!inBound(nr, nc) || visited[nr][nc]) continue;
             visited[nr][nc] = true;
+            vb.push_back({nr, nc});
+            if(a[nr][nc] == 'G') cntGold++;
             if(isBoom(a[nr][nc])) {
-                dynamite.push_back({nr, nc, a[nr][nc] - '0'});
+                boom.push_back({nr, nc, a[nr][nc] - '0'});
             }
         }
     }
-    
-    for(node e: boom) {
+    for(node e: boomPre) {
         exploit(e.r, e.c, e.d);
     }
-    boom.clear();
-    for(node e: dynamite) boom.push_back(e);
-    dynamite.clear();
+    
 }
 
 void clearData() {
     boom.clear();
-    dynamite.clear();
+    vb.clear();
     for(int i = 1; i <= n; i++) {
         for(int j = 1; j <= m; j++) {
             visited[i][j] = false;
@@ -119,25 +108,34 @@ void solve() {
                 v.push_back({i, j});
             }
             if(a[i][j] == 'G') {
-                g.push_back({i, j});
+                totalGold++;
             }
         }
     }
-    if(v.empty() || g.empty()) {
+    // cout << "totalGold = " << totalGold << endl;
+    if(totalGold == 0 || v.empty()) {
         cout << 0 << endl;
         return;
     }
     for(node e: v) {
-        // idx++;
         clearData();
         int cnt = 1;
-        visited[e.r][e.c] = true;
-        case1(e.r, e.c, 1);
-        while(!checkFinish()) {
+        cntGold = 0;
+        // visited[e.r][e.c] = true;
+        // vb.push_back({e.r, e.c});
+        exploit(e.r, e.c, 1);
+        // printMatrix();
+        // cout << "vb size = " << vb.size() << endl;
+        // cout << "cntGold = " << cntGold << endl;
+        while(!isFinish()) {
             cnt++;
             afterOne();
+            // printMatrix();
         }
+        // cout << "cntGold = " << cntGold << endl;
         ans = min(ans, cnt);
+        // cout << ans << endl;
+        // return;
     }
     cout << ans << endl;
 }
