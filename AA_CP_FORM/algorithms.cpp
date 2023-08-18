@@ -261,6 +261,19 @@ void printDivisors(int n){
     }
 }
 
+//**************** Find all prime divisor of a number ****************//
+// O(sqrt(n))
+vector<int> givePrimeDivisor(int n) {
+    vi div;
+    for(int i = 2; i * i <= n; i++) {
+        if(n % i == 0) {
+            div.push_back(i);
+            while(n % i == 0) n /= i;
+        }
+    }
+    if(n > 1) div.push_back(n);
+    return div;
+}
 
 //***************** KMP *******************//
 
