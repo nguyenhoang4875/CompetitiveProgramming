@@ -26,29 +26,27 @@ void check_here(T x){
 
 //*** define ***//
 #define int long long
+#define pb push_back
 #define FOR(_i,_a,_b) for(int _i = (_a); _i < (_b); _i++)
 #define FORI(_i,_a,_b) for(int _i = (_a); _i <= (_b); _i++)
 #define FORE(it,x) for(auto it = x.begin(); it != x.end(); ++it)
 
-//*** typedef ***//
-typedef vector<int> vi;
-typedef pair<int, int> pii;
-typedef vector<pair<int, int>> vii;
+//*** custom using ***//
+using vb = vector<bool>;
+using vvb = vector<vb>;
+using vi = vector<int>;
+using vvi = vector<vi>;
+using vc = vector<char>;
+using vvc = vector<vc>;
+using pii = pair<int, int>;
 
 //*** START CODING ***//
 
+const int MS = 1e5 + 5;
+const int MOD = 1e9 + 7;
+int tcs, n;
+int a[MS];
 
-int tcs, n, m;
-const int  MOD = 1e9 + 7;
-vector<int> fac;
-
-void initFac(int n) {
-    fac.resize(n + 1);
-    fac[0] = 1;
-    for (int i = 1; i <= n; i++) {
-		fac[i] = (fac[i - 1] * i) % MOD;
-    }
-}
 
 int power(int x, int y, int p) {
     int res = 1;
@@ -60,37 +58,37 @@ int power(int x, int y, int p) {
     }
     return res;
 }
- 
-// Returns n^(-1) mod p
-int modInverse(int n, int p) {
-    return power(n, p - 2, p);
-}
- 
-// Returns nCr % p using Fermat's little theorem.
-int nCrModPFermat(int n, int r, int p) {
-    if (n < r) return 0;
-    if (r == 0) return 1;
-    return (fac[n] * modInverse(fac[r], p) % p * modInverse(fac[n - r], p) % p) % p;
-}
- 
 
 void solve() {
-    cin >> n >> m;
-    int x, y;
-    int ans = 0;
-    FOR(i, n,  min(m - 1, 2*n - 1) + 1){
-        x = nCrModPFermat(2*n - 1, i, MOD);
-        y = nCrModPFermat(2*(m - n), m - (2*n - 1 - i), MOD);
-        ans += x * y;
-        ans %= MOD;
+    cin >> n; 
+    for(int i = 1; i <= n; i++) cin >> a[i];
+    unordered_set<int> s;
+    int sum = 0;
+    int cnt = 0;
+    for(int i = 1; i <= n; i++) {
+        bool dup = false;
+        s.insert(i);
+        for(int j = i + 1; j <= n; j++) {
+
+            if(s.count(a[j])) {
+                dup = true;
+                break;
+            }
+            s.insert(a[j]);
+            int len = j - i + 1;
+            sum += (power(i, len, MOD) + power(j, len, MOD)) % MOD;
+            sum %= MOD;
+            // s.clear();
+        }
+        s.erase(a[i]);
     }
-    cout << ans << endl;
+    cout << sum << '\n';
+
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    initFac(2e5 + 1);
     cin >> tcs;
     while(tcs--) {
         solve();
