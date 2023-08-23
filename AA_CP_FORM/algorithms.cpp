@@ -114,7 +114,7 @@ public:
 		return noSet;
 	}
 	int getSetSize(int i){
-		return setSize[find(i)];
+		return setSize[findSet(i)];
 	}
 };
 
