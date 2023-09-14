@@ -19,15 +19,12 @@ struct FenwickTreeRangeQueryPointUpdate {
     FenwickTreeRangeQueryPointUpdate(int _n) : n(_n), tree(n + 1){};
 
     // Create an empty FenwickTree
-    FenwickTreeRangeQueryPointUpdate(int _n, int val[]) {
+    FenwickTreeRangeQueryPointUpdate(int _n, int a[]) {
         n = _n;
         tree.resize(n + 1);
-        for (int i = 1; i <= n; i++) tree[i] = val[i];
-
         for (int i = 1; i <= n; i++) {
-            int j = i + (i & -i);
-            if (j <= n) tree[j] += tree[i];
-        }
+            add(i, a[i]);
+        };
     }
 
     // Computes the prefix sum form [1, i], O(log(n))
@@ -64,52 +61,37 @@ struct FenwickTreeRangeQueryPointUpdate {
 
 struct FenwickTreeRangeUpdatePointQuery {
     int n;
-    vector<int> orgTree;  // origin tree
-    vector<int> curTree;  // current tree
+    vector<int> tree;
 
-    FenwickTreeRangeUpdatePointQuery(int _n, int val[]) {
+    FenwickTreeRangeUpdatePointQuery(int _n, int a[]) {
         n = _n;
-        orgTree.resize(n + 1);
-        for (int i = 1; i <= n; i++) orgTree[i] = val[i];
-
-        for (int i = 1; i <= n; i++) {
-            int parent = i + (i & -i);
-            if (parent <= n) orgTree[parent] += orgTree[i];
-        }
-
-        curTree = orgTree;
+        tree.resize(n + 1);
+        for (int i = 1; i <= n; i++) updateRange(i, i, a[i]);
     }
-
-    // Add v to index i and all ranges responsible for i, O(log(n))
-    void add(int i, int v) {
-        while (i <= n) {
-            curTree[i] += v;
-            i += (i & -i);
+    void updateBit(int index, int val) {
+        while (index <= n) {
+            tree[index] += val;
+            index += index & (-index);
         }
     }
 
-    // Update the interval [l, r] with the value val, O(log(n))
     void updateRange(int l, int r, int val) {
-        add(l, +val);
-        add(r + 1, -val);
+        // Increase value at 'l' by 'val'
+        updateBit(l, val);
+
+        // Decrease value at 'r+1' by 'val'
+        updateBit(r + 1, -val);
     }
 
-    // Computes the prefix sum from [1, i], O(log(n))
-    // tree base-index 1
-    int prefixSum(int i, vector<int> tree) {
-        int sum = 0;
-        while (i > 0) {
-            sum += tree[i];
-            i -= (i & -i);
+    int get(int index) {
+        int sum = 0;  // Initialize result
+
+        while (index > 0) {
+            sum += tree[index];
+            index -= index & (-index);
         }
         return sum;
     }
-
-    // Get the value at a specific index. The logic behind this method is the
-    // same as finding the prefix sum in a Fenwick tree except that you need to
-    // take the difference between the current tree and the original to get
-    // the point value.
-    int get(int i) { return prefixSum(i, curTree) - prefixSum(i - 1, orgTree); }
 };
 
 void solve() {
