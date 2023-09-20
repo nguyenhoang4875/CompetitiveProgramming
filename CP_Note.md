@@ -6,3 +6,21 @@ Set $x$ number after the comma(',') in double
     cout << fixed;
     cout.precision(x);
 ```
+
+**Count for interval ranges**
+
+Given array a and b size m
+```C++
+    1 <= n, m <= 1e5 
+    1 <= a[i] <= b[i] <= 1e5 
+```
+from: a[i] to b[i] will do task size: $x$
+
+Calculate $cnt[x]: x = 1 -> n$ in $O(n)$ time?
+
+Solution:
+- for each pair a[i], b[i]: ```cnt[a[i]] += x; cnt[b[i + 1]] -= x;```
+- calculate prefix sum of cnt: ```cnt[i] += cnt[i - 1]```
+
+
+
