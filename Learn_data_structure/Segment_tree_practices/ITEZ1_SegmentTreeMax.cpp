@@ -40,12 +40,12 @@ struct SegmentTreeMax {
     }
 
     int getMax(int v, int tl, int tr, int l, int r) {
-        if (l > r) return -1e9;
-        if (l == tl && r == tr) return t[v];
+        if (l <= tl && tr <= r) return t[v];
+        if (l > tr || r < tl) return -1e9;
 
         int tm = (tl + tr) / 2;
-        return max(getMax(2 * v, tl, tm, l, min(r, tm)),
-                   getMax(2 * v + 1, tm + 1, tr, max(l, tm + 1), r));
+        return max(getMax(2 * v, tl, tm, l, r),
+                   getMax(2 * v + 1, tm + 1, tr, l, r));
     }
 
     // update a[pos] = newValue and also update the value of t array

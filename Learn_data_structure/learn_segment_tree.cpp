@@ -40,12 +40,11 @@ struct SegmentTree {
     // (the index  v  and the boundaries  tl  and  tr ) and
     // the boundaries of the query,  l  and r 
     int sum(int v, int tl, int tr, int l, int r) {
-        if (l > r) return 0;
-        if (l == tl && r == tr) return t[v];
+        if (l <= tl && tr <= r) return t[v];
+        if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
-        return sum(2 * v, tl, tm, l, min(r, tm)) +
-               sum(2 * v + 1, tm + 1, tr, max(l, tm + 1), r);
+        return sum(2 * v, tl, tm, l, r) + sum(2 * v + 1, tm + 1, tr, l, r);
     }
 
     // update a[pos] = newValue and also update the value of t array
@@ -89,11 +88,12 @@ struct SegmentTreeMax {
     int getMax(int v, int tl, int tr, int l, int r) {
         if (l > r)
             return 0;  // if array a contain negative integer: return -oo;
-        if (l == tl && r == tr) return t[v];
+        if (l <= tl && tr <= r) return t[v];
+        if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
-        return max(getMax(2 * v, tl, tm, l, min(r, tm)),
-                   getMax(2 * v + 1, tm + 1, tr, max(l, tm + 1), r));
+        return max(getMax(2 * v, tl, tm, l, r),
+                   getMax(2 * v + 1, tm + 1, tr, l, r));
     }
 
     // update a[pos] = newValue and also update the value of t array
@@ -145,11 +145,12 @@ struct SegmentTreeMaxAndTime {
 
     pair<int, int> getMax(int v, int tl, int tr, int l, int r) {
         if (l > r) return {-oo, 0};
-        if (l == tl && r == tr) return t[v];
+        if (l <= tl && tr <= r) return t[v];
+        if (l > tr && r < tl) return {-1, -1};
 
         int tm = (tl + tr) / 2;
-        return combine(getMax(2 * v, tl, tm, l, min(r, tm)),
-                       getMax(2 * v + 1, tm + 1, tr, max(l, tm + 1), r));
+        return combine(getMax(2 * v, tl, tm, l, r),
+                       getMax(2 * v + 1, tm + 1, tr, l, r));
     }
 
     // update a[pos] = newValue and also update the value of t array
@@ -193,11 +194,12 @@ struct SegmentTreeGcd {
     int getGcd(int v, int tl, int tr, int l, int r) {
         if (l > r)
             return 0;  // if array a contain negative integer: return -oo;
-        if (l == tl && r == tr) return t[v];
+        if (l <= tl && tr <= r) return t[v];
+        if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
-        return __gcd(getGcd(2 * v, tl, tm, l, min(r, tm)),
-                     getGcd(2 * v + 1, tm + 1, tr, max(l, tm + 1), r));
+        return __gcd(getGcd(2 * v, tl, tm, l, r),
+                     getGcd(2 * v + 1, tm + 1, tr, l, r));
     }
 
     // update a[pos] = newValue and also update the value of t array
@@ -247,11 +249,12 @@ struct SegmentTreeCountSearch {
 
     int count(int v, int tl, int tr, int l, int r) {
         if (l > r) return 0;
-        if (l == tl && r == tr) return t[v];
+        if (l <= tl && tr <= tr) return t[v];
+        if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
-        return count(2 * v, tl, tm, l, min(r, tm)) +
-               count(2 * v + 1, tm + 1, tr, max(l, tm + 1), r);
+        return count(2 * v, tl, tm, l, r) +
+               count(2 * v + 1, tm + 1, tr, l, r);
     }
 
     int findKth(int v, int tl, int tr, int k) {

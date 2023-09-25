@@ -6,7 +6,7 @@ using namespace std;
 /**
  * Problem: https://oj.vnoi.info/problem/segtree_itez2
  * Solution: Using Segment Tree Sum Range Query
-*/
+ */
 
 using vb = vector<bool>;
 using vvb = vector<vb>;
@@ -44,12 +44,12 @@ struct SegmentTree {
     // (the index  v  and the boundaries  tl  and  tr ) and
     // the information about the boundaries of the query,  l  and r 
     int sum(int v, int tl, int tr, int l, int r) {
-        if (l > r) return 0;
-        if (l == tl && r == tr) return t[v];
+        if (l <= tl && tr <= r) return t[v];
+        if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
-        return sum(2 * v, tl, tm, l, min(r, tm)) +
-               sum(2 * v + 1, tm + 1, tr, max(l, tm + 1), r);
+        return sum(2 * v, tl, tm, l, r) +
+               sum(2 * v + 1, tm + 1, tr, l, r);
     }
 
     // update a[pos] = newValue and also update the value of t array
