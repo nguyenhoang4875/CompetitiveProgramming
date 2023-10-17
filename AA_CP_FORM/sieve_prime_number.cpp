@@ -45,15 +45,16 @@ void SieveOfEratosthenes(int n) {
 
 //**************** Find all divisor of a number ****************//
 // O(sqrt(n))
-vector<int> vdiv;
 
-void printDivisors(int n) {
-    for (int i = 1; i <= sqrt(n); i++) {
+vector<int> getDivisors(int n) {
+    vector<int> vDiv;
+    for (int i = 1; i * i <= n; i++) {
         if (n % i == 0) {
-            vdiv.push_back(i);
-            if (n / i != i) vdiv.push_back(n / i);
+            vDiv.push_back(i);
+            if (i * i != n) vDiv.push_back(n / i);
         }
     }
+    return vDiv;
 }
 
 //**************** Find all prime divisor of a number ****************//
