@@ -32,8 +32,7 @@ void check_here(T x) {
 }
 
 //*** define ***//
-#define For(_i, _a, _b) for (int _i = (_a); _i < (_b); _i++)
-#define Fori(_i, _a, _b) for (int _i = (_a); _i <= (_b); _i++)
+#define For(_i, _a, _b) for (int _i = (_a); _i <= (_b); _i++)
 #define Fore(it, x) for (auto it = x.begin(); it != x.end(); ++it)
 
 //*** custom using ***//
@@ -51,45 +50,43 @@ const int oo = 1e18, mod = 1e9 + 7;
 const int ms = 5e4 + 5;
 int n, k;
 int a[ms];
-int b[ms];
-int d[ms];
+
+int count(int val) {
+    int cnt = 0;
+    For(i, 1, n) {
+        int pos = upper_bound(a + i + 1, a + n + 1, a[i] - val, greater<int>()) - a;
+        if(pos <= n + 1) {
+         cnt += pos - 1 - i;
+        }
+    }
+    return cnt;
+
+}
 
 void solve() {
     cin >> n >> k;
-    Fori(i, 1, n) cin >> a[i];
-    Fori(i, 1, n) cin >> b[i];
+    For(i, 1, n) cin >> a[i];
+    For(i, 1, n) {
+        int tmp;
+        cin >> tmp;
+        a[i] -= tmp;
+    } 
+    sort(a + 1, a + n + 1, greater<int>());
 
-    Fori(i, 1, n) {
-        d[i] = a[i] - b[i];
-    }
-
-
-    int vmax = 0;
-    vector c(4 * ms, 0);
-    Fori(i, 1, n - 1) {
-        Fori(j, i + 1, n) {
-            int val = a[i] - a[j] - (b[i] - b[j]);
-            val = abs(val);
-            c[val]++;
-            vmax = max(vmax, val);
+    int l = 0, r = 1e6;
+    int ans = -1;
+    while(l <= r) {
+        int mid = (l + r) / 2;
+        if(count(mid) >= k) {
+            ans = mid;
+            r = mid - 1;
+        } else {
+            l = mid + 1;
         }
     }
+    if(count(ans) == k) cout << ans << '\n';
+    else cout << "-1\n";
 
-    if (c[0] == k) {
-        cout << "0\n";
-        return;
-    }
-    Fori(i, 1, vmax) {
-        c[i] += c[i - 1];
-        if (c[i] == k) {
-            cout << i << '\n';
-            return;
-        }
-        if (c[i] > k) {
-            cout << "-1\n";
-            return;
-        }
-    }
 }
 
 int32_t main() {
