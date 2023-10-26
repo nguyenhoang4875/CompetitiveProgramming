@@ -69,10 +69,12 @@ void solve() {
     int max_mask = (1 << n) - 1;
     vvi dp((1 << n) + 1, vi(n + 1, 0));
     vvi count((1 << n) + 1, vi(n + 1, 0));
-    For(i, 0, n - 1) { dp[1 << i][i] = a[i]; }
+    For(i, 0, n - 1) {
+        dp[1 << i][i] = a[i];
+        count[1 << i][i] = 1;
+    }
     for (int mask = 1; mask <= max_mask; mask++) {
         for (int cur = 0; cur <= n - 1; cur++) {
-            count[mask][cur] = 1;
             if (getBit(mask, cur)) {
                 for (int from = 0; from <= n - 1; from++) {
                     if (getBit(mask, from) && from != cur) {

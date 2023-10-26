@@ -10,8 +10,8 @@ using namespace std;
 */
 
 const int oo = 1e18, mod = 1e9 + 7;
-const int ms = 5e4 + 5;
-int n, k;
+const int ms = 1e5 + 5;
+int n, L, k;
 int a[ms];
 
 bool check(int val) {
@@ -28,13 +28,17 @@ bool check(int val) {
 }
 
 void solve() {
-    cin >> n >> k;
+    cin >> n >> L >> k;
     int minA = oo;
     int maxA = 0;
     for (int i = 1; i <= n; i++) {
         cin >> a[i];
         minA = min(minA, a[i]);
         maxA = max(maxA, a[i]);
+    }
+    if(k >= n) {
+        cout << "0\n";
+        return;
     }
     sort(a + 1, a + n + 1);  // sort for binary search (if a is not sorted)
 
@@ -53,9 +57,9 @@ void solve() {
         int mid = l + (r - l) / 2;
         if (check(mid)) {
             ans = mid;
-            r--;
+            r = mid - 1;
         } else {
-            l++;
+            l = mid + 1;
         }
     }
     cout << ans << '\n';
