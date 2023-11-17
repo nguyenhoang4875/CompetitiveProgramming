@@ -2,15 +2,6 @@
 #define int long long
 
 using namespace std;
-/**
- * Problem: https://atcoder.jp/contests/abc169/tasks/abc169_d
- * Solution: Math
- * - find PrimeDivisors
- * 
- * TC: O(log n)
- * MC: O(log n)
- * 
-*/
 
 #define pb push_back
 #define all(x) x.begin(), x.end()
@@ -35,42 +26,25 @@ using vii = vector<pii>;
 
 const int oo = 1e18, mod = 1e9 + 7;
 const int ms = 1e5 + 5;
-int n;
-
+int n, m;
 
 void solve() {
-    cin >> n;
-    if(n == 1) {
-        cout << "0\n";
-        return;
-    }
-    int tmp = n;
-    int cnt = 0;
-    int i = 2;
-    int tc = 0;
-    while(n && i * i <= tmp) {
-        while(n % i == 0) {
-            tc++;
-            n /= i;
-        }
-        for(int j = 1; j <= tc; j++) {
-            if(j <= tc) {
-                tc -= j;
-                cnt++;
-            }
-        }
-        tc = 0;
-        i++;
-    }
-    if(n > 1) cnt++;
-    cnt = max(cnt, 1LL);
-    cout << cnt << el;
+    cin >> n >> m;
+    int sum = 0;
+    sum += (n - 1) * n / 2;
+    sum += (m - n) * n;
+    cout << sum << el;
+
 }
 
 int32_t main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    solve();
+    int tcs;
+    cin >> tcs;
+    while (tcs--) {
+        solve();
+    }
     return 0;
 }
