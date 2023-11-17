@@ -5,6 +5,10 @@ Set $x$ number after the comma(',') in double
 ```C++
     cout << fixed;
     cout.precision(x);
+
+    OR
+
+    cout << fixed << setprecision(2);
 ```
 
 **Count for interval ranges**
