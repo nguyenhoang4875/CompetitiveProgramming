@@ -58,6 +58,13 @@ void solve() {
 
     FenwickTree ft(n);
     int lis[n];
+    int l;
+    cin >> l;
+
+    if(n == 0) {
+        cout << -1 << endl;
+        return;
+    }
 
     sort(b, b + n);
     for(int i = 0; i < n; i++) {
@@ -65,15 +72,22 @@ void solve() {
         int index = b[i].second;
         lis[index] = ft.query(index - 1) + 1;
         ft.update(index, lis[index]);
+        if(lis[index] == l) {
+            cout << val << endl;
+            return;
+        }
     }
+    cout << -1 << endl;
 
-    cout << ft.query(n - 1);
+    // cout << ft.query(n - 1);
 }
 
 int32_t main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    solve();
+    int tcs;
+    cin >> tcs;
+    while(tcs--) solve();
     return 0;
 }
