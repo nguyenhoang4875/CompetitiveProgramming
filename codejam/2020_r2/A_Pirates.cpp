@@ -2,6 +2,14 @@
 #define int long long
 
 using namespace std;
+/**
+ * Problem: https://codejam.lge.com/problem/19241
+ *
+ * Solution: Greedy pick the box has max value of XA + XB first
+ *
+ * TC: O(n log n)
+ * MC: O(n)
+ */
 
 #define pb push_back
 #define all(x) x.begin(), x.end()
@@ -28,42 +36,23 @@ const int oo = 1e18, mod = 1e9 + 7;
 const int ms = 1e5 + 5;
 int n;
 
-struct Node {
-    int id, val, t;
-};
-
-struct cmp {
-    bool operator()(Node& n1, Node& n2) { return n1.t > n2.t; }
-};
-
 void solve() {
     cin >> n;
-    priority_queue<Node, vector<Node>, cmp> qa, qb;
+    vii ab;
     For(i, 1, n) {
         int x, y;
         cin >> x >> y;
-        qa.push({i, x, abs(y - x)});
-        qb.push({i, y, abs(x - y)});
+        ab.pb({x, y});
     }
-    set<int> claimed;
+    sort(all(ab), [&](pii p1, pii p2) { return p1.F + p1.S > p2.F + p2.S; });
     int sumA = 0, sumB = 0;
-    For(i, 1, n) {
-        if (i & 1) {
-            while (!qa.empty() && claimed.count(qa.top().id)) qa.pop();
-            sumA += qa.top().val;
-            // cout << "qa = " << qa.top().val << el;
-            // cout << "id = " << qa.top().id << el;
-            claimed.insert(qa.top().id);
-            qa.pop();
-        } else {
-            while (!qb.empty() && claimed.count(qb.top().id)) qb.pop();
-            sumB += qb.top().val;
-            // cout << "qb = " << qb.top().val << el;
-            // cout << "id = " << qb.top().id << el;
-            claimed.insert(qb.top().id);
-            qb.pop();
-        }
+    For(i, 0, n - 1) {
+        if ((i & 1) == 0)
+            sumA += ab[i].F;
+        else
+            sumB += ab[i].S;
     }
+
     cout << sumA - sumB << el;
 }
 
