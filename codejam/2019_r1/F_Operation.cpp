@@ -2,6 +2,13 @@
 #define int long long
 
 using namespace std;
+/**
+ * Problem: https://codejam.lge.com/problem/17126
+ * Solution: Compress the key then use Segment Tree or Fenwick Tree
+ *
+ * TC: O(n * log n)
+ * MC: O(n)
+ */
 
 #define pb push_back
 #define all(x) x.begin(), x.end()
@@ -70,12 +77,25 @@ struct SegmentTree {
     void set(int pos, int val) { update(pos, val - query(pos, pos)); }
 };
 
+string removeLeadingZeros(const string& str) {
+    // Find the first non-zero digit
+    size_t i = 0;
+    while (i < str.length() && str[i] == '0') {
+        i++;
+    }
+
+    // Return the substring starting from the first non-zero digit
+    return str.substr(i);
+}
+
 struct cmpStr {
     bool operator()(const string a, const string b) const {
-        if (a.length() == b.length()) {
-            return a < b;
+        string aa = removeLeadingZeros(a);
+        string bb = removeLeadingZeros(b);
+        if (aa.size() == bb.size()) {
+            return aa < bb;
         }
-        return a.length() < b.length();
+        return aa.size() < bb.size();
     }
 };
 
@@ -111,14 +131,14 @@ void solve() {
     for (auto e : mp) {
         mp[e.F] = idx++;
     }
-    SegmentTree sgt(ms);
+    SegmentTree sgt(idx + 1);
     For(i, 1, n) {
         int type = stoll(query[i][0]);
         if (type == 1) {
             int a = mp[query[i][1]];
             int b = stoll(query[i][2]);
             sgt.update(a, b);
-            cout << sgt.query(1, ms) << " ";
+            cout << sgt.query(1, idx - 1) << " ";
         } else if (type == 2) {
             int a = mp[query[i][1]];
             int b = mp[query[i][2]];
@@ -126,7 +146,7 @@ void solve() {
         } else {
             int a = mp[query[i][1]];
             sgt.set(a, 0);
-            cout << sgt.query(1, ms) << " ";
+            cout << sgt.query(1, idx - 1) << " ";
         }
     }
     cout << el;
