@@ -3,7 +3,7 @@
 
 ## Modulo Formula
 $ (a + b) \bmod m = (a \bmod m) + (b \mod m)$
-$ (a b b) \bmod m = ((a \bmod m) - (b \mod m) + m ) \mod m$
+$ (a - b) \bmod m = ((a \bmod m) - (b \mod m) + m ) \mod m$
 $ (a * b) \bmod m = ((a \bmod m) * (b \mod m)) \bmod m$
 $ 1 / a \bmod p <=> a ^{p - 2} \bmod p \ (p \ is \  prime \ number) $
 
