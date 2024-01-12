@@ -95,15 +95,20 @@ int maxFlow(int s, int t) {
     return flow;
 }
 
+void addEdge(int u, int v, int w) {
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+    capacity[u][v] = w;
+}
+
 void solve() {
     cin >> n >> m;
     adj = vector<vector<int>>(n + 1);
     capacity = vector<vector<int>>(n + 1, vector<int>(n + 1));
     For(i, 1, m) {
-        int u, v, d;
-        cin >> u >> v >> d;
-        adj[u].push_back(v);
-        capacity[u][v] = d;
+        int u, v, w;
+        cin >> u >> v >> w;
+        addEdge(u, v, w);
     }
     cout << maxFlow(0, n - 1) << el;
 }
