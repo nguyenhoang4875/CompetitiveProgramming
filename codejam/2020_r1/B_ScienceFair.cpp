@@ -2,9 +2,6 @@
 #define int long long
 
 using namespace std;
-/**
- * WA need to consider late
- */
 
 #define pb push_back
 #define all(x) x.begin(), x.end()
@@ -127,12 +124,13 @@ void resetData() {
     sabc.clear();
 }
 
-void getGym(map<int, char>& ans, unordered_set<int>& si, int& cnt, char ch) {
-    while (cnt > 0 && si.size() > 0) {
-        int vol = *si.begin();
-        ans[vol] = ch;
-        si.erase(si.begin());
-        cnt--;
+void getGym(unordered_set<int>& si, int sid) {
+    for (int j = GA; j <= GC; j++) {
+        int cnt = capacity[j][sid];
+        for (int k = cnt; k--; k > 0) {
+            cout << *si.begin() << " " << (char)(j - 8 + 'A') << "\n";
+            si.erase(si.begin());
+        }
     }
 }
 
@@ -183,29 +181,13 @@ void solve() {
     }
     initGraph();
     cout << maxFlow(SS, TT) << el;
-    map<int, char> ans;
-    while (na > 0 and (sz(sa) + sz(sab) + sz(sac) + sz(sabc)) > 0) {
-        getGym(ans, sa, na, 'A');
-        getGym(ans, sab, na, 'A');
-        getGym(ans, sac, na, 'A');
-        getGym(ans, sabc, na, 'A');
-    }
-    while (nb > 0 and (sz(sb) + sz(sab) + sz(sbc) + sz(sabc)) > 0) {
-        getGym(ans, sb, nb, 'B');
-        getGym(ans, sab, nb, 'B');
-        getGym(ans, sbc, nb, 'B');
-        getGym(ans, sabc, nb, 'B');
-    }
-    while (nc > 0 and (sz(sc) + sz(sac) + sz(sbc) + sz(sabc)) > 0) {
-        getGym(ans, sc, nc, 'C');
-        getGym(ans, sac, nc, 'C');
-        getGym(ans, sbc, nc, 'C');
-        getGym(ans, sabc, nc, 'C');
-    }
-
-    for (auto e : ans) {
-        cout << e.F << " " << e.S << el;
-    }
+    getGym(sa, A);
+    getGym(sb, B);
+    getGym(sc, C);
+    getGym(sab, AB);
+    getGym(sbc, BC);
+    getGym(sac, AC);
+    getGym(sabc, ABC);
 }
 
 int32_t main() {
