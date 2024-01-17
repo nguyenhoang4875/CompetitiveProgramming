@@ -1,81 +1,92 @@
 #include <bits/stdc++.h>
 #define int long long
-#define pb push_back
-#define endl '\n';
 
 using namespace std;
 /**
- * Dijkstra’s algorithm finds shortest paths from the starting node to all nodes of the
- * graph, like the Bellman–Ford algorithm. The benefit of Dijkstra’s algorithm is that it
- * is more efficient and can be used for processing large graphs.
- * 
- * The algorithm requires that there are no negative weight edges in the graph
- * 
- * TC: O(n + m * log(m)) // n: number of vertex, m: number of edges
- * MC: O(m)
+ * Problem: Shortest Path
+ * Solution: Using dijkstra algorithm
+ *  use for edge positive weight
  *
-*/
+ * TC: O((V + E) * log E)
+ * MC: O(V + E)
+ */
+
+#define pb push_back
+#define all(x) x.begin(), x.end()
+#define sz(a) (int)(a).size()
+#define el '\n'
+#define F first
+#define S second
+#define For(i, a, b) for (int i = a; i <= (int)b; i++)
+#define Ford(i, a, b) for (int i = a; i >= (int)b; i--)
+#define Fore(it, x) for (auto it = x.begin(); it != x.end(); ++it)
 
 using vb = vector<bool>;
 using vvb = vector<vb>;
-using vi = vector<int>;
-using vvi = vector<vi>;
 using vc = vector<char>;
 using vvc = vector<vc>;
+using vi = vector<int>;
+using vvi = vector<vi>;
 using pii = pair<int, int>;
+using vii = vector<pii>;
 
 //*** START CODING ***//
-const int oo = 1e9;
-int n, m, x;
-struct edge {
-    int a, b, d; // from: a, to: b, distance: d
-};
 
-struct cmp {
-    bool operator()(int a , int b) {
-        return  a < b; // reverse with cmp in vector
+const int oo = 1e18, mod = 1e9 + 7;
+const int ms = 1e5 + 5;
+
+struct Graph {
+    int n;
+    vector<vector<pair<int, int>>> gr;
+
+    Graph(int _n) {
+        n = _n;
+        gr = vector<vector<pair<int, int>>>(n + 1);
     }
-};
-vector<edge> graph[100005]; // max of vertices
-vi dist;
-vb visited;
 
-// ********** DIJKSTRA ALGORITHM **********//
-void dijkstra(int start) {
-    dist.assign(n + 1, oo);
-    visited.assign(n + 1, false);
-    dist[start] = 0;
+    void addEdge(int u, int v, int w) {
+        gr[u].push_back({v, w});
+        gr[v].push_back({u, w});  // if undirected
+    }
 
-    priority_queue<int, vi, cmp> q;
-    q.push(x);
-    while(!q.empty()) {
-        int a = q.top(); q.pop();
-        if(visited[a]) continue;
-        visited[a] = true;
-        for(auto e: graph[a]) {
-            int newDist = dist[e.a] + e.d;
-            if(newDist < dist[e.b]) {
-                dist[e.b] = newDist;
-                q.push(e.b);
+    vector<int> dijkstra(int s) {
+        vector<int> dist(n + 1, oo);
+        vector<bool> seen(n + 1, false);
+        dist[s] = 0;
+        seen[s] = true;
+        priority_queue<pii, vii, greater<pii>> q;
+        q.push({0, s});  // first: dist, second: vertex
+
+        while (!q.empty()) {
+            pii p = q.top();
+            q.pop();
+
+            int u = p.S;  // get vertex
+            seen[u] = true;
+            if (dist[u] < p.F) continue;  // stop early
+            for (auto e : gr[u]) {
+                if (seen[e.F]) continue;
+                if (dist[e.F] > dist[u] + e.S) {
+                    dist[e.F] = dist[u] + e.S;
+                    q.push({dist[e.F], e.F});
+                }
             }
         }
-
+        return dist;
     }
-    for(int i = 1; i <= n; i++) {
-        cout << x << " " << i << " " << dist[i] << '\n';
-    }
-}
-
+};
 
 void solve() {
-    cin >> n >> m >> x; 
-    int a, b, d;
-    while(m--) {
-        cin >> a >> b >> d;
-        graph[a].pb({a, b, d});
-        graph[b].pb({b, a, d}); // undirected graph
+    int n, m;
+    cin >> n >> m;
+    Graph g(n);
+    while (m--) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        g.addEdge(u, v, w);
     }
-    dijkstra(x);
+    vi dist = g.dijkstra(1);
+    cout << dist[n];
 }
 
 int32_t main() {
@@ -83,6 +94,5 @@ int32_t main() {
     cin.tie(nullptr);
 
     solve();
-
     return 0;
 }
