@@ -35,9 +35,6 @@ void solve() {
 int32_t main() {
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
-	
 
 	solve();
 	return 0;
