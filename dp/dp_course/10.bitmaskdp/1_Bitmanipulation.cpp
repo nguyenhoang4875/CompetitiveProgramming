@@ -9,13 +9,13 @@ using namespace std;
 
 int n;
 
-void setBit(int n, int pos) { n | (1 << pos); }
+void setBit(int& n, int pos) { n |= (1 << pos); }
 
-void clearBit(int n, int pos) { n &= ~(1 << pos); }
+void clearBit(int& n, int pos) { n &= ~(1 << pos); }
 
 int getBit(int n, int pos) { return (n >> pos) & 1; }
 
-void toggleBit() { n ^= 1 << n; }
+void toggleBit(int& n, int pos) { n ^= (1 << pos); }
 
 void solve() {
     string s = "abc";
