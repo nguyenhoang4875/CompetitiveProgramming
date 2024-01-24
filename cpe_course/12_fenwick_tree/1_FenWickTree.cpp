@@ -30,24 +30,30 @@ int n;
 
 struct FenwickTree {
     int n;
-    vi t;
+    vector<int> t;
     FenwickTree(int _n) {
         n = _n;
         t.resize(n + 1, 0);
     }
+    // custom this function if needed
+    int combine(int x, int y) {
+        return x + y;
+        // return max(x, y); // if max tree
+    }
+
     void add(int i, int val) {
         while (i <= n) {
-            t[i] += val;
+            t[i] = combine(t[i], val);
             i += i & (-i);
         }
     }
     int get(int i) {
-        int sum = 0;
+        int val = 0;
         while (i > 0) {
-            sum += t[i];
+            val = combine(val, t[i]);
             i -= i & -i;
         }
-        return sum;
+        return val;
     }
     int query(int l, int r) { return get(r) - get(l - 1); }
 
