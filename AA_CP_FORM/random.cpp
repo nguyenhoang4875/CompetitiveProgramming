@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int randomInt(int l, int r) {
+int random(int l, int r) {
     random_device rd;
     mt19937 gen(rd());
     uniform_int_distribution<int> dis(l, r);
@@ -17,7 +17,7 @@ int32_t main() {
     int n = 10;
     int minVal = 0, maxVal = 100;
     for (int i = 1; i <= n; i++) {
-        cout << randomInt(minVal, maxVal) << " ";
+        cout << random(minVal, maxVal) << " ";
     }
     cout << endl;
 
