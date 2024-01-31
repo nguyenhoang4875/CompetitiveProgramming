@@ -14,24 +14,26 @@ using namespace std;
 #define Fore(it, x) for (auto it = x.begin(); it != x.end(); ++it)
 
 //*** debug(x) ***//
-#define debug(x) cout << "[" << #x << "]" << " : " << (x) << endl
+#define debug(x)             \
+    cout << "[" << #x << "]" \
+         << " : " << (x) << endl
 
 #if 1
 template <class Ch, class Tr, class Container>
-basic_ostream <Ch, Tr> & operator << (basic_ostream <Ch, Tr> & os, Container const& x) {
+basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {
     os << "{ ";
-    for(auto& y : x)os << y << ", ";
+    for (auto& y : x) os << y << ", ";
     return os << "}";
 }
 
 template <class X, class Y>
-ostream & operator << (ostream & os, pair <X, Y> const& p) {
-    return os << "(" << p.first << ", " << p.second << ")" ;
+ostream& operator<<(ostream& os, pair<X, Y> const& p) {
+    return os << "(" << p.first << ", " << p.second << ")";
 }
 #endif
 
-template<typename T>
-void check_here(T x){
+template <typename T>
+void check_here(T x) {
     cout << "------------- " << x << " -------------" << endl;
 }
 
@@ -53,7 +55,6 @@ void solve() {
     int n, currentCash, cost, profitGoal;
     cin >> n >> currentCash >> cost >> profitGoal;
 
-    int canHave = cost ? currentCash / cost : n;
     vi profit(n + 1, 0);
     For(i, 1, n) {
         cin >> profit[i];
@@ -64,25 +65,29 @@ void solve() {
     }
 
     deque<int> dq;
-    pii best = {n + 1, 0};
+    int maxIdx = -1, minLen = oo;
 
     For(i, 0, n) {
-        debug(dq);
         while (!dq.empty() and profit[i] < profit[dq.back()]) dq.pop_back();
 
         while (!dq.empty() and profit[i] >= profit[dq.front()] + profitGoal) {
             int l = dq.front();
-            debug(l);
+            int len = dq.back() - dq.front() + 1;
+            // take range: [l + 1, r]
+            if (minLen > len) {
+                minLen = len;
+                maxIdx = l + 1;
+            } else if (minLen == len) {
+                maxIdx = max(maxIdx, l + 1);
+            }
             dq.pop_front();
-            best = min(best, pii(i - l, -l));
-            debug(best);
         }
         dq.pb(i);
     }
-    if (best.F > canHave) {
+    if (maxIdx == -1 or currentCash < minLen * cost) {
         cout << -1 << el;
     } else {
-        cout << -best.S + 1 << " " << -best.S + best.F << el;
+        cout << maxIdx << " " << maxIdx + minLen - 1 << el;
     }
 }
 
