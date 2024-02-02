@@ -243,38 +243,50 @@
 		"description": "competitive debug one test case"
 	},
 	"C++ snippet for Competitive Programming Add Debug": {
-	"prefix": "adb",
-	"body": [
-		"//*** debug(x) ***//",
-		"#if 1",
-		"#define debug(x) cout <<  \"[\" << #x << \"]\" << \" : \" << (x) << endl",
-		"",
-		"template <class Ch, class Tr, class Container>",
-		"basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {",
-		"    os << \"{ \";",
-		"    for (auto& y : x) os << y << \", \";",
-		"    return os << \"}\";",
-		"}",
-		"",
-		"template <class X, class Y>",
-		"ostream& operator<<(ostream& os, pair<X, Y> const& p) {",
-		"    return os << \"(\" << p.first << \", \" << p.second << \")\";",
-		"}",
-		"",
-		"template <typename T>",
-		"void check_here(T x) {",
-		"    cout << \"------------- \" << x << \" -------------\" << endl;",
-		"}",
-		"#endif",
-	],
-	"description": "competitive add debug"
+		"prefix": "adb",
+		"body": [
+			"//*** debug(x) ***//",
+			"#if 1",
+			"#define debug(x) cout <<  \"[\" << #x << \"]\" << \" : \" << (x) << endl",
+			"",
+			"template <class Ch, class Tr, class Container>",
+			"basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {",
+			"    os << \"{ \";",
+			"    for (auto& y : x) os << y << \", \";",
+			"    return os << \"}\";",
+			"}",
+			"",
+			"template <class X, class Y>",
+			"ostream& operator<<(ostream& os, pair<X, Y> const& p) {",
+			"    return os << \"(\" << p.first << \", \" << p.second << \")\";",
+			"}",
+			"",
+			"template <typename T>",
+			"void check_here(T x) {",
+			"    cout << \"------------- \" << x << \" -------------\" << endl;",
+			"}",
+			"#endif",
+		],
+		"description": "competitive add debug"
 	},
 	"C++ snippet for Competitive Programming Add run in/out on file": {
-	"prefix": "afl",
-	"body": [
-		"freopen(\"input.txt\", \"r\", stdin);",
-    	"freopen(\"output.txt\", \"w\", stdout);"
-	],
-	"description": "competitive add run in/out on file"
+		"prefix": "afl",
+		"body": [
+			"freopen(\"input.txt\", \"r\", stdin);",
+			"freopen(\"output.txt\", \"w\", stdout);"
+		],
+		"description": "competitive add run in/out on file"
+	},
+	"C++ snippet for Competitive Programming Add check time execution": {
+		"prefix": "act",
+		"body": [
+			"auto start = chrono::high_resolution_clock::now();",
+			"// add code",
+			"",
+			"auto end = chrono::high_resolution_clock::now();",
+			"chrono::duration<double> duration = end - start;",
+			"cout << \"Execution time: \" << duration.count() << \" seconds\" << endl;"
+		],
+		"description": "competitive add check time execution"
 	}
 }
