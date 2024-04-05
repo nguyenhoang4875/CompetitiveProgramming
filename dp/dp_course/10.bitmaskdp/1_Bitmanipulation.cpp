@@ -9,26 +9,18 @@ using namespace std;
 
 int n;
 
-void setBit(int& n, int pos) { n |= (1 << pos); }
-
-void clearBit(int& n, int pos) { n &= ~(1 << pos); }
-
+int setBit(int n, int pos) { return n |= (1 << pos); }
+int clearBit(int n, int pos) { return n &= ~(1 << pos); }
 int getBit(int n, int pos) { return (n >> pos) & 1; }
-
-void toggleBit(int& n, int pos) { n ^= (1 << pos); }
+int toggleBit(int n, int pos) { return n ^= (1 << pos); }
 
 void solve() {
-    string s = "abc";
-    int n = s.size();
-
-    for (int i = 0; i < (1 << n); i++) {
-        for (int j = 0; j < n; j++) {
-            if ((i >> j) & 1) {
-                cout << s[j];
-            }
-        }
-        cout << '\n';
-    }
+    int n = 9;                        // 1001
+    cout << getBit(n, 3) << '\n';     // 1
+    cout << setBit(n, 2) << '\n';     // 1101: 13
+    cout << setBit(n, 1) << '\n';     // 1011: 11
+    cout << clearBit(n, 3) << '\n';   // 0001: 1
+    cout << toggleBit(n, 2) << '\n';  // 1101: 13
 }
 
 int32_t main() {

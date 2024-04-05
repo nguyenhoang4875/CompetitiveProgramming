@@ -292,10 +292,10 @@
 	"C++ snippet for Competitive Programming Add bit manipulation": {
 		"prefix": "abm",
 		"body": [
-			"void setBit(int& n, int pos) { n |= (1 << pos); }",
-			"void clearBit(int& n, int pos) { n &= ~(1 << pos); }",
+			"int setBit(int n, int pos) { return n |= (1 << pos); }",
+			"int clearBit(int n, int pos) { return n &= ~(1 << pos); }",
 			"int getBit(int n, int pos) { return (n >> pos) & 1; }",
-			"void toggleBit(int& n, int pos) { n ^= (1 << pos); }"
+			"int toggleBit(int n, int pos) { return n ^= (1 << pos); }"
 		],
 		"description": "competitive add bit manipulation"
 	}
