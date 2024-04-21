@@ -36,6 +36,8 @@ struct SegmentTree {
         t.resize(4 * n, 0);
     }
 
+    int combine(int v1, int v2) { return v1 + v2; }
+
     void build(int a[], int v, int tl, int tr) {
         if (tl == tr) {
             t[v] = a[tl];
@@ -43,19 +45,16 @@ struct SegmentTree {
             int mid = (tl + tr) / 2;
             build(a, 2 * v, tl, mid);
             build(a, 2 * v + 1, mid + 1, tr);
-            t[v] = t[2 * v] + t[2 * v + 1];
+            t[v] = combine(t[2 * v], t[2 * v + 1]);
         }
     }
-
-    int combine(int v1, int v2) { return v1 + v2; }
 
     int query(int v, int tl, int tr, int l, int r) {
         if (tl > r || tr < l) return 0;
         if (l <= tl and tr <= r) return t[v];
 
         int mid = (tl + tr) / 2;
-        return combine(query(2 * v, tl, mid, l, r),
-                       query(2 * v + 1, mid + 1, tr, l, r));
+        return combine(query(2 * v, tl, mid, l, r), query(2 * v + 1, mid + 1, tr, l, r));
     }
 
     void update(int v, int tl, int tr, int pos, int val) {
@@ -67,7 +66,7 @@ struct SegmentTree {
                 update(2 * v, tl, mid, pos, val);
             else
                 update(2 * v + 1, mid + 1, tr, pos, val);
-            t[v] = t[2 * v] + t[2 * v + 1];
+            t[v] = combine(t[2 * v], t[2 * v + 1]);
         }
     }
     int query(int l, int r) { return query(1, 1, n, l, r); }
