@@ -12,7 +12,7 @@ using namespace std;
  *   T.m:
  *       1 1 1       Sn          S(n+1)
  *       0 1 1   x   Fn      =   F(n+1)
- *       0 0 1       F(n-1)      F(n)
+ *       0 1 0       F(n-1)      F(n)
  */
 
 using vb = vector<bool>;
@@ -66,7 +66,7 @@ int fibSum(int n) {
     T.m:
         1 1 1       Sn          S(n+1)
         0 1 1   x   Fn      =   F(n+1)
-        0 0 1       F(n-1)      F(n)
+        0 1 0       F(n-1)      F(n)
 
     */
     Mat t;
