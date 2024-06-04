@@ -1,27 +1,29 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #define int long long
 
 using namespace std;
 
 //*** debug(x) ***//
-#define debug(x) cout << "[" << #x << "]" << " : " << (x) << endl
+#define debug(x)             \
+    cout << "[" << #x << "]" \
+         << " : " << (x) << endl
 
 #if 1
 template <class Ch, class Tr, class Container>
-basic_ostream <Ch, Tr> & operator << (basic_ostream <Ch, Tr> & os, Container const& x) {
+basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {
     os << "{ ";
-    for(auto& y : x)os << y << ", ";
+    for (auto& y : x) os << y << ", ";
     return os << "}";
 }
 
 template <class X, class Y>
-ostream & operator << (ostream & os, pair <X, Y> const& p) {
-    return os << "(" << p.first << ", " << p.second << ")" ;
+ostream& operator<<(ostream& os, pair<X, Y> const& p) {
+    return os << "(" << p.first << ", " << p.second << ")";
 }
 #endif
 
-template<typename T>
-void check_here(T x){
+template <typename T>
+void check_here(T x) {
     cout << "------------- " << x << " -------------" << endl;
 }
 
@@ -59,7 +61,7 @@ bool check(int val) {
     For(i, 1, n) {
         cnt++;
         sum += d[i] * cnt;
-        if(cur + sum > val) {
+        if (cur + sum > val) {
             group++;
             sum = 0;
             cur = 0;
@@ -69,7 +71,7 @@ bool check(int val) {
             debug(cur);
             cur += sum;
         }
-        if(group > m) return false;
+        if (group > m) return false;
     }
     return true;
 }
@@ -77,21 +79,21 @@ bool check(int val) {
 void solve() {
     cin >> n >> m;
     d.clear();
-    --n; 
+    --n;
     d.resize(n + 1);
-    for(int i = 1 ;i <= n ; i++) cin >> d[i];
+    for (int i = 1; i <= n; i++) cin >> d[i];
 
     int l = 0, r = oo;
     int ans = oo;
-    while(l <= r) {
+    while (l <= r) {
         int mid = (l + r) / 2;
-        if(check(mid)) {
+        if (check(mid)) {
             ans = mid;
             r = mid - 1;
-        } else l = mid + 1;
+        } else
+            l = mid + 1;
     }
     cout << ans << '\n';
-
 }
 
 int32_t main() {
@@ -100,7 +102,7 @@ int32_t main() {
 
     int tcs;
     cin >> tcs;
-    while(tcs--) {
+    while (tcs--) {
         solve();
     }
     return 0;
