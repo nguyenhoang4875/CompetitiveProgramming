@@ -42,12 +42,9 @@ void solve() {
             cost[i] = a * t * t + b;
         }
     }
+    // dp[i][j] minimum cost to get j sticks length 1 use first i sticks
     vvi dp(n + 5, vi(10005, oo));
     dp[0][0] = 0;
-    for (int i = 1; i <= n; i++) {
-        dp[i][0] = 0;
-    }
-
     for (int i = 1; i <= n; i++) {
         for (int j = 0; j <= total; j++) {
             dp[i][j] = min(dp[i][j], dp[i - 1][j]);
@@ -61,9 +58,7 @@ void solve() {
     for (int i = k; i <= total; i++) {
         ans = min(ans, dp[n][i]);
     }
-    ans = dp[n][k];
     cout << ans << '\n';
-
 }
 
 int32_t main() {
