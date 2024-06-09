@@ -10,7 +10,7 @@ using namespace std;
 #define F first
 #define S second
 #define For(i, a, b) for (int i = a; i <= (int)b; i++)
-#define Ford(i, a, b) for (int i = a; i >= (int)b; i--)
+#define Rof(i, a, b) for (int i = a; i >= (int)b; i--)
 #define Fore(it, x) for (auto it = x.begin(); it != x.end(); ++it)
 
 using vb = vector<bool>;
@@ -24,7 +24,7 @@ using vii = vector<pii>;
 
 //*** START CODING ***//
 
-const int oo = 1e18, mod = 1e9 + 7;
+const int oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 int n;
 
