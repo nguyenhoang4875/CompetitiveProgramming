@@ -3,9 +3,9 @@
 
 using namespace std;
 
+random_device rd;
+mt19937 gen(rd());
 int random(int l, int r) {
-    random_device rd;
-    mt19937 gen(rd());
     uniform_int_distribution<int> dis(l, r);
     return dis(gen);
 }
