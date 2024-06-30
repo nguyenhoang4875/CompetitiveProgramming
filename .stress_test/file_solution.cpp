@@ -1,41 +1,43 @@
-#include <algorithm>
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
+#define int long long
 
 using namespace std;
 
-int main() {
-    int N, T;
-    cin >> N >> T;
+#define pb push_back
+#define all(x) x.begin(), x.end()
+#define sz(a) (int)(a).size()
+#define el '\n'
+#define F first
+#define S second
+#define For(i, a, b) for (int i = a; i <= (int)b; i++)
+#define Rof(i, a, b) for (int i = a; i >= (int)b; i--)
+#define Fore(it, x) for (auto it = x.begin(); it != x.end(); ++it)
 
-    vector<pair<int, int>> participants(N);
+using vb = vector<bool>;
+using vvb = vector<vb>;
+using vc = vector<char>;
+using vvc = vector<vc>;
+using vi = vector<int>;
+using vvi = vector<vi>;
+using pii = pair<int, int>;
+using vii = vector<pii>;
 
-    // Read input values
-    for (int i = 0; i < N; ++i) {
-        cin >> participants[i].first >> participants[i].second;
-    }
+//*** START CODING ***//
 
-    // Sort participants based on their starting points
-    sort(participants.begin(), participants.end());
+const int oo = 2e18, mod = 1e9 + 7;
+const int ms = 2e5 + 5;
+int n;
 
-    // Calculate the number of groups
-    int groups = 1;  // The first participant starts a new group
-    int lastEndpoint = participants[0].first + T * participants[0].second;
+void solve() {
+    int a, b;
+    cin >> a >> b;
+    cout << a * b % mod << el;
+}
 
-    for (int i = 1; i < N; ++i) {
-        // Calculate the endpoint for the current participant
-        int currentEndpoint = participants[i].first + T * participants[i].second;
+int32_t main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-        // Check if the current participant is still part of the same group
-        if (currentEndpoint <= lastEndpoint) {
-            continue;  // Still part of the same group
-        } else {
-            groups++;  // Start a new group
-            lastEndpoint = currentEndpoint;
-        }
-    }
-
-    cout << groups << endl;
-
+    solve();
     return 0;
 }
