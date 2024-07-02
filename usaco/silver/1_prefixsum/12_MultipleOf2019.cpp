@@ -27,36 +27,29 @@ using vii = vector<pii>;
 const int oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 int n;
-
-int powerMod(int a, int n, int p) {
-    int ans = 1;
-    a = a % p;
-    while (n > 0) {
-        if (n & 1) ans = (ans * a) % p;
-        n /= 2;
-        a = (a * a) % p;
-    }
-    return ans;
-}
-
-int accSum(int x) { return (x % mod) * ((x + 1) % mod) % mod * powerMod(2, mod - 2, mod) % mod; }
-int sumRange(int l, int r) {
-    return ((l + r) % mod) * ((r - l + 1) % mod) % mod * powerMod(2, mod - 2, mod) % mod;
-}
+int a[ms];
 
 void solve() {
-    cin >> n;
-    int sum = 0;
-    int i = 1;
-    while (i <= n) {
-        int q = n / i;
-        int lastSame = n / q;
-        // int tmp = (accSum(lastSame) - accSum(i - 1) + mod) % mod;
-        int tmp = sumRange(i, lastSame);
-        sum = (sum + q * tmp) % mod;
-        i = lastSame + 1;
+    string s;
+    cin >> s;
+    n = s.size();
+    for (int i = 0; i < n; i++) {
+        a[i + 1] = s[i] - '0';
     }
-    cout << sum << el;
+    int sum = 0;
+    map<int, int> cnt;
+    int ans = 0;
+    cnt[0] = 1;
+    int p10 = 1;
+    // abcd % m = (a * 10^3 + b * 10^2 + c *10^1 + d) % m
+    for (int i = n; i >= 1; i--) {
+        sum += a[i] * p10;
+        sum %= 2019;
+        ans += cnt[sum];
+        cnt[sum]++;
+        p10 = p10 * 10 % 2019;
+    }
+    cout << ans << el;
 }
 
 int32_t main() {
