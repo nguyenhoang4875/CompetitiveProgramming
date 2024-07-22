@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const int MOD = 1e9 + 7;
+const int mod = 1e9 + 7;
 int cnt;
 
 // power iterator
@@ -16,6 +16,21 @@ int power(int a, int n) {
     }
     return ans;
 }
+
+// power mod p iterator without mod param
+int powerMod(int a, int n) {
+    int ans = 1;
+    a = a % mod;
+    while (n > 0) {
+        if (n & 1) ans = (ans * a) % mod;
+        n /= 2;
+        a = (a * a) % mod;
+    }
+    return ans;
+}
+
+int modInv(int a) { return powerMod(a, mod - 2); }
+
 // power mod p iterator
 int powerMod(int a, int n, int p) {
     int ans = 1;
@@ -61,15 +76,15 @@ void initFacMod(int n, int p) {
     }
 }
 
-int nCr(int n, int r) { return fac[n] * facRev[r] % MOD * facRev[n - r] % MOD; }
+int nCr(int n, int r) { return fac[n] * facRev[r] % mod * facRev[n - r] % mod; }
 
 void solve() {
     int a = 9, n = 1234;
-    cout << powerMod(a, n, MOD) << '\n';
-    cout << powerRecMod(a, n, MOD) << '\n';
+    cout << powerMod(a, n, mod) << '\n';
+    cout << powerRecMod(a, n, mod) << '\n';
     n = 1e6;
     int r = 1e2;
-    initFacMod(n, MOD);
+    initFacMod(n, mod);
     int ans = nCr(n, r);
     cout << ans << endl;
 }
