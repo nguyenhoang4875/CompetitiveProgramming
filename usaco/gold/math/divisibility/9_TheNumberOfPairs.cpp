@@ -37,7 +37,7 @@ void init() {
             mind[i] = i;
             for (int j = i * i; j < ms; j += i) {
                 if (mind[j] == -1) mind[j] = i;
-                // maxPrime[j] = i
+                // mind[j] = i;
             }
         }
     }
