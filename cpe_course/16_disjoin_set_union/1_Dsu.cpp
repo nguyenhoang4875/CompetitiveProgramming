@@ -25,49 +25,32 @@ using vii = vector<pii>;
 //*** START CODING ***//
 
 struct Dsu {
+    int n;
+    vector<int> parent, size;
+
     Dsu(){};
     Dsu(int _n) {
         n = _n;
         parent = vector<int>(n + 1);
         size = vector<int>(n + 1);
+        for (int v = 1; v <= n; v++) makeSet(v);
     }
 
-    int n;
-    vector<int> parent, size;
-    vector<pair<int, int>> edges;
     void makeSet(int v) {
         parent[v] = v;
         size[v] = 1;  // init size = 1;
     }
 
-    int findSet(int v) {
-        return parent[v] = (v == parent[v] ? v : findSet(parent[v]));
-    }
+    int findSet(int v) { return parent[v] = (v == parent[v] ? v : findSet(parent[v])); }
 
     void unionSet(int a, int b) {
         a = findSet(a);
         b = findSet(b);
         if (a != b) {
-            if (size[a] < size[b])
-                swap(a, b);  // set a is root of the bigger size of tree
+            if (size[a] < size[b]) swap(a, b);  // set a is root of the bigger size of tree
             parent[b] = a;
             size[a] += size[b];  // update the new size of new the merge tree
         }
-    }
-    void addEdge(int u, int v) { edges.push_back({u, v}); }
-
-    bool hasCycle() {
-        for (int i = 1; i <= n; i++) {
-            parent[i] = i;
-        }
-
-        for (auto edge : edges) {
-            int u = findSet(edge.first);
-            int v = findSet(edge.second);
-            if (u == v) return true;
-            unionSet(u, v);
-        }
-        return false;
     }
 };
 
@@ -82,10 +65,8 @@ void solve() {
     For(i, 1, m) {
         int u, v;
         cin >> u >> v;
-        dsu.edges.pb({u, v});
+        dsu.unionSet(u, v);
     }
-
-    cout << "The graph contains cycle: " << dsu.hasCycle() << el;
 }
 
 int32_t main() {

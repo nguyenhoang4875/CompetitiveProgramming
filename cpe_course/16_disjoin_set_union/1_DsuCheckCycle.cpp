@@ -25,37 +25,35 @@ using vii = vector<pii>;
 //*** START CODING ***//
 
 struct Dsu {
+    int n;
+    vector<int> parent, size;
+    vector<pair<int, int>> edges;
+
     Dsu(){};
     Dsu(int _n) {
         n = _n;
         parent = vector<int>(n + 1);
-        rank = vector<int>(n + 1);
+        size = vector<int>(n + 1);
+        for (int v = 1; v <= n; v++) makeSet(v);
     }
 
-    int n;
-    vector<int> parent, rank;
-    vector<pair<int, int>> edges;
     void makeSet(int v) {
         parent[v] = v;
-        rank[v] = 0;  // init size = 1;
+        size[v] = 1;  // init size = 1;
     }
 
-    int findSet(int v) {
-        return parent[v] = (parent[v] == v ? v : findSet(parent[v]));
-    }
+    int findSet(int v) { return parent[v] = (v == parent[v] ? v : findSet(parent[v])); }
 
     void unionSet(int a, int b) {
         a = findSet(a);
         b = findSet(b);
         if (a != b) {
-            if (rank[a] < rank[b])
-                swap(a, b);  // set a is root of the bigger rank tree
+            if (size[a] < size[b]) swap(a, b);  // set a is root of the bigger size of tree
             parent[b] = a;
-            if (rank[a] == rank[b])
-                rank[a]++;  // if same rank increase the merge tree by 1
+            size[a] += size[b];  // update the new size of new the merge tree
         }
     }
-    void addEdge(int a, int b) { edges.push_back({a, b}); }
+    void addEdge(int u, int v) { edges.push_back({u, v}); }
 
     bool hasCycle() {
         for (int i = 1; i <= n; i++) {
@@ -63,10 +61,10 @@ struct Dsu {
         }
 
         for (auto edge : edges) {
-            int a = findSet(edge.first);
-            int b = findSet(edge.second);
-            if (a == b) return true;
-            unionSet(a, b);
+            int u = findSet(edge.first);
+            int v = findSet(edge.second);
+            if (u == v) return true;
+            unionSet(u, v);
         }
         return false;
     }
