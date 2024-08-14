@@ -51,6 +51,7 @@ struct Graph {
 
     vector<int> dijkstra(int s) {
         vector<int> dist(n + 1, oo);
+        vector<bool> seen(n + 1);
         dist[s] = 0;
         priority_queue<pii, vii, greater<pii>> q;
         q.push({0, s});  // first: dist, second: vertex
@@ -60,8 +61,11 @@ struct Graph {
             q.pop();
 
             int u = p.S;  // get vertex
+            if (seen[u]) continue;
+            seen[u] = true;
+
             for (auto e : gr[u]) {
-                if (dist[u] != oo && dist[e.F] > dist[u] + e.S) {
+                if (dist[e.F] > dist[u] + e.S) {
                     dist[e.F] = dist[u] + e.S;
                     q.push({dist[e.F], e.F});
                 }
