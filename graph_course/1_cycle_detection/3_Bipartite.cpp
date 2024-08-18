@@ -20,7 +20,7 @@ bool hasCycle;
 
 bool dfs(int cur, int par, int cl) {
     color[cur] = cl;
-    for (auto x : graph[cur]) {
+    for (auto& x : graph[cur]) {
         if (color[x] == -1) {
             bool sub = dfs(x, cur, 1 - cl);
             if (sub == false) {
@@ -33,11 +33,6 @@ bool dfs(int cur, int par, int cl) {
     return true;
 }
 
-int addEdge(int u, int v) {
-    graph[u].push_back(v);
-    graph[v].push_back(u);  // remove if directed graph
-}
-
 void solve() {
     cin >> n >> m;
     graph.clear();
@@ -46,7 +41,8 @@ void solve() {
     while (m--) {
         int u, v;
         cin >> u >> v;
-        addEdge(u, v);
+        graph[u].push_back(v);
+        graph[v].push_back(u);  // remove if directed graph
     }
     bool ans = true;
     for (int i = 1; i <= n; i++) {
@@ -58,8 +54,7 @@ void solve() {
             return;
         }
     }
-    cout << "Yes"
-         << "\n";
+    cout << "Yes" << "\n";
 }
 
 int32_t main() {
