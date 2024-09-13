@@ -36,6 +36,7 @@ struct SegmentTree {
         t.resize(4 * n, 0);
     }
 
+    // IMPORTANT:update combine MUST update base case of OUT RANGE (*) (l, r) in query function
     int combine(int v1, int v2) { return v1 + v2; }
 
     void build(int a[], int v, int tl, int tr) {
@@ -50,7 +51,7 @@ struct SegmentTree {
     }
 
     int query(int v, int tl, int tr, int l, int r) {
-        if (tl > r || tr < l) return 0;
+        if (tl > r || tr < l) return 0;  // base case OUT RANGE (*)
         if (l <= tl and tr <= r) return t[v];
 
         int mid = (tl + tr) / 2;
