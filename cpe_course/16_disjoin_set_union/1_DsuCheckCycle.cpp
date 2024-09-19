@@ -29,7 +29,7 @@ struct Dsu {
     vector<int> parent, size;
     vector<pair<int, int>> edges;
 
-    Dsu(){};
+    Dsu() {};
     Dsu(int _n) {
         n = _n;
         parent = vector<int>(n + 1);
@@ -44,15 +44,17 @@ struct Dsu {
 
     int findSet(int v) { return parent[v] = (v == parent[v] ? v : findSet(parent[v])); }
 
-    void unionSet(int a, int b) {
+    bool unionSet(int a, int b) {
         a = findSet(a);
         b = findSet(b);
-        if (a != b) {
-            if (size[a] < size[b]) swap(a, b);  // set a is root of the bigger size of tree
-            parent[b] = a;
-            size[a] += size[b];  // update the new size of new the merge tree
-        }
+        if (a == b) return false;
+
+        if (size[a] < size[b]) swap(a, b);  // set a is root of the bigger size of tree
+        parent[b] = a;
+        size[a] += size[b];  // update the new size of new the merge tree
+        return true;
     }
+
     void addEdge(int u, int v) { edges.push_back({u, v}); }
 
     bool hasCycle() {

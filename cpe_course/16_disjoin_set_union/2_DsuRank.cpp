@@ -28,7 +28,7 @@ struct Dsu {
     int n;
     vector<int> parent, rank;
 
-    Dsu(){};
+    Dsu() {};
     Dsu(int _n) {
         n = _n;
         parent = vector<int>(n + 1);
@@ -43,14 +43,15 @@ struct Dsu {
 
     int findSet(int v) { return parent[v] = (parent[v] == v ? v : findSet(parent[v])); }
 
-    void unionSet(int a, int b) {
+    bool unionSet(int a, int b) {
         a = findSet(a);
         b = findSet(b);
-        if (a != b) {
-            if (rank[a] < rank[b]) swap(a, b);  // set a is root of the bigger rank tree
-            parent[b] = a;
-            if (rank[a] == rank[b]) rank[a]++;  // if same rank increase the merge tree by 1
-        }
+        if (a == b) return false;
+
+        if (rank[a] < rank[b]) swap(a, b);  // set a is root of the bigger rank tree
+        parent[b] = a;
+        if (rank[a] == rank[b]) rank[a]++;  // if same rank increase the merge tree by 1
+        return true;
     }
 };
 
