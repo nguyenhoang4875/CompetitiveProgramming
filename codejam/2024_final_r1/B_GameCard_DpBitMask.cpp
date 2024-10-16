@@ -2,6 +2,26 @@
 #define int long long
 
 using namespace std;
+//*** debug(x) ***//
+#define DEBUG 1
+
+#if DEBUG
+#define del cout << '\n'
+#define debug(x) cout << "[" << #x << "]" << " : " << (x) << endl
+template <class Ch, class Tr, class Container>
+basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {
+    os << "{ ";
+    for (const auto& y : x) os << y << ", ";
+    return os << "}";
+}
+template <class X, class Y>
+ostream& operator<<(ostream& os, pair<X, Y> const& p) {
+    return os << "(" << p.first << ", " << p.second << ")";
+}
+#else
+#define del
+#define debug(x)
+#endif
 
 #define pb push_back
 #define all(x) (x).begin(), (x).end()
@@ -30,49 +50,46 @@ int toggleBit(int n, int pos) { return n ^= (1 << pos); }
 
 const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
-int n, m;
 
 void solve() {
+    int n, m;
     cin >> n >> m;
     vi a(n);
-    for (auto& x : a) cin >> x;
-    vb used(2 * n + 1, false);
-    for (int i = 0; i < n; i++) {
-        used[a[i] + n] = true;
+
+    vb used(2 * n + 5);
+    for (auto& x : a) {
+        cin >> x;
+        used[x + n] = true;
     }
-    used[n] = true;
     vi b;
     for (int i = 0; i <= 2 * n; i++) {
-        if (!used[i]) {
-            b.pb(i - n);
-        }
+        if (i - n == 0) continue;
+        if (used[i]) continue;
+        b.push_back(i - n);
     }
 
-    int maxMask = (1LL << n) - 1;
-    vvi f(maxMask + 1, vi(n + 1, 0));
-    // f[mask][score] : number way to get at mask have score is score
-    f[0][0] = 1;  // base case
+    int maxMask = (1 << n) - 1;
+    vvi f(maxMask + 1, vi(n + 1, 0));  // state at mask ans has i points
 
+    f[0][0] = 1;
     for (int mask = 0; mask <= maxMask; mask++) {
-        int cnt = __builtin_popcount(mask);
-        if (cnt >= n) continue;  // number position of is set for Albert
+        for (int score = 0; score <= m; score++) {
+            int cnt = __builtin_popcount(mask);
+            if (cnt == n) continue;
 
-        for (int i = 0; i < n; i++) {
-            if (!getBit(mask, i)) {
-                int newMask = setBit(mask, i);
-                if (a[cnt] * b[i] < 0 or abs(a[cnt]) > abs(b[i])) {
-                    // Albert win
-                    for (int score = 0; score < n; score++) {
+            for (int i = 0; i < n; i++) {
+                if (!getBit(mask, i)) {
+                    int newMask = setBit(mask, i);
+                    if (a[cnt] * b[i] < 0 or abs(a[cnt]) > abs(b[i])) {
                         f[newMask][score + 1] += f[mask][score];
-                    }
-                } else {
-                    for (int score = 0; score <= n; score++) {
+                    } else {
                         f[newMask][score] += f[mask][score];
                     }
                 }
             }
         }
     }
+
     cout << f[maxMask][m] << el;
 }
 
