@@ -27,7 +27,7 @@ struct SegmentTreeLazy {
         lazy.resize(4 * n, 0);
     }
 
-    int combine(int v1, int v2) { return v1 + v2; }
+    int combine(int v1, int v2) { return (v1 + v2); }
 
     void build(int a[], int v, int tl, int tr) {
         if (tl == tr) {
@@ -48,12 +48,12 @@ struct SegmentTreeLazy {
         if (lazy[v] != 0) {
             // pending updates
             // update segment tree node
-            t[v] += lazy[v] * (tr - tl + 1);
+            t[v] = (t[v] + lazy[v] * (tr - tl + 1));
 
             if (tl != tr) {
                 // propagate the updated value
-                lazy[2 * v] += lazy[v];
-                lazy[2 * v + 1] += lazy[v];
+                lazy[2 * v] = (lazy[2 * v] + lazy[v]);
+                lazy[2 * v + 1] = (lazy[2 * v + 1] + lazy[v]);
             }
             lazy[v] = 0;
         }
@@ -65,24 +65,24 @@ struct SegmentTreeLazy {
     }
 
     void update(int v, int tl, int tr, int l, int r, int val) {
-        // not overlapping case
-        if (tl > r || tr < l) return;
-
         if (lazy[v] != 0) {
-            t[v] += lazy[v] * (tr - tl + 1);
+            t[v] = (t[v] + lazy[v] * (tr - tl + 1));
             if (tl != tr) {
-                lazy[2 * v] += lazy[v];
-                lazy[2 * v + 1] += lazy[v];
+                lazy[2 * v] = (lazy[2 * v] + lazy[v]);
+                lazy[2 * v + 1] = (lazy[2 * v + 1] + lazy[v]);
             }
             lazy[v] = 0;
         }
 
+        // no overlapping
+        if (tl > r || tr < l) return;
+
         // complete overlapping case
         if (l <= tl and tr <= r) {
-            t[v] += val * (tr - tl + 1);
+            t[v] = (t[v] + val * (tr - tl + 1));
             if (tl != tr) {
-                lazy[2 * v] += val;
-                lazy[2 * v + 1] += val;
+                lazy[2 * v] = (lazy[2 * v] + val);
+                lazy[2 * v + 1] = (lazy[2 * v + 1] + val);
             }
             return;
         }
@@ -93,6 +93,7 @@ struct SegmentTreeLazy {
         update(2 * v + 1, mid + 1, tr, l, r, val);
         t[v] = combine(t[2 * v], t[2 * v + 1]);
     }
+
     int query(int l, int r) { return query(1, 1, n, l, r); }
     void update(int l, int r, int val) { update(1, 1, n, l, r, val); }
 };
