@@ -24,8 +24,7 @@ using vii = vector<pii>;
 
 //*** START CODING ***//
 
-const int oo = 1e18, mod = 1e9 + 7;
-const int ms = 1e5 + 5;
+const long long oo = 1e18, mod = 1e9 + 7;
 
 struct SegmentTree {
     int n;
@@ -75,17 +74,55 @@ struct SegmentTree {
     void set(int pos, int val) { update(pos, (val - query(pos, pos) + mod) % mod); }
 };
 
-void solve() {
-    int n = 8;
-    int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
-    SegmentTree sgt(n);
+const int ms = 1e5 + 5;
+int a[ms], bruteA[ms];
 
-    sgt.build(a, 1, 1, n);
-    cout << sgt.query(1, 3) << el;
-    sgt.update(1, 100);
-    cout << sgt.query(1, 3) << el;
-    sgt.set(1, 100);
-    cout << sgt.query(1, 3) << el;
+random_device rd;
+mt19937 gen(rd());
+int random(int l, int r) {
+    uniform_int_distribution<int> dis(l, r);
+    return dis(gen);
+}
+
+int bruteQuery(int l, int r) {
+    int sum = 0;
+    for (int i = l; i <= r; i++) {
+        sum = (sum + bruteA[i]) % mod;
+    }
+    return sum;
+}
+
+void bruteUpdate(int pos, int val) { bruteA[pos] = (bruteA[pos] + val) % mod; }
+
+void solve() {
+    int n = 1e5;
+    for (int i = 1; i < n; i++) {
+        a[i] = random(0, 1e9);
+        bruteA[i] = a[i];
+    }
+
+    SegmentTree st(n);
+    st.build(a, 1, 1, n);
+
+    int q = 10000;
+    while (q--) {
+        int type = random(1, 2);
+        int l = random(1, n);
+        int r = random(1, n);
+        if (l > r) swap(l, r);
+
+        if (type == 1) {
+            // update
+            int val = random(0, 1e9);
+            st.update(l, val);
+            bruteUpdate(l, val);
+        } else {
+            int sum1 = st.query(l, r);
+            int sum2 = bruteQuery(l, r);
+            assert(sum1 == sum2);
+        }
+    }
+    cout << "Stress Test Passed" << '\n';
 }
 
 int32_t main() {
