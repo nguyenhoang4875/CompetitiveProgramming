@@ -46,7 +46,7 @@ int addEdge(int u, int v, int w) {
     graph[v].pb({u, w});
 }
 
-void dfs(int s) {
+void bfs(int s) {
     dist[s] = 0;
     deque<int> q;
     q.push_back(s);
@@ -79,7 +79,7 @@ void solve() {
     }
     dist = vector<int>(n + 1, oo);
     int source = 0;
-    dfs(source);
+    bfs(source);
     for (int i = 0; i < n; i++) {
         cout << dist[i] << " ";
     }
