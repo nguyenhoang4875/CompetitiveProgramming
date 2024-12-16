@@ -26,20 +26,31 @@ using vii = vector<pii>;
 
 const int oo = 1e18, mod = 1e9 + 7;
 const int ms = 1e5 + 5;
-int n;
 
-vi getDivisors(int n) {
-    vi ans;
+vector<int> getDivisors(int n) {
+    vector<int> ans;
     for (int i = 1; i * i <= n; i++) {
         if (n % i == 0) {
-            ans.pb(i);
-            if (i * i != n) ans.pb(n / i);
+            ans.push_back(i);
+            if (i * i != n) ans.push_back(n / i);
+        }
+    }
+    return ans;
+}
+
+vector<vector<int>> getDivsTillN(int n) {
+    vector<vector<int>> ans = vector<vector<int>>(n + 1);
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = i; j <= n; j += i) {
+            ans[j].push_back(i);
         }
     }
     return ans;
 }
 
 void solve() {
+    int n;
     cin >> n;
     vi a = getDivisors(n);
     sort(all(a));
