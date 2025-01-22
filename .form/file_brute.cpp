@@ -4,14 +4,14 @@
 using namespace std;
 
 #define pb push_back
-#define all(x) x.begin(), x.end()
+#define all(x) (x).begin(), (x).end()
 #define sz(a) (int)(a).size()
 #define el '\n'
 #define F first
 #define S second
-#define For(i, a, b) for (int i = a; i <= (int)b; i++)
-#define Rof(i, a, b) for (int i = a; i >= (int)b; i--)
-#define Fore(it, x) for (auto it = x.begin(); it != x.end(); ++it)
+#define For(i, a, b) for (int i = (a); i <= (int) (b); i++)
+#define Rof(i, a, b) for (int i = (a); i >= (int) (b); i--)
+#define Fore(it, x) for (auto it = (x).begin(); it != (x).end(); ++it)
 
 using vb = vector<bool>;
 using vvb = vector<vb>;
@@ -24,17 +24,12 @@ using vii = vector<pii>;
 
 //*** START CODING ***//
 
-const int oo = 2e18, mod = 1e9 + 7;
+const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 int n;
 
 void solve() {
-    int a, b;
-    cin >> a >> b;
-    long long ans = 1LL * a * b;
-    cout << ans << el;
 
-    cerr << ans << el; // print in the terminal
 }
 
 int32_t main() {

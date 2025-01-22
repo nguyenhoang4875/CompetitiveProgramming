@@ -23,4 +23,3 @@ for /l %%x in (1, 1, %number_tcs%) do (
     )
 )
 echo "!!! ALL TESTS PASSED !!!"
-pause
