@@ -263,7 +263,8 @@
 			"#else",
 			"#define del",
 			"#define debug(x)",
-			"#endif"
+			"#endif",
+			""
 		],
 		"description": "competitive add debug"
 	},
