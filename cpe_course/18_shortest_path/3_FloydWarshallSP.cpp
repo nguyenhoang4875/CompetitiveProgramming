@@ -40,9 +40,9 @@ vector<vector<int>> dist;
 
 // find shortest path for all pair
 void floyd(int n) {
-    for (int k = 0; k < n; k++) {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+    for (int k = 1; k <= n; k++) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
                 if (dist[i][j] > dist[i][k] + dist[k][j]) {
                     dist[i][j] = dist[i][k] + dist[k][j];
                 }
@@ -60,19 +60,17 @@ bool isNegCycleFloyd(int n) {
     return false;
 }
 
-void addEdge(int u, int v, int w) {
-    dist[u][v] = w;
-    dist[v][u] = w;  // if directed edge
-}
-
 void solve() {
     int n, m;
     cin >> n >> m;
     dist = vector<vector<int>>(n + 1, vector<int>(n + 1, oo));
+    for (int i = 1; i <= n; i++) dist[i][i] = 0;
     while (m--) {
         int u, v, w;
         cin >> u >> v >> w;
-        addEdge(u, v, w);
+        w = min(w, dist[u][v]);
+        dist[u][v] = w;
+        dist[v][u] = w;  // remove if directed edge
     }
     floyd(n);
     cout << dist[0][n - 1] << el;
