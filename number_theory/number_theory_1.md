@@ -51,3 +51,12 @@ sqrt usually has lots of **precision issues** and unpredictable behavior. In gen
 
  For large values of $N$ the constant ($5$) shouldn't affect the runtime much, the point is just to slightly raise the output enough to avoid situations where sqrt() gives a lower value than intended (e.g. $49.9999$ instead of $50.0001$), which would give the wrong result when casting to an integer.
 
+## 3. Fermat Little Theorem
+
+$p$ is a **prime** number
+for any $a$: $ 1 <= a < p $
+
+$a ^ {p - 1}$ $\% p = 1$
+
+if $a = (p + 1)$ => $ a \% p = (p + 1) \% p = 1$
+=> $a$ can be any number **except** multiple of p
