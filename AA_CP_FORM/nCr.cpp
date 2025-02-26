@@ -8,12 +8,7 @@ const int ms = 1e5 + 5;
 int n, k;
 
 vector<int> fac;
-
-void initFac(int n) {
-    fac.resize(n + 1);
-    fac[0] = 1;
-    for (int i = 1; i <= n; i++) fac[i] = fac[i - 1] * i % mod;
-}
+vector<int> inv;
 
 int power(int a, int n) {
     int ans = 1;
@@ -26,16 +21,28 @@ int power(int a, int n) {
     return ans;
 }
 
+void init(int n) {
+    fac = vector<int>(n + 1);
+    fac[0] = 1;
+    for (int i = 1; i <= n; i++) fac[i] = 1LL * fac[i - 1] * i % mod;
+
+    inv = vector<int>(n + 1);
+    inv[0] = 1;
+    inv[n] = power(fac[n], mod - 2);
+    for (int i = n - 1; i >= 1; i--) inv[i] = 1LL * inv[i + 1] * (i + 1) % mod;
+}
+
 int nCr(int n, int k) {
+    if (k > n) return 0;
     int ans = fac[n];
-    ans = ans * power(fac[k], mod - 2) % mod;
-    ans = ans * power(fac[n - k], mod - 2) % mod;
+    ans = ans * inv[k] % mod;
+    ans = ans * inv[n - k] % mod;
     return ans;
 }
 
 void solve() {
     cin >> n >> k;
-    initFac(n);
+    init(n);
     cout << nCr(n, k) << '\n';
 }
 
@@ -44,5 +51,6 @@ int32_t main() {
     cin.tie(nullptr);
 
     solve();
+
     return 0;
 }

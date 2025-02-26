@@ -17,3 +17,7 @@ $ => f(i, j)  = f(i - 1, j - 1) + f(i - 1, j)$
 ### Ordered set
 $f(n) = f(n - 1) + f(n - 2) + ... + f(0)$
 $<=> f(n) = \sum_{i=1}^{n} f(n - i) $
+
+## We have n boys and n girls, number of way to make a team n people
+
+**$\sum_{i = 1}^{n} {C\binom{n}{i}}^2 = \sum_{i = 1}^{n} C\binom{n}{i} * C\binom{n}{n - i} = C\binom{2n}{n} $**
