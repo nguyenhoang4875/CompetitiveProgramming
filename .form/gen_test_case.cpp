@@ -38,12 +38,12 @@ vector<pair<int, int>> genEdgeTree(int n) {
     for (int v = 2; v <= n; v++) {
         int u;
         switch (type) {
-            case 1: u = random(1, v - 1); break;
-            case 2: u = 1; break;
-            case 3: u = v - 1; break;
-            case 4: u = v / 2; break;
+        case 1: u = random(1, v - 1); break;
+        case 2: u = 1; break;
+        case 3: u = v - 1; break;
+        case 4: u = v / 2; break;
         }
-        edges.push_back({u, v});
+        edges.push_back({ u, v });
     }
 
     if (!shuffle) return edges;
@@ -58,7 +58,7 @@ vector<pair<int, int>> genEdgeTree(int n) {
         if (random(0, 1)) {
             swap(u, v);
         }
-        shuffleEdges.push_back({perm[u], perm[v]});
+        shuffleEdges.push_back({ perm[u], perm[v] });
     }
     return shuffleEdges;
 }

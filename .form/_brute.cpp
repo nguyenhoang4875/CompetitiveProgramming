@@ -26,7 +26,6 @@ using vii = vector<pii>;
 
 const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
-int n;
 
 void solve() {
 
@@ -36,6 +35,10 @@ int32_t main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    solve();
+    int tcs = 1;
+    cin >> tcs;
+    while (tcs--) {
+        solve();
+    }
     return 0;
 }

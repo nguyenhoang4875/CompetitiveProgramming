@@ -1,13 +1,13 @@
-g++ -std=c++17 -o file_solution file_solution.cpp
-g++ -std=c++17 -o file_brute file_brute.cpp
+g++ -std=c++17 -o _solution _solution.cpp
+g++ -std=c++17 -o _brute _brute.cpp
 g++ -std=c++17 -o gen_testcase gen_testcase.cpp
 
 number_tcs=100
 for ((i = 1; i <= number_tcs; i++)); do
     echo TC $i:
     ./gen_testcase > input.in
-    ./file_brute < input.in > out_brute.out
-    ./file_solution < input.in > out_solution.out
+    ./_brute < input.in > out_brute.out
+    ./_solution < input.in > out_solution.out
 
     # Bash Magic 🤩 : If the difference command produces any output
     if [[ $(diff out_brute.out out_solution.out) ]]
@@ -17,7 +17,7 @@ for ((i = 1; i <= number_tcs; i++)); do
         echo "WA on TC: $i"
         echo
         cat input.in
-        echo "Expeted: "
+        echo "Expected: "
         cat out_brute.out
         echo
         echo "Actual: "

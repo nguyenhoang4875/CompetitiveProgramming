@@ -26,7 +26,6 @@ using vii = vector<pii>;
 
 const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
-int n;
 
 void solve() {
 
