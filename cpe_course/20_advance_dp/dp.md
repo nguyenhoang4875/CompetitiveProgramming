@@ -13,6 +13,13 @@
       - Saving and reusing
       - Memo pad
 
+## 4 steps to solve dynamic programming by Shayan
+
+1. Find out the states/sub problems
+2. Define base cases
+3. Find transition
+4. Final Answer
+
 
 
 
