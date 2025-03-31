@@ -13,11 +13,11 @@ using namespace std;
  * - Must use based-index 1 for all array or vector
  */
 
-// SegmentTree Sum range query:
+// SegmentTree Range Query:
 struct SegmentTree {
     int n;
     vector<int> t;
-    SegmentTree(){};
+    SegmentTree() {};
     SegmentTree(int a[], int _n) : t(4 * n), n(_n) { build(a, 1, 1, n); };
 
     // Build segment tree
@@ -25,44 +25,42 @@ struct SegmentTree {
     // the root vertex:   v = 1, tl = 1 and   tr = n
     // (base-index 1: tl = 1, tr = n)
     void build(int a[], int v, int tl, int tr) {
-        if (tl == tr)
-            t[v] = a[tl];
+        if (tl == tr) t[v] = a[tl];
         else {
             int tm = (tl + tr) / 2;
             build(a, 2 * v, tl, tm);
             build(a, 2 * v + 1, tm + 1, tr);
-            t[v] = t[2 * v] + t[2 * v + 1];
+            t[v] = combine(t[2 * v], t[2 * v + 1]);
         }
     }
+
+    int combine(int v1, int v2) { return v1 + v2; }
 
     // sum queries,
     // parameters information about the current vertex/segment
     // (the index  v  and the boundaries  tl  and  tr ) and
     // the boundaries of the query,  l  and r 
-    int sum(int v, int tl, int tr, int l, int r) {
+    int query(int v, int tl, int tr, int l, int r) {
         if (l <= tl && tr <= r) return t[v];
         if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
-        return sum(2 * v, tl, tm, l, r) + sum(2 * v + 1, tm + 1, tr, l, r);
+        return combine(query(2 * v, tl, tm, l, r), query(2 * v + 1, tm + 1, tr, l, r));
     }
 
     // update a[pos] = newValue and also update the value of t array
     void update(int v, int tl, int tr, int pos, int newVal) {
-        if (tl == tr)
-            t[v] = newVal;
+        if (tl == tr) t[v] = newVal;
         else {
             int tm = (tl + tr) / 2;
-            if (pos <= tm)
-                update(2 * v, tl, tm, pos, newVal);
-            else
-                update(2 * v + 1, tm + 1, tr, pos, newVal);
-            t[v] = t[2 * v] + t[2 * v + 1];
+            if (pos <= tm) update(2 * v, tl, tm, pos, newVal);
+            else update(2 * v + 1, tm + 1, tr, pos, newVal);
+            t[v] = combine(t[2 * v], t[2 * v + 1]);
         }
     }
 
     // overloading
-    int sum(int l, int r) { return sum(1, 1, n, l, r); }
+    int query(int l, int r) { return query(1, 1, n, l, r); }
 
     void update(int pos, int newVal) { return update(1, 1, n, pos, newVal); }
 };
@@ -86,7 +84,7 @@ struct SegmentTreeLazy {
             int mid = (tl + tr) / 2;
             build(a, 2 * v, tl, mid);
             build(a, 2 * v + 1, mid + 1, tr);
-            t[v] = t[2 * v] + t[2 * v + 1];
+            t[v] = combine(t[2 * v], t[2 * v + 1]);
         }
     }
 
@@ -113,8 +111,7 @@ struct SegmentTreeLazy {
         if (l <= tl and tr <= r) return t[v];
 
         int mid = (tl + tr) / 2;
-        return combine(query(2 * v, tl, mid, l, r),
-                       query(2 * v + 1, mid + 1, tr, l, r));
+        return combine(query(2 * v, tl, mid, l, r), query(2 * v + 1, mid + 1, tr, l, r));
     }
 
     void update(int v, int tl, int tr, int l, int r, int val) {
@@ -146,7 +143,91 @@ struct SegmentTreeLazy {
         update(2 * v + 1, mid + 1, tr, l, r, val);
         t[v] = t[2 * v] + t[2 * v + 1];
     }
+
     int query(int l, int r) { return query(1, 1, n, l, r); }
+    void update(int l, int r, int val) { update(1, 1, n, l, r, val); }
+};
+
+struct SegmentTreeLazyMod {
+    const int mod = 1e9 + 7;
+    int n;
+    vector<int> t, lazy;
+
+    SegmentTreeLazyMod(int _n) {
+        n = _n;
+        t.resize(4 * n, 0);
+        lazy.resize(4 * n, 0);
+    }
+
+    int combine(int v1, int v2) { return (v1 + v2) % mod; }
+
+    void build(int a[], int v, int tl, int tr) {
+        if (tl == tr) {
+            t[v] = a[tl] % mod;
+        } else {
+            int mid = (tl + tr) / 2;
+            build(a, 2 * v, tl, mid);
+            build(a, 2 * v + 1, mid + 1, tr);
+            t[v] = combine(t[2 * v], t[2 * v + 1]);
+        }
+    }
+
+    int query(int v, int tl, int tr, int l, int r) {
+        // not overlapping case
+        if (tl > r || tr < l) return 0;
+
+        // lazy propagation / clear the lazy update
+        if (lazy[v] != 0) {
+            // pending updates
+            // update segment tree node
+            t[v] = (t[v] + lazy[v] * (tr - tl + 1)) % mod;
+
+            if (tl != tr) {
+                // propagate the updated value
+                lazy[2 * v] = (lazy[2 * v] + lazy[v]) % mod;
+                lazy[2 * v + 1] = (lazy[2 * v + 1] + lazy[v]) % mod;
+            }
+            lazy[v] = 0;
+        }
+
+        if (l <= tl and tr <= r) return t[v];
+
+        int mid = (tl + tr) / 2;
+        return combine(query(2 * v, tl, mid, l, r), query(2 * v + 1, mid + 1, tr, l, r));
+    }
+
+    void update(int v, int tl, int tr, int l, int r, int val) {
+        if (lazy[v] != 0) {
+            t[v] = (t[v] + lazy[v] * (tr - tl + 1)) % mod;
+            if (tl != tr) {
+                lazy[2 * v] = (lazy[2 * v] + lazy[v]) % mod;
+                lazy[2 * v + 1] = (lazy[2 * v + 1] + lazy[v]) % mod;
+            }
+            lazy[v] = 0;
+        }
+
+        // no overlapping
+        if (tl > r || tr < l) return;
+
+        // complete overlapping case
+        if (l <= tl and tr <= r) {
+            t[v] = (t[v] + val * (tr - tl + 1)) % mod;
+            if (tl != tr) {
+                lazy[2 * v] = (lazy[2 * v] + val) % mod;
+                lazy[2 * v + 1] = (lazy[2 * v + 1] + val) % mod;
+            }
+            return;
+        }
+
+        // partial case
+        int mid = (tl + tr) / 2;
+        update(2 * v, tl, mid, l, r, val);
+        update(2 * v + 1, mid + 1, tr, l, r, val);
+        t[v] = combine(t[2 * v], t[2 * v + 1]);
+    }
+
+    int query(int l, int r) { return query(1, 1, n, l, r); }
+
     void update(int l, int r, int val) { update(1, 1, n, l, r, val); }
 };
 
@@ -154,12 +235,11 @@ struct SegmentTreeLazy {
 struct SegmentTreeMax {
     int n;
     vector<int> t;
-    SegmentTreeMax(){};
+    SegmentTreeMax() {};
     SegmentTreeMax(int a[], int _n) : t(4 * n), n(_n) { build(a, 1, 1, n); };
 
     void build(int a[], int v, int tl, int tr) {
-        if (tl == tr)
-            t[v] = a[tl];
+        if (tl == tr) t[v] = a[tl];
         else {
             int tm = (tl + tr) / 2;
             build(a, 2 * v, tl, tm);
@@ -169,26 +249,21 @@ struct SegmentTreeMax {
     }
 
     int getMax(int v, int tl, int tr, int l, int r) {
-        if (l > r)
-            return 0;  // if array a contain negative integer: return -oo;
+        if (l > r) return 0;  // if array a contain negative integer: return -oo;
         if (l <= tl && tr <= r) return t[v];
         if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
-        return max(getMax(2 * v, tl, tm, l, r),
-                   getMax(2 * v + 1, tm + 1, tr, l, r));
+        return max(getMax(2 * v, tl, tm, l, r), getMax(2 * v + 1, tm + 1, tr, l, r));
     }
 
     // update a[pos] = newValue and also update the value of t array
     void update(int v, int tl, int tr, int pos, int newVal) {
-        if (tl == tr)
-            t[v] = newVal;
+        if (tl == tr) t[v] = newVal;
         else {
             int tm = (tl + tr) / 2;
-            if (pos <= tm)
-                update(2 * v, tl, tm, pos, newVal);
-            else
-                update(2 * v + 1, tm + 1, tr, pos, newVal);
+            if (pos <= tm) update(2 * v, tl, tm, pos, newVal);
+            else update(2 * v + 1, tm + 1, tr, pos, newVal);
             t[v] = max(t[2 * v], t[2 * v + 1]);
         }
     }
@@ -204,10 +279,8 @@ struct SegmentTreeMaxAndTime {
     const int oo = 1e9;
     int n;
     vector<pair<int, int>> t;
-    SegmentTreeMaxAndTime(){};
-    SegmentTreeMaxAndTime(int a[], int _n) : t(4 * n), n(_n) {
-        build(a, 1, 1, n);
-    };
+    SegmentTreeMaxAndTime() {};
+    SegmentTreeMaxAndTime(int a[], int _n) : t(4 * n), n(_n) { build(a, 1, 1, n); };
 
     pair<int, int> combine(pair<int, int> a, pair<int, int> b) {
         if (a.first > b.first) return a;
@@ -216,8 +289,7 @@ struct SegmentTreeMaxAndTime {
     }
 
     void build(int a[], int v, int tl, int tr) {
-        if (tl == tr)
-            t[v] = {a[tl], 1};
+        if (tl == tr) t[v] = {a[tl], 1};
         else {
             int tm = (tl + tr) / 2;
             build(a, 2 * v, tl, tm);
@@ -232,20 +304,16 @@ struct SegmentTreeMaxAndTime {
         if (l > tr && r < tl) return {-1, -1};
 
         int tm = (tl + tr) / 2;
-        return combine(getMax(2 * v, tl, tm, l, r),
-                       getMax(2 * v + 1, tm + 1, tr, l, r));
+        return combine(getMax(2 * v, tl, tm, l, r), getMax(2 * v + 1, tm + 1, tr, l, r));
     }
 
     // update a[pos] = newValue and also update the value of t array
     void update(int v, int tl, int tr, int pos, int newVal) {
-        if (tl == tr)
-            t[v] = {newVal, 1};
+        if (tl == tr) t[v] = {newVal, 1};
         else {
             int tm = (tl + tr) / 2;
-            if (pos <= tm)
-                update(2 * v, tl, tm, pos, newVal);
-            else
-                update(2 * v + 1, tm + 1, tr, pos, newVal);
+            if (pos <= tm) update(2 * v, tl, tm, pos, newVal);
+            else update(2 * v + 1, tm + 1, tr, pos, newVal);
             t[v] = combine(t[2 * v], t[2 * v + 1]);
         }
     }
@@ -260,12 +328,11 @@ struct SegmentTreeMaxAndTime {
 struct SegmentTreeGcd {
     int n;
     vector<int> t;
-    SegmentTreeGcd(){};
+    SegmentTreeGcd() {};
     SegmentTreeGcd(int a[], int _n) : t(4 * n), n(_n) { build(a, 1, 1, n); };
 
     void build(int a[], int v, int tl, int tr) {
-        if (tl == tr)
-            t[v] = a[tl];
+        if (tl == tr) t[v] = a[tl];
         else {
             int tm = (tl + tr) / 2;
             build(a, 2 * v, tl, tm);
@@ -275,26 +342,21 @@ struct SegmentTreeGcd {
     }
 
     int getGcd(int v, int tl, int tr, int l, int r) {
-        if (l > r)
-            return 0;  // if array a contain negative integer: return -oo;
+        if (l > r) return 0;  // if array a contain negative integer: return -oo;
         if (l <= tl && tr <= r) return t[v];
         if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
-        return __gcd(getGcd(2 * v, tl, tm, l, r),
-                     getGcd(2 * v + 1, tm + 1, tr, l, r));
+        return __gcd(getGcd(2 * v, tl, tm, l, r), getGcd(2 * v + 1, tm + 1, tr, l, r));
     }
 
     // update a[pos] = newValue and also update the value of t array
     void update(int v, int tl, int tr, int pos, int newVal) {
-        if (tl == tr)
-            t[v] = newVal;
+        if (tl == tr) t[v] = newVal;
         else {
             int tm = (tl + tr) / 2;
-            if (pos <= tm)
-                update(2 * v, tl, tm, pos, newVal);
-            else
-                update(2 * v + 1, tm + 1, tr, pos, newVal);
+            if (pos <= tm) update(2 * v, tl, tm, pos, newVal);
+            else update(2 * v + 1, tm + 1, tr, pos, newVal);
             t[v] = __gcd(t[2 * v], t[2 * v + 1]);
         }
     }
@@ -313,15 +375,13 @@ struct SegmentTreeCountSearch {
     int n;
     vector<int> t;
     int val;  // value to count and searching for the k-th times
-    SegmentTreeCountSearch(){};
-    SegmentTreeCountSearch(int a[], int _n, int _val)
-        : t(4 * n), n(_n), val(_val) {
+    SegmentTreeCountSearch() {};
+    SegmentTreeCountSearch(int a[], int _n, int _val) : t(4 * n), n(_n), val(_val) {
         build(a, 1, 1, n);
     };
 
     void build(int a[], int v, int tl, int tr) {
-        if (tl == tr)
-            t[v] = a[tl] == val;
+        if (tl == tr) t[v] = a[tl] == val;
         else {
             int tm = (tl + tr) / 2;
             build(a, 2 * v, tl, tm);
@@ -332,12 +392,11 @@ struct SegmentTreeCountSearch {
 
     int count(int v, int tl, int tr, int l, int r) {
         if (l > r) return 0;
-        if (l <= tl && tr <= tr) return t[v];
+        if (l <= tl && tr <= r) return t[v];
         if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
-        return count(2 * v, tl, tm, l, r) +
-               count(2 * v + 1, tm + 1, tr, l, r);
+        return count(2 * v, tl, tm, l, r) + count(2 * v + 1, tm + 1, tr, l, r);
     }
 
     int findKth(int v, int tl, int tr, int k) {
@@ -353,14 +412,11 @@ struct SegmentTreeCountSearch {
 
     // update a[pos] = newValue and also update the value of t array
     void update(int v, int tl, int tr, int pos, int newVal) {
-        if (tl == tr)
-            t[v] = newVal == val;
+        if (tl == tr) t[v] = newVal == val;
         else {
             int tm = (tl + tr) / 2;
-            if (pos <= tm)
-                update(2 * v, tl, tm, pos, newVal);
-            else
-                update(2 * v + 1, tm + 1, tr, pos, newVal);
+            if (pos <= tm) update(2 * v, tl, tm, pos, newVal);
+            else update(2 * v + 1, tm + 1, tr, pos, newVal);
             t[v] = t[2 * v] + t[2 * v + 1];
         }
     }
@@ -384,7 +440,7 @@ int32_t main() {
     SegmentTree sgt(a, n);
     printVector(sgt.t);
     // sum from index: 1 -> 3 of array a
-    int s = sgt.sum(1, 3);
+    int s = sgt.query(1, 3);
     cout << "sum range: [1, 3] = " << s << endl;  // s = 2 (1 + 3 - 2)
 
     // update a[2] = 3;
@@ -406,15 +462,15 @@ int32_t main() {
     int c[6] = {0, 1, 5, 3, 5, 4};
     SegmentTreeMaxAndTime stmt(c, 5);
     pair<int, int> p = stmt.getMax(1, 5);
-    cout << "max and time in range: [1, 5] max = " << p.first
-         << " time = " << p.second << '\n';  // 5 2
+    cout << "max and time in range: [1, 5] max = " << p.first << " time = " << p.second
+         << '\n';  // 5 2
 
     // update c[3] = 9;
     cout << "update a[3] = 9\n";
     stmt.update(3, 9);
     p = stmt.getMax(1, 5);
-    cout << "max and time in range: [1, 5] max = " << p.first
-         << " time = " << p.second << '\n';  // 9 1
+    cout << "max and time in range: [1, 5] max = " << p.first << " time = " << p.second
+         << '\n';  // 9 1
 
     cout << "\nSegment Tree Gcd Test \n";
     int d[7] = {0, 1, 2, 4, 8, 3, 9};
