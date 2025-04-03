@@ -2,33 +2,6 @@
 #define int long long
 
 using namespace std;
-//**************** Sieve of Eratosthenes ****************//
-
-// print all prime numbers not greater than 'n'
-// O(n*log(log(n)))
-/*
-void SieveOfEratosthenes(int n) {
-    vector<bool> prime(n + 1, true);
-
-    for (int p = 2; p * p <= n; p++) {
-        // If prime[p] is not changed,
-        // then it is a prime
-        if (prime[p] == true) {
-            // Update all multiples
-            // of p greater than or
-            // equal to the square of it
-            // numbers which are multiple
-            // of p and are less than p^2
-            // are already been marked.
-            for (int i = p * p; i <= n; i += p) prime[i] = false;
-        }
-    }
-
-    // Print all prime numbers
-    for (int p = 2; p <= n; p++)
-        if (prime[p]) cout << p << " ";
-} */
-//////////////////////////////////////////////
 
 vector<int> primeNumber;
 void sievePrime(int n) {
@@ -86,6 +59,32 @@ void primeSieve(int n) {
                 }
             }
         }
+    }
+}
+
+map<int, int> getFactorMap(int n) {
+    map<int, int> ans;
+    while (n != 1) {
+        ans[sieve[n]]++;
+        n /= sieve[n];
+    }
+    return ans;
+}
+
+void generateDivisors(map<int, int>::const_iterator it, map<int, int>::const_iterator end,
+    int cur, vector<int>& divisors) {
+    if (it == end) {
+        divisors.push_back(cur);
+        return;
+    }
+
+    int prime = it->first;
+    int exp = it->second;
+
+    auto nextIt = next(it);
+    for (int i = 0; i <= exp; i++) {
+        generateDivisors(nextIt, end, cur, divisors);
+        cur *= prime;
     }
 }
 
