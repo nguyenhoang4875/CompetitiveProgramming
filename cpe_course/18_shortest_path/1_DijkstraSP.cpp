@@ -33,59 +33,40 @@ using vii = vector<pii>;
 //*** START CODING ***//
 
 const int oo = 1e18, mod = 1e9 + 7;
-const int ms = 1e5 + 5;
+const int ms = 2e5 + 5;
 
-struct Graph {
-    int n;
-    vector<vector<pair<int, int>>> gr;
-
-    Graph(int _n) {
-        n = _n;
-        gr = vector<vector<pair<int, int>>>(n + 1);
-    }
-
-    void addEdge(int u, int v, int w) {
-        gr[u].push_back({v, w});
-        gr[v].push_back({u, w});  // if undirected
-    }
-
-    vector<int> dijkstra(int s) {
-        vector<int> dist(n + 1, oo);
-        vector<bool> seen(n + 1);
-        dist[s] = 0;
-        priority_queue<pii, vii, greater<pii>> q;
-        q.push({0, s});  // first: dist, second: vertex
-
-        while (!q.empty()) {
-            pii p = q.top();
-            q.pop();
-
-            int u = p.S;  // get vertex
-            if (seen[u]) continue;
-            seen[u] = true;
-
-            for (auto e : gr[u]) {
-                if (dist[e.F] > dist[u] + e.S) {
-                    dist[e.F] = dist[u] + e.S;
-                    q.push({dist[e.F], e.F});
-                }
+vector<int> dijkstra(int s, int n, vector<vector<pair<int, int>>>& adj) {
+    vector<int> dist(n + 1, oo);
+    dist[s] = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
+    q.push({0, s});
+    while (!q.empty()) {
+        auto [d, u] = q.top();
+        q.pop();
+        if (d > dist[u]) continue;
+        for (auto [v, w] : adj[u]) {
+            if (dist[v] > dist[u] + w) {
+                dist[v] = dist[u] + w;
+                q.push({dist[v], v});
             }
         }
-        return dist;
     }
-};
+    return dist;
+}
 
 void solve() {
     int n, m;
     cin >> n >> m;
-    Graph g(n);
+    vector<vii> adj(n + 1);
     while (m--) {
         int u, v, w;
         cin >> u >> v >> w;
-        g.addEdge(u, v, w);
+        adj[u].pb({v, w});
+        adj[v].pb({u, w});
     }
-    vi dist = g.dijkstra(0);
-    cout << dist[n - 1];
+    vi dist = dijkstra(1, n, adj);
+    For(i, 1, n) cout << dist[i] << " ";
+    cout << el;
 }
 
 int32_t main() {
