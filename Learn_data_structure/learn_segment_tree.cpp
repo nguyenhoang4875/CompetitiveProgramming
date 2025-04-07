@@ -11,6 +11,7 @@ using namespace std;
  * requires  4n  vertices for working on an array of size  n .
  *
  * - Must use based-index 1 for all array or vector
+ * - Tip: convert vector<int>a to int[] by: a.data();
  */
 
 // SegmentTree Range Query:
@@ -20,10 +21,6 @@ struct SegmentTree {
     SegmentTree() {};
     SegmentTree(int a[], int _n) : t(4 * n), n(_n) { build(a, 1, 1, n); };
 
-    // Build segment tree
-    // In the main program this function will be called with the parameters of
-    // the root vertex:   v = 1, tl = 1 and   tr = n
-    // (base-index 1: tl = 1, tr = n)
     void build(int a[], int v, int tl, int tr) {
         if (tl == tr) t[v] = a[tl];
         else {
@@ -34,15 +31,12 @@ struct SegmentTree {
         }
     }
 
+    // !!! Important update base case for INVALID 
     int combine(int v1, int v2) { return v1 + v2; }
 
-    // sum queries,
-    // parameters information about the current vertex/segment
-    // (the index  v  and the boundaries  tl  and  tr ) and
-    // the boundaries of the query,  l  and r 
     int query(int v, int tl, int tr, int l, int r) {
+        if (l > tr || r < tl) return 0; // INVALID
         if (l <= tl && tr <= r) return t[v];
-        if (l > tr || r < tl) return 0;
 
         int tm = (tl + tr) / 2;
         return combine(query(2 * v, tl, tm, l, r), query(2 * v + 1, tm + 1, tr, l, r));
@@ -59,9 +53,7 @@ struct SegmentTree {
         }
     }
 
-    // overloading
     int query(int l, int r) { return query(1, 1, n, l, r); }
-
     void update(int pos, int newVal) { return update(1, 1, n, pos, newVal); }
 };
 
@@ -87,13 +79,13 @@ struct SegmentTreeLazy {
             t[v] = combine(t[2 * v], t[2 * v + 1]);
         }
     }
-
+    
+    // !!! Important update base case for INVALID
     int combine(int v1, int v2) { return v1 + v2; }
 
     int query(int v, int tl, int tr, int l, int r) {
-        // not overlapping case
-        if (tl > r || tr < l) return 0;
-
+        if (tl > r || tr < l) return 0; // INVALID 
+        
         // lazy propagation / clear the lazy update
         if (lazy[v] != 0) {
             // pending updates
@@ -159,8 +151,6 @@ struct SegmentTreeLazyMod {
         lazy.resize(4 * n, 0);
     }
 
-    int combine(int v1, int v2) { return (v1 + v2) % mod; }
-
     void build(int a[], int v, int tl, int tr) {
         if (tl == tr) {
             t[v] = a[tl] % mod;
@@ -172,9 +162,12 @@ struct SegmentTreeLazyMod {
         }
     }
 
+    // !!! Important update base case for INVALID
+    int combine(int v1, int v2) { return (v1 + v2) % mod; }
+
     int query(int v, int tl, int tr, int l, int r) {
         // not overlapping case
-        if (tl > r || tr < l) return 0;
+        if (tl > r || tr < l) return 0; // INVALID
 
         // lazy propagation / clear the lazy update
         if (lazy[v] != 0) {
@@ -268,9 +261,7 @@ struct SegmentTreeMax {
         }
     }
 
-    // overloading
     int getMax(int l, int r) { return getMax(1, 0, n - 1, l, r); }
-
     void update(int pos, int newVal) { return update(1, 1, n, pos, newVal); }
 };
 
@@ -318,9 +309,7 @@ struct SegmentTreeMaxAndTime {
         }
     }
 
-    // overloading
     pair<int, int> getMax(int l, int r) { return getMax(1, 1, n, l, r); }
-
     void update(int pos, int newVal) { return update(1, 1, n, pos, newVal); }
 };
 
@@ -361,9 +350,7 @@ struct SegmentTreeGcd {
         }
     }
 
-    // overloading
     int getGcd(int l, int r) { return getGcd(1, 1, n, l, r); }
-
     void update(int pos, int newVal) { return update(1, 1, n, pos, newVal); }
 
     // to calculate least common multiple
@@ -421,7 +408,6 @@ struct SegmentTreeCountSearch {
         }
     }
 
-    // overloading
     int count(int l, int r) { return count(1, 1, n, l, r); }
     int findKth(int k) { return findKth(1, 1, n, k); }
 
