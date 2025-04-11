@@ -32,14 +32,11 @@ struct Dsu {
     Dsu(int _n) {
         n = _n;
         parent = vector<int>(n + 1);
-        rank = vector<int>(n + 1);
-        for (int v = 1; v <= n; v++) makeSet(v);
+        rank = vector<int>(n + 1, 0);  // init rank = 0
+        for (int v = 0; v <= n; v++) makeSet(v);
     }
 
-    void makeSet(int v) {
-        parent[v] = v;
-        rank[v] = 0;  // init size = 1;
-    }
+    void makeSet(int v) { parent[v] = v; }
 
     int findSet(int v) { return parent[v] = (parent[v] == v ? v : findSet(parent[v])); }
 

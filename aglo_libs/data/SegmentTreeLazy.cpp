@@ -1,4 +1,3 @@
-
 template <typename T>
 struct SegmentTreeLazy {
     int n;

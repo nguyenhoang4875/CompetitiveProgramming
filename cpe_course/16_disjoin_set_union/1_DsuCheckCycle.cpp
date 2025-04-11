@@ -33,14 +33,11 @@ struct Dsu {
     Dsu(int _n) {
         n = _n;
         parent = vector<int>(n + 1);
-        size = vector<int>(n + 1);
-        for (int v = 1; v <= n; v++) makeSet(v);
+        size = vector<int>(n + 1, 1);
+        for (int v = 0; v <= n; v++) makeSet(v);
     }
 
-    void makeSet(int v) {
-        parent[v] = v;
-        size[v] = 1;  // init size = 1;
-    }
+    void makeSet(int v) { parent[v] = v; }
 
     int findSet(int v) { return parent[v] = (v == parent[v] ? v : findSet(parent[v])); }
 
@@ -58,9 +55,7 @@ struct Dsu {
     void addEdge(int u, int v) { edges.push_back({u, v}); }
 
     bool hasCycle() {
-        for (int i = 1; i <= n; i++) {
-            parent[i] = i;
-        }
+        for (int i = 1; i <= n; i++) { parent[i] = i; }
 
         for (auto edge : edges) {
             int u = findSet(edge.first);
