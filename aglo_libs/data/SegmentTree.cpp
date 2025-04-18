@@ -1,11 +1,14 @@
-template< typename T>
+template <typename T>
 struct SegmentTree {
     int n;
     vector<T> t;
-    SegmentTree() {};
+    SegmentTree(int _n) {
+        n = _n;
+        t.resize(4 * n);
+    };
     SegmentTree(vector<T> a, int _n) {
         n = _n;
-        t.resize( 4 * n);
+        t.resize(4 * n);
         build(a, 1, 1, n);
     };
 
@@ -19,11 +22,11 @@ struct SegmentTree {
         }
     }
 
-    // !!! Important update base case for INVALID 
+    // !!! Important update base case for INVALID
     T combine(T v1, T v2) { return v1 + v2; }
 
     T query(int v, int tl, int tr, int l, int r) {
-        if (l > tr || r < tl) return 0; // INVALID
+        if (l > tr || r < tl) return 0;  // INVALID
         if (l <= tl && tr <= r) return t[v];
 
         int tm = (tl + tr) / 2;
