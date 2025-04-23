@@ -302,5 +302,34 @@
 			"int toggleBit(int n, int pos) { return n ^= (1 << pos); }"
 		],
 		"description": "competitive add bit manipulation"
+	},
+	"C++ snippet for Competitive Programming Add get Binary": {
+		"prefix": "agb",
+		"body": [
+			"string getBin(int n) {",
+			"    string ans = \"\";",
+			"    while (n) {",
+			"        if (n & 1) ans.push_back('1');",
+			"        else ans.push_back('0');",
+			"        n >>= 1;",
+			"    }",
+			"    reverse(ans.begin(), ans.end());",
+			"    return ans;",
+			"}"
+		]
+	},
+	"C++ snippet for Competitive Programming Add 4 directions": {
+		"prefix": "a4d",
+		"body": [
+			"int dx[4] = {0, 0, -1, 1};",
+			"int dy[4] = {-1, 1, 0, 0};"
+		]
+	},
+	"C++ snippet for Competitive Programming Add 8 directions": {
+		"prefix": "a8d",
+		"body": [
+			"int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};",
+			"int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};"
+		]
 	}
 }
