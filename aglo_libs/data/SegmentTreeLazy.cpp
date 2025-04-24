@@ -18,7 +18,8 @@ struct SegmentTreeLazy {
     void build(const vector<T>& a, int v, int tl, int tr) {
         if (tl == tr) {
             t[v] = a[tl];
-        } else {
+        }
+        else {
             int mid = (tl + tr) / 2;
             build(a, 2 * v, tl, mid);
             build(a, 2 * v + 1, mid + 1, tr);
@@ -43,8 +44,8 @@ struct SegmentTreeLazy {
     }
 
     T query(int v, int tl, int tr, int l, int r) {
-        if (tl > r || tr < l) return 0;  // INVALID
         push(v, tl, tr);
+        if (tl > r || tr < l) return 0;  // INVALID
         if (l <= tl and tr <= r) return t[v];
 
         int mid = (tl + tr) / 2;
@@ -52,10 +53,10 @@ struct SegmentTreeLazy {
     }
 
     void update(int v, int tl, int tr, int l, int r, T val) {
+        push(v, tl, tr);
         // not overlapping case
         if (tl > r || tr < l) return;
 
-        push(v, tl, tr);
         // complete overlapping case
         if (l <= tl and tr <= r) {
             t[v] += val * (tr - tl + 1);
