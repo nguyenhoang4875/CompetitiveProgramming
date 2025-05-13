@@ -5,7 +5,7 @@ using namespace std;
 
 #define pb push_back
 #define all(x) (x).begin(), (x).end()
-#define all(x, i) (x).begin() + (i), (x).end()
+#define all1(x) (x).begin() + 1, (x).end()
 #define el '\n'
 #define F first
 #define S second
