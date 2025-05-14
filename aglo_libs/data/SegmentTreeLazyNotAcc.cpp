@@ -1,14 +1,18 @@
+/**
+ * SegmentTree for Not Accumulate: like min, max, xor, gcd, ...
+ * Update: combine function, INVALID value
+ */
 template <typename T = int>
-struct SegmentTreeLazy {
+struct SegmentTreeNotAcc {
     int n;
     vector<T> t, lazy;
 
-    SegmentTreeLazy(int _n) {
+    SegmentTreeNotAcc(int _n) {
         n = _n;
         t.resize(4 * n, 0);
         lazy.resize(4 * n, 0);
     }
-    SegmentTreeLazy(const vector<T>& a, int _n) {
+    SegmentTreeNotAcc(const vector<T>& a, int _n) {
         n = _n;
         t.resize(4 * n, 0);
         lazy.resize(4 * n, 0);
@@ -18,8 +22,7 @@ struct SegmentTreeLazy {
     void build(const vector<T>& a, int v, int tl, int tr) {
         if (tl == tr) {
             t[v] = a[tl];
-        }
-        else {
+        } else {
             int mid = (tl + tr) / 2;
             build(a, 2 * v, tl, mid);
             build(a, 2 * v + 1, mid + 1, tr);
@@ -28,12 +31,12 @@ struct SegmentTreeLazy {
     }
 
     // !!! Important update base case for INVALID and push function
-    T combine(T v1, T v2) { return v1 + v2; }
+    T combine(T v1, T v2) { return min(v1, v2); }
 
     void push(int v, int tl, int tr) {
         if (lazy[v] == 0) return;
         // update segment tree node
-        t[v] += lazy[v] * (tr - tl + 1);  // For min or max:  t[v] += lazy[v];
+        t[v] += lazy[v];  // For min or max:  t[v] += lazy[v];
 
         if (tl != tr) {
             // propagate the updated value
@@ -45,7 +48,7 @@ struct SegmentTreeLazy {
 
     T query(int v, int tl, int tr, int l, int r) {
         push(v, tl, tr);
-        if (tl > r || tr < l) return 0;  // INVALID: for min = oo, max = -oo
+        if (tl > r || tr < l) return 2e18;  // INVALID: for min = oo, max = -oo
         if (l <= tl and tr <= r) return t[v];
 
         int mid = (tl + tr) / 2;
@@ -59,7 +62,7 @@ struct SegmentTreeLazy {
 
         // complete overlapping case
         if (l <= tl and tr <= r) {
-            t[v] += val * (tr - tl + 1); // For min or max:  t[v] += val;
+            t[v] += val;  // For min or max:  t[v] += val;
             if (tl != tr) {
                 lazy[2 * v] += val;
                 lazy[2 * v + 1] += val;

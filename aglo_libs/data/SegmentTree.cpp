@@ -1,4 +1,4 @@
-template <typename T>
+template <typename T = int>
 struct SegmentTree {
     int n;
     vector<T> t;
