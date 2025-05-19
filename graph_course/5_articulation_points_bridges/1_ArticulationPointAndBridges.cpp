@@ -1,6 +1,10 @@
 #include <bits/stdc++.h>
 #define int long long
-
+/**
+ * Tarjan's Algorithm
+ * https://cp-algorithms.com/graph/bridge-searching.html
+ * https://cp-algorithms.com/graph/cutpoints.html
+ */
 using namespace std;
 
 #define pb push_back
@@ -30,36 +34,37 @@ int n, m;
 vector<vector<int>> graph;
 set<int> artPoints;
 vector<pair<int, int>> bridges;
-vector<int> disc, low;
+vector<int> tin, low;
 vector<bool> seen;
 int timer = 0;
 
 void dfs(int cur, int par) {
     seen[cur] = true;
-    low[cur] = disc[cur] = timer++;
+    low[cur] = tin[cur] = timer++;
     int child = 0;
 
     for (auto x : graph[cur]) {
+        if(x == par) continue;
         if (!seen[x]) {
             dfs(x, cur);
             child++;
 
             low[cur] = min(low[cur], low[x]);
 
-            // bridges: low[child] > disc[parent]
+            // bridges: low[child] > tin[parent]
             // only one path from parent to child
-            if (low[x] > disc[cur]) {
+            if (low[x] > tin[cur]) {
                 bridges.push_back({cur, x});
             }
 
             // articulation points: not a root
-            // low[child] >= disc[parent]
-            if (par != 0 and low[x] >= disc[cur]) {
+            // low[child] >= tin[parent]
+            if (par != 0 and low[x] >= tin[cur]) {
                 artPoints.insert(cur);
             }
-        } else if (x != par) {
+        } else {
             // back edge
-            low[cur] = min(low[cur], disc[x]);
+            low[cur] = min(low[cur], tin[x]);
         }
     }
     // root of the tree has atleast 2 children
@@ -79,7 +84,7 @@ void solve() {
     }
     artPoints.clear();
     bridges.clear();
-    disc = vector<int>(n + 1);
+    tin = vector<int>(n + 1);
     low = vector<int>(n + 1);
     seen = vector<bool>(n + 1, false);
 
@@ -95,7 +100,7 @@ void solve() {
     cout << el;
     for (int i = 1; i <= n; i++) {
         cout << "i = " << i << el;
-        cout << disc[i] << " " << low[i] << el;
+        cout << tin[i] << " " << low[i] << el;
     }
 }
 
