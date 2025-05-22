@@ -44,7 +44,7 @@ struct Lca {
         return up[u][0];
     }
 
-    int distUtoV(int u, int v) {
+    int getDist(int u, int v) {
         int common = getLca(u, v);
         return depth[u] + depth[v] - 2 * depth[common];
     }
