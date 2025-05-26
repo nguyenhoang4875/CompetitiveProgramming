@@ -20,7 +20,7 @@ struct Lca {
             depth[v] = depth[u] + 1;
 
             up[v][0] = u;  // parent of v is u
-            for (int j = 1; j <= LG; ++j) { up[v][j] = up[up[v][j - 1]][j - 1]; }
+            for (int i = 1; i <= LG; ++i) { up[v][i] = up[up[v][i - 1]][i - 1]; }
 
             dfs(v, adj);
         }
@@ -31,15 +31,15 @@ struct Lca {
             if (depth[u] < depth[v]) swap(u, v);
 
             int k = depth[u] - depth[v];
-            for (int j = 0; (1 << j) <= k; ++j) {
-                if ((k >> j) & 1) u = up[u][j];
+            for (int i = 0; (1 << i) <= k; ++i) {
+                if ((k >> i) & 1) u = up[u][i];
             }
         }
         if (u == v) return u;
 
         int k = __lg(depth[u]);
-        for (int j = k; j >= 0; --j) {
-            if (up[u][j] != up[v][j]) u = up[u][j], v = up[v][j];
+        for (int i = k; i >= 0; --i) {
+            if (up[u][i] != up[v][i]) u = up[u][i], v = up[v][i];
         }
         return up[u][0];
     }
