@@ -100,7 +100,7 @@
 	"C++ snippet for Competitive Programming Debug": {
 		"prefix": "cpd",
 		"body": [
-			"#include<bits/stdc++.h>",
+			"#include <bits/stdc++.h>",
 			"#define int long long",
 			"",
 			"using namespace std;",
@@ -109,7 +109,7 @@
 			"#define DEBUG 1",
 			"",
 			"#if DEBUG",
-			"#define del cout <<  '\\n'",
+			"#define del cout << '\\n'",
 			"#define debug(...) _debug(#__VA_ARGS__, __VA_ARGS__)",
 			"template <class X, class Y>",
 			"ostream& operator<<(ostream& os, pair<X, Y> const& p) {",
@@ -117,7 +117,7 @@
 			"}",
 			"template <class Ch, class Tr, class Container>",
 			"basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {",
-			"    int i = 0, n = (int) distance(x.begin(), x.end());",
+			"    int i = 0, n = (int)distance(x.begin(), x.end());",
 			"    os << \"{ \";",
 			"    for (const auto& y : x) os << y << (++i < n ? \", \" : \"\");",
 			"    return os << \" }\";",
@@ -187,7 +187,7 @@
 	"C++ snippet for Competitive Programming Debug one test case": {
 		"prefix": "cpd1",
 		"body": [
-			"#include<bits/stdc++.h>",
+			"#include <bits/stdc++.h>",
 			"#define int long long",
 			"",
 			"using namespace std;",
@@ -196,7 +196,7 @@
 			"#define DEBUG 1",
 			"",
 			"#if DEBUG",
-			"#define del cout <<  '\\n'",
+			"#define del cout << '\\n'",
 			"#define debug(...) _debug(#__VA_ARGS__, __VA_ARGS__)",
 			"template <class X, class Y>",
 			"ostream& operator<<(ostream& os, pair<X, Y> const& p) {",
@@ -204,7 +204,7 @@
 			"}",
 			"template <class Ch, class Tr, class Container>",
 			"basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {",
-			"    int i = 0, n = (int) distance(x.begin(), x.end());",
+			"    int i = 0, n = (int)distance(x.begin(), x.end());",
 			"    os << \"{ \";",
 			"    for (const auto& y : x) os << y << (++i < n ? \", \" : \"\");",
 			"    return os << \" }\";",
@@ -274,7 +274,7 @@
 			"#define DEBUG 1",
 			"",
 			"#if DEBUG",
-			"#define del cout <<  '\\n'",
+			"#define del cout << '\\n'",
 			"#define debug(...) _debug(#__VA_ARGS__, __VA_ARGS__)",
 			"template <class X, class Y>",
 			"ostream& operator<<(ostream& os, pair<X, Y> const& p) {",
@@ -282,7 +282,7 @@
 			"}",
 			"template <class Ch, class Tr, class Container>",
 			"basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {",
-			"    int i = 0, n = (int) distance(x.begin(), x.end());",
+			"    int i = 0, n = (int)distance(x.begin(), x.end());",
 			"    os << \"{ \";",
 			"    for (const auto& y : x) os << y << (++i < n ? \", \" : \"\");",
 			"    return os << \" }\";",
@@ -366,15 +366,15 @@
 	"C++ snippet for Competitive Programming Add 4 directions": {
 		"prefix": "a4d",
 		"body": [
-			"int dx[4] = {0, 0, -1, 1};",
-			"int dy[4] = {-1, 1, 0, 0};"
+			"const int dx[4] = {0, 0, -1, 1};",
+			"const int dy[4] = {-1, 1, 0, 0};"
 		]
 	},
 	"C++ snippet for Competitive Programming Add 8 directions": {
 		"prefix": "a8d",
 		"body": [
-			"int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};",
-			"int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};"
+			"const int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};",
+			"const int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};"
 		]
 	}
 }
