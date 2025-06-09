@@ -6,12 +6,11 @@ struct SegmentTreeLazy {
     vector<T> lazyAdd, lazySet;
     vector<bool> hasSet;
 
-    // If using sum: default t elements = 0, invalid query = 0
-    // If switching to min: initialize t to INF, invalid query returns INF
-    const T INIT_VAL = 0;     // for sum
-    const T INVALID_VAL = 0;  // for sum
-    // const T INIT_VAL = numeric_limits<T>::max();   // for min
-    // const T INVALID_VAL = numeric_limits<T>::max();// for min
+    // Configuration for different operations:
+    // For sum: INIT_VAL = 0, INVALID_VAL = 0
+    // For min: INIT_VAL = INF, INVALID_VAL = INF
+    const T INIT_VAL = 0;
+    const T INVALID_VAL = 0;
 
     SegmentTreeLazy(int _n) {
         n = _n;
@@ -32,53 +31,47 @@ struct SegmentTreeLazy {
 
     void build(const vector<T>& a, int v, int tl, int tr) {
         if (tl == tr) {
-            t[v] = a[tl];
+            t[v] = a[tl];  // Use 1-indexed array directly
         } else {
             int mid = (tl + tr) / 2;
-            build(a, v * 2, tl, mid);
-            build(a, v * 2 + 1, mid + 1, tr);
-            t[v] = combine(t[v * 2], t[v * 2 + 1]);
+            build(a, 2 * v, tl, mid);
+            build(a, 2 * v + 1, mid + 1, tr);
+            combine(v);
         }
     }
 
-    // combine for sum (default) or min (if changed)
-    T combine(T v1, T v2) const {
-        // For sum:
-        return v1 + v2;
-        // For min:
-        // return min(v1, v2);
+    void combine(int v) {
+        // For sum operation
+        t[v] = t[2 * v] + t[2 * v + 1];
+        // For min operation: t[v] = min(t[2*v], t[2*v+1]);
     }
 
     void push(int v, int tl, int tr) {
+        // Set operation has higher priority than add
         if (hasSet[v]) {
-            // assignment overrides
             // For sum: multiply by segment length
-            t[v] = (tr - tl + 1) * lazySet[v];
-            // For min: just set t[v] = lazySet[v];
-            // t[v] = lazySet[v];
+            t[v] = lazySet[v] * (tr - tl + 1);
+            // For min: t[v] = lazySet[v];
 
             if (tl != tr) {
-                // propagate set tag
-                lazySet[2 * v] = lazySet[v];
-                hasSet[2 * v] = true;
-                lazyAdd[2 * v] = 0;
-                lazySet[2 * v + 1] = lazySet[v];
-                hasSet[2 * v + 1] = true;
-                lazyAdd[2 * v + 1] = 0;
+                // Propagate set tag to children
+                lazySet[2 * v] = lazySet[2 * v + 1] = lazySet[v];
+                hasSet[2 * v] = hasSet[2 * v + 1] = true;
+                lazyAdd[2 * v] = lazyAdd[2 * v + 1] = 0;  // Clear add tags
             }
             hasSet[v] = false;
-            lazyAdd[v] = 0;
-        } else if (lazyAdd[v] != 0) {
-            // addition propagation
+            lazySet[v] = 0;
+        }
+
+        if (lazyAdd[v] != 0) {
             // For sum: multiply by segment length
-            t[v] += (tr - tl + 1) * lazyAdd[v];
+            t[v] += lazyAdd[v] * (tr - tl + 1);
             // For min: t[v] += lazyAdd[v];
 
             if (tl != tr) {
-                if (!hasSet[2 * v]) lazyAdd[2 * v] += lazyAdd[v];
-                else lazySet[2 * v] += lazyAdd[v];
-                if (!hasSet[2 * v + 1]) lazyAdd[2 * v + 1] += lazyAdd[v];
-                else lazySet[2 * v + 1] += lazyAdd[v];
+                // Propagate add tag to children
+                lazyAdd[2 * v] += lazyAdd[v];
+                lazyAdd[2 * v + 1] += lazyAdd[v];
             }
             lazyAdd[v] = 0;
         }
@@ -86,43 +79,57 @@ struct SegmentTreeLazy {
 
     void updateAdd(int v, int tl, int tr, int l, int r, T val) {
         push(v, tl, tr);
-        if (tl > r || tr < l) return;
-        if (l <= tl && tr <= r) {
+        if (l > r) return;
+        if (l == tl && r == tr) {
             lazyAdd[v] += val;
             push(v, tl, tr);
             return;
         }
         int mid = (tl + tr) / 2;
-        updateAdd(2 * v, tl, mid, l, r, val);
-        updateAdd(2 * v + 1, mid + 1, tr, l, r, val);
-        t[v] = combine(t[2 * v], t[2 * v + 1]);
+        push(2 * v, tl, mid);
+        push(2 * v + 1, mid + 1, tr);
+        updateAdd(2 * v, tl, mid, l, min(r, mid), val);
+        updateAdd(2 * v + 1, mid + 1, tr, max(l, mid + 1), r, val);
+        combine(v);
     }
 
     void updateSet(int v, int tl, int tr, int l, int r, T val) {
         push(v, tl, tr);
-        if (tl > r || tr < l) return;
-        if (l <= tl && tr <= r) {
-            hasSet[v] = true;
+        if (l > r) return;
+        if (l == tl && r == tr) {
             lazySet[v] = val;
+            hasSet[v] = true;
             lazyAdd[v] = 0;
             push(v, tl, tr);
             return;
         }
         int mid = (tl + tr) / 2;
-        updateSet(2 * v, tl, mid, l, r, val);
-        updateSet(2 * v + 1, mid + 1, tr, l, r, val);
-        t[v] = combine(t[2 * v], t[2 * v + 1]);
+        push(2 * v, tl, mid);
+        push(2 * v + 1, mid + 1, tr);
+        updateSet(2 * v, tl, mid, l, min(r, mid), val);
+        updateSet(2 * v + 1, mid + 1, tr, max(l, mid + 1), r, val);
+        combine(v);
     }
 
     T query(int v, int tl, int tr, int l, int r) {
+        if (l > r) return INVALID_VAL;
         push(v, tl, tr);
-        if (tl > r || tr < l) return INVALID_VAL;
-        if (l <= tl && tr <= r) return t[v];
+        if (l == tl && r == tr) {
+            return t[v];
+        }
         int mid = (tl + tr) / 2;
-        return combine(query(2 * v, tl, mid, l, r), query(2 * v + 1, mid + 1, tr, l, r));
+        T left = query(2 * v, tl, mid, l, min(r, mid));
+        T right = query(2 * v + 1, mid + 1, tr, max(l, mid + 1), r);
+
+        // For sum operation
+        return left + right;
+        // For min operation: return min(left, right);
     }
 
-    T query(int l, int r) { return query(1, 1, n, l, r); }
+    // Public interface (all 1-indexed)
     void updateAdd(int l, int r, T val) { updateAdd(1, 1, n, l, r, val); }
+
     void updateSet(int l, int r, T val) { updateSet(1, 1, n, l, r, val); }
+
+    T query(int l, int r) { return query(1, 1, n, l, r); }
 };

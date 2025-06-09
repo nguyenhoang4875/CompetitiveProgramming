@@ -18,59 +18,62 @@ struct SegmentTreeLazy {
     void build(const vector<T>& a, int v, int tl, int tr) {
         if (tl == tr) {
             t[v] = a[tl];
-        }
-        else {
+        } else {
             int mid = (tl + tr) / 2;
             build(a, 2 * v, tl, mid);
             build(a, 2 * v + 1, mid + 1, tr);
             t[v] = combine(t[2 * v], t[2 * v + 1]);
-        }
-    }
+        }    }
 
     // !!! Important update base case for INVALID and push function
     T combine(T v1, T v2) { return v1 + v2; }
 
     void push(int v, int tl, int tr) {
         if (lazy[v] == 0) return;
-        // update segment tree node
+
+        // Apply lazy to current node
         t[v] += lazy[v] * (tr - tl + 1);  // For min or max:  t[v] += lazy[v];
 
+        // Propagate to children
         if (tl != tr) {
-            // propagate the updated value
             lazy[2 * v] += lazy[v];
             lazy[2 * v + 1] += lazy[v];
         }
+
+        // Clear lazy
         lazy[v] = 0;
     }
 
     T query(int v, int tl, int tr, int l, int r) {
         push(v, tl, tr);
-        if (tl > r || tr < l) return 0;  // INVALID: for min = oo, max = -oo
-        if (l <= tl and tr <= r) return t[v];
+
+        if (tl > r || tr < l) return 0;        // No overlap INVALID: for min = oo, max = -oo
+        if (l <= tl and tr <= r) return t[v];  // Complete overlap
 
         int mid = (tl + tr) / 2;
         return combine(query(2 * v, tl, mid, l, r), query(2 * v + 1, mid + 1, tr, l, r));
     }
 
     void update(int v, int tl, int tr, int l, int r, T val) {
-        push(v, tl, tr);
-        // not overlapping case
+        // No overlap
         if (tl > r || tr < l) return;
 
-        // complete overlapping case
+        // Complete overlap - ONLY update lazy
         if (l <= tl and tr <= r) {
-            t[v] += val * (tr - tl + 1); // For min or max:  t[v] += val;
-            if (tl != tr) {
-                lazy[2 * v] += val;
-                lazy[2 * v + 1] += val;
-            }
+            lazy[v] += val;
+            push(v, tl, tr);  // Apply immediately
             return;
         }
 
-        // partial case
+        // Partial overlap - push first
+        push(v, tl, tr);
         int mid = (tl + tr) / 2;
         update(2 * v, tl, mid, l, r, val);
         update(2 * v + 1, mid + 1, tr, l, r, val);
+
+        // Update current node from children (must push children first)
+        push(2 * v, tl, mid);
+        push(2 * v + 1, mid + 1, tr);
         t[v] = combine(t[2 * v], t[2 * v + 1]);
     }
 
