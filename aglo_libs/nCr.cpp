@@ -25,7 +25,7 @@ void init(int n) {
     fac[0] = 1;
     for (int i = 1; i <= n; i++) fac[i] = 1LL * fac[i - 1] * i % mod;
 
-    if (ms < mod) {
+    if (n < mod) {
         inv = vector<int>(n + 1);
         inv[0] = 1;
         inv[n] = power(fac[n], mod - 2);
@@ -36,7 +36,7 @@ void init(int n) {
 int nCr(int n, int k) {
     if (k > n) return 0;
     int ans = fac[n];
-    if (ms < mod) {
+    if (n < mod) {
         ans = ans * inv[k] % mod;
         ans = ans * inv[n - k] % mod;
         return ans;
