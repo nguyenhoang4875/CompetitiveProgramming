@@ -376,5 +376,25 @@
 			"const int dx[8] = {-1, -1, -1, 0, 0, 1, 1, 1};",
 			"const int dy[8] = {-1, 0, 1, -1, 1, -1, 0, 1};"
 		]
+	},
+	"C++ snippet minimize, maximize": {
+		"prefix": "amm",
+		"body": [
+			"template <class X, class Y>",
+			"bool minimize(X &x, const Y &y) {",
+			"    if (x > y) {",
+			"        x = y;",
+			"        return true;",
+			"    } else return false;",
+			"}",
+			"",
+			"template <class X, class Y>",
+			"bool maximize(X &x, const Y &y) {",
+			"    if (x < y) {",
+			"        x = y;",
+			"        return true;",
+			"    } else return false;",
+			"}"
+		]
 	}
 }
