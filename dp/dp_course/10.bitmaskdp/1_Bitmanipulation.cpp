@@ -31,7 +31,6 @@ vector<int> getSubSetMask(int mask) {
         ans.push_back(subMask);
         subMask = (subMask - 1) & mask;
     }
-    ans.push_back(0);
     return ans;
 }
 
