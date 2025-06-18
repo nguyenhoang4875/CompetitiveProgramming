@@ -1,39 +1,19 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 #define int long long
-#define pb push_back
-#define all(x) x.begin(), x.end()
-#define F first
-#define S second
 
 using namespace std;
 
-//*** debug(x) ***//
-#define debug(x) cout << "[" << #x << "]" << " : " << (x) << endl
+#define pb push_back
+#define all(x) (x).begin(), (x).end()
+#define all1(x) (x).begin() + 1, (x).end()
+#define el '\n'
+#define F first
+#define S second
+#define Rep(i, n) for (int i = 0, _n = (n); i < _n; i++)
+#define For(i, a, b) for (int i = (a), _b = (b); i <= _b; i++)
+#define Rof(i, a, b) for (int i = (a), _b = (b); i >= _b; i--)
+#define Fore(i, v) for (__typeof((v).begin()) i = (v).begin(); i != (v).end(); i++)
 
-#if 1
-template <class Ch, class Tr, class Container>
-basic_ostream <Ch, Tr> & operator << (basic_ostream <Ch, Tr> & os, Container const& x) {
-    os << "{ ";
-    for(auto& y : x)os << y << ", ";
-    return os << "}";
-}
-
-template <class X, class Y>
-ostream & operator << (ostream & os, pair <X, Y> const& p) {
-    return os << "(" << p.first << ", " << p.second << ")" ;
-}
-#endif
-
-template<typename T>
-void check_here(T x){
-    cout << "------------- " << x << " -------------" << endl;
-}
-
-//*** define ***//
-#define For(_i,_a,_b) for(int _i = (_a); _i <= (_b); _i++)
-#define Fore(it,x) for(auto it = x.begin(); it != x.end(); ++it)
-
-//*** custom using ***//
 using vb = vector<bool>;
 using vvb = vector<vb>;
 using vc = vector<char>;
@@ -45,97 +25,79 @@ using vii = vector<pii>;
 
 //*** START CODING ***//
 
-const int oo = 1e18, mod = 1e9 + 7;
-const int ms = 20;
-int n, m, x, C, D;
-int a[ms], b[ms];
-int aa[ms], bb[ms];
+const long long oo = 2e18, mod = 1e9 + 7;
+const int ms = 2e5 + 5;
 
-
-vector<int> fac;
-
-void initFac(int n) {
-    fac.resize(n + 1);
+int fac[30];
+void init() {
     fac[0] = 1;
-    for (int i = 1; i <= n; i++) fac[i] = fac[i - 1] * i % mod;
-}
-
-int getBit(int n, int idx) {
-    return (n >> idx) & 1;
+    For(i, 1, 20) { fac[i] = fac[i - 1] * i % mod; }
 }
 
 void solve() {
+    int n, m, x, C, D;
     cin >> n >> m >> x >> C >> D;
-    For(i, 0, n - 1) cin >> a[i];
-    For(i, 0, n - 1) cin >> b[i];
 
-    sort(a,a + n);
-    sort(b,b + n);
-    
-    // prefix sum;
-    // For(i, 1, n) aa[i] = aa[i - 1] + a[i];
-    // For(i, 1, n) bb[i] = bb[i - 1] + b[i];
+    vi a(n);
+    Rep(i, n) cin >> a[i];
+    vi b(m);
+    Rep(i, m) cin >> b[i];
 
-    // vii vaa;
-    // vii vbb;
-    vi vaa[n + 5];
-    vi vbb[n + 5];
-    int cnt = 0;
-    // count for A
+    auto getDist = [&](int n, vi& a) {
+        vvi f(n + 1);
+        f[0].pb(0);
+        int maxMask = (1 << n) - 1;
+        For(mask, 1, maxMask) {
+            int cnt = __builtin_popcount(mask);
+            int sum = 0;
+            Rep(i, n) {
+                if ((mask >> i) & 1) sum += a[i];
+            }
+            f[cnt].pb(sum);
+        }
+        For(i, 0, n) sort(all(f[i]));
+        return f;
+    };
 
-    For(mask, 1, (1 << n) - 1) {
+    vvi f1 = getDist(n, a);
+    vvi f2 = getDist(m, b);
 
-        int sumA = 0;
-        int sumB = 0;
-        debug(mask);
-        For(i, 0, n - 1) {
-            if(getBit(mask, i)) {
-                
-                sumA += a[i];
-                sumB += b[i];
-                debug(i);
+    auto cntWay = [&](int v1, int v2) {
+        int ans = 0;
+        For(i, 0, n) {
+            for (auto e : f1[i]) {
+                For(j, i - 1, i) {
+                    if (i == 0 and j == 0) continue;
+                    if (j < 0 or j > m) continue;
+                    auto up1 = upper_bound(all(f2[j]), v1 - e - (i + j - 1) * x);
+                    auto up2 = upper_bound(all(f2[j]), v2 - e - (i + j - 1) * x);
+                    if (up1 == up2) continue;
+                    int len = up1 - up2;
+                    int res = fac[i] * len % mod * fac[j] % mod;
+                    ans = (ans + res) % mod;
+                }
             }
         }
-        int numBit = __popcount(mask);
-        if(sumA >= C && sumA <= D) {
-            // vaa.pb({numBit, sumA});
-            vaa[numBit].pb(sumA);
-        }
-        if(sumB >= C && sumB <= D) {
-            vbb[numBit].pb(sumB);
-        }
+        return ans;
+    };
 
-    }
-    For(i, 1, n) {
-        sort(all(vaa[i]));
-        sort(all(vbb[i]));
-        debug(vaa[i]);
-        debug(vbb[i]);
-    }
-    int sum = 0;
+    int t1 = cntWay(D, C - 1);
+    swap(n, m);
+    swap(f1, f2);
 
-    // one mountain
-    if(!vaa[1].empty()) {
-        sum += vaa[1].size();
-    }
-    if(!vbb[1].empty()) {
-        sum += vbb[1].size();
-    }
-    sum %= mod;
-    cout << sum << endl;
-
-
-
+    int t2 = cntWay(D, C - 1);
+    int ans = (t1 + t2 + mod) % mod;
+    cout << ans << el;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    initFac(2 * ms);
-    int tcs;
+    init();
+    int tcs = 1;
     cin >> tcs;
-    while(tcs--) {
+    while (tcs--) {
         solve();
     }
     return 0;
