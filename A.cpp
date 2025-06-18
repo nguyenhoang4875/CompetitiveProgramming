@@ -10,9 +10,9 @@ using namespace std;
 #define F first
 #define S second
 #define Rep(i, n) for (int i = 0, _n = (n); i < _n; i++)
-#define For(i, a, b) for (int i = (a); i <= (int)(b); i++)
-#define Rof(i, a, b) for (int i = (a); i >= (int)(b); i--)
-#define Fore(it, x) for (auto it = (x).begin(); it != (x).end(); ++it)
+#define For(i, a, b) for (int i = (a), _b = (b); i <= _b; i++)
+#define Rof(i, a, b) for (int i = (a), _b = (b); i >= _b; i--)
+#define Fore(i, v) for (__typeof((v).begin()) i = (v).begin(); i != (v).end(); i++)
 
 using vb = vector<bool>;
 using vvb = vector<vb>;
