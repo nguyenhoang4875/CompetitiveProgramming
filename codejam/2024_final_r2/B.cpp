@@ -27,91 +27,92 @@ using vii = vector<pii>;
 //*** START CODING ***//
 
 const long long oo = 2e18, mod = 1e9 + 7;
+template <typename T = int>
 struct SegmentTreeLazy {
     int n;
-    vector<int> t, lazy;
+    vector<T> t, lazy;
 
     SegmentTreeLazy(int _n) {
         n = _n;
         t.resize(4 * n, 0);
         lazy.resize(4 * n, 0);
     }
+    SegmentTreeLazy(const vector<T>& a, int _n) {
+        n = _n;
+        t.resize(4 * n, 0);
+        lazy.resize(4 * n, 0);
+        build(a, 1, 1, n);
+    }
 
-    int combine(int v1, int v2) { return (v1 + v2) % mod; }
-
-    void build(int a[], int v, int tl, int tr) {
+    void build(const vector<T>& a, int v, int tl, int tr) {
         if (tl == tr) {
-            t[v] = a[tl] % mod;
+            t[v] = a[tl];
         } else {
             int mid = (tl + tr) / 2;
             build(a, 2 * v, tl, mid);
             build(a, 2 * v + 1, mid + 1, tr);
             t[v] = combine(t[2 * v], t[2 * v + 1]);
+        }    }
+
+    // !!! Important update base case for INVALID and push function
+    T combine(T v1, T v2) { return v1 + v2; }
+
+    void push(int v, int tl, int tr) {
+        if (lazy[v] == 0) return;
+
+        // Apply lazy to current node
+        t[v] += lazy[v] * (tr - tl + 1);  // For min or max:  t[v] += lazy[v];
+
+        // Propagate to children
+        if (tl != tr) {
+            lazy[2 * v] += lazy[v];
+            lazy[2 * v + 1] += lazy[v];
         }
+
+        // Clear lazy
+        lazy[v] = 0;
     }
 
-    int query(int v, int tl, int tr, int l, int r) {
-        // not overlapping case
-        if (tl > r || tr < l) return 0;
+    T query(int v, int tl, int tr, int l, int r) {
+        push(v, tl, tr);
 
-        // lazy propagation / clear the lazy update
-        if (lazy[v] != 0) {
-            // pending updates
-            // update segment tree node
-            t[v] = (t[v] + lazy[v] * (tr - tl + 1)) % mod;
-
-            if (tl != tr) {
-                // propagate the updated value
-                lazy[2 * v] = (lazy[2 * v] + lazy[v]) % mod;
-                lazy[2 * v + 1] = (lazy[2 * v + 1] + lazy[v]) % mod;
-            }
-            lazy[v] = 0;
-        }
-
-        if (l <= tl and tr <= r) return t[v];
+        if (tl > r || tr < l) return 0;        // No overlap INVALID: for min = oo, max = -oo
+        if (l <= tl and tr <= r) return t[v];  // Complete overlap
 
         int mid = (tl + tr) / 2;
         return combine(query(2 * v, tl, mid, l, r), query(2 * v + 1, mid + 1, tr, l, r));
     }
 
-    void update(int v, int tl, int tr, int l, int r, int val) {
-        if (lazy[v] != 0) {
-            t[v] = (t[v] + lazy[v] * (tr - tl + 1)) % mod;
-            if (tl != tr) {
-                lazy[2 * v] = (lazy[2 * v] + lazy[v]) % mod;
-                lazy[2 * v + 1] = (lazy[2 * v + 1] + lazy[v]) % mod;
-            }
-            lazy[v] = 0;
-        }
-
-        // no overlapping
+    void update(int v, int tl, int tr, int l, int r, T val) {
+        // No overlap
         if (tl > r || tr < l) return;
 
-        // complete overlapping case
+        // Complete overlap - ONLY update lazy
         if (l <= tl and tr <= r) {
-            t[v] = (t[v] + val * (tr - tl + 1)) % mod;
-            if (tl != tr) {
-                lazy[2 * v] = (lazy[2 * v] + val) % mod;
-                lazy[2 * v + 1] = (lazy[2 * v + 1] + val) % mod;
-            }
+            lazy[v] += val;
+            push(v, tl, tr);  // Apply immediately
             return;
         }
 
-        // partial case
+        // Partial overlap - push first
+        push(v, tl, tr);
         int mid = (tl + tr) / 2;
         update(2 * v, tl, mid, l, r, val);
         update(2 * v + 1, mid + 1, tr, l, r, val);
+
+        // Update current node from children (must push children first)
+        push(2 * v, tl, mid);
+        push(2 * v + 1, mid + 1, tr);
         t[v] = combine(t[2 * v], t[2 * v + 1]);
     }
 
-    int query(int l, int r) { return query(1, 1, n, l, r); }
-
-    void update(int l, int r, int val) { update(1, 1, n, l, r, val); }
+    T query(int l, int r) { return query(1, 1, n, l, r); }
+    void update(int l, int r, T val) { update(1, 1, n, l, r, val); }
 };
+
 
 const int ms = 250005, ms2 = ms;
 int n, m;
-int v[ms];
 int SS[ms2], X[ms2], Y[ms2];
 
 int modN(int x) {
@@ -123,6 +124,7 @@ int modN(int x) {
 
 void solve() {
     cin >> n >> m;
+    vi v(n + 1);
     for (int i = 1; i <= n; i++) {
         cin >> v[i];
     }
