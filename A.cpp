@@ -9,9 +9,9 @@ using namespace std;
 #define el '\n'
 #define F first
 #define S second
-#define Rep(i, n) for (int i = 0, _n_ = (n); i < _n_; ++i)
-#define For(i, a, b) for (int i = (a), _b_ = (b); i <= _b_; ++i)
-#define Rof(i, b, a) for (int i = (b), _a_ = (a); i >= _a_; --i)
+#define Rep(i, n) for (int i = 0; i < (int)n; ++i)
+#define For(i, a, b) for (int i = (a); i <= (int)b; ++i)
+#define Rof(i, b, a) for (int i = (b); i >= (int)a; --i)
 #define Fore(i, v) for (auto i = (v).begin(); i != (v).end(); ++i)
 
 using vb = vector<bool>;
