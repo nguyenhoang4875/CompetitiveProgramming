@@ -1,0 +1,15 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n: in ra chuỗi dài nhất sao cho tích của chúng mod n = 1
+- Input: [Input format]
+- Output: [Output format]
+- Constraints: [Important limits]
+    1 <= n <= 10^5
+- Time/Space: [Required complexity]
+    O(n log n)
+
+KEY IDEAS:
+    Sử dụng modular group theory
+    p = 1
+    For(i, 1, n - 1)  if(__gcd(i, n) == 1) p *= i;
+    p % n = (-1 or 1)

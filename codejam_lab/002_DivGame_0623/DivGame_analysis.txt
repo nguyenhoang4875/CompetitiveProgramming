@@ -1,0 +1,20 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho n: 1 <= n <= 12
+    Phân tích n thành tích các số hạng: z = p^e 
+    p là số nguyên tố, e là số nguyên dương
+    n /= z
+    tìm số lần tối đa có thể phân tích
+- Input: [Input format]
+    1 <= n <= 10^12
+- Output: [Output format]
+    số lần tối đa chọn z, z không lặp với trước đó
+- Time/Space: [Required complexity]
+    O(sqrt(n))
+
+
+KEY IDEAS:
+- [Key idea 1]
+    phân tích và đến số mũ: x
+    tìm k sao cho: 1 + 2 + ... + k <= x
+    ans += k
