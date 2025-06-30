@@ -1,0 +1,34 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n số: a1, ..., an k >= 2
+    đếm cặp i,j sao cho ai * aj = x ^ k
+
+- Input: [Input format]
+- Output: [Output format]
+- Constraints: [Important limits]
+    2 <= n <= 10^5
+    2 <= k <= 100
+    1 <= ai <= 10^5
+
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    Biến  đổi a[i] về tích các thừa số nguyên tố:
+    a[i] = t1^k1 * t2 ^ k2 * t3 ^ k3*...*tm ^ km
+    Với mỗi a[i] tìm a[j] sao cho (j <= i):
+    a[j] = t1 ^ (k - k1) * t2 * (k - k2)*...*tm ^ (k - km)
+
+    Phân tích thừa số nguyên tố: với độ phức tạp log(n)
+    Chạy sàng nguyên tố từ 1 -> MAX
+    với mỗi số x tìm max prime p sao cho x chia hết cho 
+    
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

@@ -1,0 +1,22 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho string => bao nhiêu string có thể tạo ra từ những ký tự đó
+- Input: [Input format]
+- Output: [Output format]
+- Constraints: [Important limits]
+    n <= 10^6
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    n! / (same!)
+    26 ký tự
+    mod 10^9 + 7
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
