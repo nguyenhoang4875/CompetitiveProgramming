@@ -1,0 +1,40 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Given array a, b each array has n elements
+    1 <= i <= n - 1:
+    a[i] = b[i + 1];
+    b[i] = a[i + 1];
+
+    chọn tối đa: 1 i remove a[i], b[i]
+
+    tìm số phần tử a[i] = b[i] tối đa
+
+- Input: [Input format]
+    1 <= a[i] <= n;
+    1 <= b[i] <= n;
+
+- Constraints: [Important limits]
+    n <= 1e5
+- Time/Space: [Required complexity]
+    O(n)
+
+KEY IDEAS:
+- [Key idea 1]
+    c1
+    a[i] == b[i];
+    a[i - 1] = b[i];
+    b[i - 1] = a[i];
+    => a[i - 1] = b[i - 1]
+    if(a[i] == b[i]) => j: 1 -> i: a[j]
+
+    // c2
+    if(b[i - 1] == b[i]) => a[i - 1] = b[i] == b[i - 1];
+    if(b[i - 1] == a[i + 1]) => i - 1 
+
+    if(a[i - 1] == a[i]) => b[i - 1] == a[i] == a[i - 1]
+    if(a[i - 1] == b[i + 1]) => i - 1 
+
+    // c3 
+    trường hợp nhảy cóc????
+    for(i = n - 1; i >= 1; --i): if(a[i] == b[j] or b[i] == a[j]): i + 2 <= j <= n 
+ 
