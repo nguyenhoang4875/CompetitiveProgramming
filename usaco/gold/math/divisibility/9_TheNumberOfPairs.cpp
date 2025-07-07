@@ -54,7 +54,7 @@ void solve() {
     int ans = 0;
     for (int i = 1; i * i <= x; i++) {
         if (x % i != 0) continue;
-        int k1 = i + d;
+        int k1 =i + d;
         if (k1 % c == 0) ans += 1 << val[k1 / c];
         if (i * i == x) continue;
         int k2 = x / i + d;
