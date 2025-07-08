@@ -1,0 +1,25 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    n buttons,
+    minimum clone that press button in non-increasing order 
+    a clone can move one postion left/righ
+- Output: [Output format]
+- Constraints: [Important limits]
+    1 <= n <= 1e5
+- Time/Space: [Required complexity]
+    O(n log n) or O(n)
+
+KEY IDEAS:
+- [Solution 1]
+    priority queue lấy số lớn -> nhỏ
+    tạo mảng đánh dấu used những vị trí đã thăm
+    auto [val, pos] = q.top(); q.pop();
+    kiểm tra xem l, r của pos đã đánh dấu hay chưa
+    chưa cnt++ 
+    đánh dấu vị trí used[pos] = true
+- [Key idea 2]
+    loại bỏ nhũng phần tử giống nhau liên tiếp vì sẽ loang được
+    nếu a[i] == a[i + 1]: xóa a[i + 1]
+    nếu xuất hiện đỉnh i: a[i - 1] < a[i] and a[i] > a[i + 1]: thì cần clone tại i
+    thêm 2 đỉnh ảo ở đầu và cuối mảng
+    đếm số đỉnh
