@@ -34,8 +34,6 @@ type nul > %folder%\%name%.cpp
 (
 echo PROBLEM SUMMARY:
 echo - Task: [Short task description]
-echo - Input: [Input format]
-echo - Output: [Output format]
 echo - Constraints: [Important limits]
 echo - Time/Space: [Required complexity]
 echo.

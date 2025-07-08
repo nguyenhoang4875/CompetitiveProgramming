@@ -29,14 +29,15 @@ const int ms = 2e5 + 5;
 int n;
 
 vector<int> compressValue(vector<int>& a) {
-    vector<int> compressValue;
-    vector<int> temp = a;
-    sort(temp.begin(), temp.end());
+    vector<int> ans;
+    vector<int> v = a;
+    sort(v.begin(), v.end());
+    v.erase(unique(v.begin(), v.end()), v.end());
     for (auto x : a) {
-        int pos = (lower_bound(all(temp), x) - temp.begin()) + 1;
-        compressValue.push_back(pos);
+        int pos = lower_bound(v.begin(), v.end(), x) - v.begin();
+        ans.push_back(pos);
     }
-    return compressValue;
+    return ans;
 }
 
 void solve() {

@@ -1,0 +1,18 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho mảng a, n phần tử: kiểm tra tồn tại i, j, k sao cho i < j < k và a[i] < a[k] < a[j]
+- Constraints: [Important limits]
+    1 <= n <= 1e5
+    |a[i]| <= 1e9
+- Time/Space: [Required complexity]
+    O(n log n) or better
+
+APPROACH:
+    cố định j => max = a[j]
+    min = preMin[j - 1],
+    chạy từ n - > j + 1, tìm giá trị x lớn hơn gần nhất của min, nếu x < max = > Okay 
+    (tìm x nhỏ hơn gần nhất với max, nếu, x > min => Okay)
+    Có thể dùng monotonic stack để tìm giá trị x
+
+EDGE CASES:
+- [Special cases to watch for]
