@@ -1,0 +1,38 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho array a có n phần tử
+
+    med(b1, b2, ... bm):  phần tử nhỏ thứ (m + 1) / 2 của b
+
+    cho l, r, k: có tồn tại
+    med(med(a[1], .. , a[l], med(a[l + 1], ... a[r])), med(a[r + 1], ..., a[n])) <= k
+
+- Constraints: [Important limits]
+    3 <= n <= 2e5
+    1 < l < r < n
+    1 <= k <= 1e9
+- Time/Space: [Required complexity]
+    O(n log n) or better
+
+KEY IDEAS:
+- [Key idea 1]
+    med(c1, c2, c3) = c2 => c2 <= k
+    có ít 2 phần tử bé hơn <= k
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    đặt lại giá trị cho a[i]: a[i]  == (a[i] <= k) ? 1: -1;
+    xét cả 2 chiều trái và phải:
+    nếu có 2 tổng cộng dồn nào đó >= 0 => YES
+
+    ngược lại xét trường hợp tồn tại ở 2 đầu: 
+    preMax = max(sum) của a[i] từ 1 -> i
+    sufMax = max(sum) của a[i] từ n -> i 
+    nếu tồn tại: preMax[i - 1] >= 0 và sufMax[i + 1] >= 0     => YES 
+    ngược lại in ra NO
+    
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
