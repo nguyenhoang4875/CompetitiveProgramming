@@ -16,6 +16,7 @@ APPROACH:
 EDGE CASES:
 - [Trường hợp đặc biệt]
 
+## Steps to sovle the problem
 
 | Bước                       | Câu hỏi                                               | Làm gì                                                                 |
 | -------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -23,4 +24,4 @@ EDGE CASES:
 | 📌 2. Toàn cục hay cục bộ? | *"Ràng buộc này áp dụng cho từng phần hay toàn bài?"* | Kiểm tra kỹ từ “every”, “each”, “all”, “sum”, “at least”, “for all”... |
 | 🔍 3. Test ví dụ           | *"Mình có thể giải thích rõ tại sao input → output?"* | Nếu ví dụ không khớp với suy luận → dừng lại, đọc lại đề.              |
 | ✍️ 4. Liệt kê constraint   | Input size, mod, giá trị max/min, đặc biệt?           | Ghi tay lại nếu cần (như bạn đang làm với `analysis file`).            |
-| ⏳ 5. Ngồi nghĩ mô hình     | *"Dữ liệu này nên dùng DP, DSU, graph hay gì?"*       | Nghĩ test tay 1–2 input nhỏ để kiểm tra idea trước khi code.           |
+| ⏳ 5. Ngồi nghĩ mô hình     | *"Quan sát, tính chất, nhật xét, nên dùng cấu trúc dữ liệu, thuật toán nào?"*       | Nghĩ test tay 1–2 input nhỏ để kiểm tra idea trước khi code.           |

@@ -56,3 +56,16 @@ Ghi một dòng comment ở đầu chương trình/hàm chính:
 
 ```cpp
 // Ý tưởng chính: Dùng prefix sum + greedy để tìm đoạn con tối ưu
+```
+
+# Mục tiêu của việc Luyện tập
+
+## Mục tiêu chính
+Học được càng nhiều ý tưởng và khái niệm sâu sắc càng tốt trong thời gian ngắn nhất, đồng thời phát triển trực giác để biết khi nào và cách áp dụng chúng.
+
+## Mục tiêu phụ
+Bạn nên cảm thấy áp lực khi cố gắng nghĩ ra những ý tưởng mới - đây là điều tốt. Tuy nhiên, đừng nhầm lẫn điều này với việc hoang mang không biết phải làm gì.
+
+Trạng thái lý tưởng là không ngừng tạo ra những hiểu biết mới một cách nhanh chóng - đây chính là những gì bạn cần trong thi đấu thực tế. Bạn cần quen với việc liên tục suy nghĩ những ý tưởng mới mà không bị "mắc kẹt" trong những suy nghĩ lặp đi lặp lại.
+
+Tuy nhiên, khi hoàn toàn không biết cách tiếp cận một bài toán, bạn sẽ dễ mất tập trung và không học được gì. Vì vậy, hãy cố gắng giảm thiểu những tình huống này.
