@@ -1,0 +1,35 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho ba số: n, m, k
+    với k >= 2 và n * m % k == 0
+    
+    điền số vào ma trận n hàng, m cột sao cho: 
+        giá trị của mỗi ô thuộc [1, k]
+        không 2 ô kề nhau nào có cùng giá trị
+        số lượng số của mỗi giá trị phải bằng nhau
+
+    in ra ma trận sau khi điền
+- Constraints: [Important limits]
+    2 <= n * m <= 2e5
+    2 <= k <= n * m
+    n * m % k == 0
+
+- Time/Space: [Required complexity]
+    O(n * m)
+
+KEY IDEAS:
+- [Key idea 1]
+    đảm bảo khi in ra những số giống nhau sẽ xuất hiện theo ziczac
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    nếu m % k != 0: điền theo thứ tự 1 -> k và tiếp tục cho đến khi hết ma trận
+    nếu m % k == 0:
+        hàng 1 điền theo thứ tự 1, 2, ..., k và tiếp tục
+        hàng 2 địch mảng sang bên phải 1 đơn vị, in ra: 2 ..., k, 1
+        ... tiếp tục cho tới hàng 
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
