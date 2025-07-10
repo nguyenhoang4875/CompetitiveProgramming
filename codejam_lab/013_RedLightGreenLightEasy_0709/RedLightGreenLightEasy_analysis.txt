@@ -1,0 +1,46 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho một dải dài: 10e15, cho n, k
+    có n điểm, tại mỗi điểm có 1 đèn giao thông:
+        đèn đỏ tại điểm: l * k + d[i]
+        ngược lại thì đèn xanh
+    
+    tại thời điểm t = 0 (s), bạn ở vị trí a[i];
+        nếu ô hiện tại là đèn đỏ => quay đầu
+        đi tiếp theo hướng đang đi 1 ô
+
+    => hỏi có thể đi thoát ra khỏi dải với thời gian: 10e100s hay không ? 
+
+- Constraints: [Important limits]
+    1 <= n, k <= 500
+    1 <= p[i] <= 10e15, p[i] < p[i + 1]
+    0 <= d[i] < k
+    1 <= q <= 500
+    1 <= a[i] <= 10e15
+
+- Time/Space: [Required complexity]
+    O(n^3 * log n) or better
+
+KEY IDEAS:
+- [Key idea 1]
+    ban đầu tại vị trí a[i] và dir = 1 (l -> r)
+    binary search để tìm vị trí đèn giao thông tiếp theo:
+        nếu dir = 1, tìm bên phải gần nhất của a[i];
+        nếu dir = -1, tìm bên trái gần nhất
+    kiểm tra đèn: curTime % k == d[i] => đèn đỏ, ngược lại đèn xanh
+        nếu đèn xanh bỏ qua
+        nếu đèn đỏ: đổi hướng: dir = -1;
+    lưu lại trạng thái tại mỗi đèn: {a[i], pos * dir}
+    nếu trùng thì đã lặp => cycle => NO
+    nếu tại đèn bên phải cùng và dir = 1 => YES
+    nếu tại đèn bên trái cùng và dir = -1 => YES
+
+    O(q * n * k * log(N));
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
