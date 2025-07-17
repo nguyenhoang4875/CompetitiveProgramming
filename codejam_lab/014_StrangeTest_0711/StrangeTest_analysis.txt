@@ -1,0 +1,50 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho 2 số a, b
+    Có thể thực hiện operation vô hạn:
+        a += 1
+        b += 1
+        a |= b
+    tìm số operation nhỏ nhất để a == b
+- Constraints: [Important limits]
+    1 <= a, b <= 1e6
+    b <= 10^6  
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+a, b chỉ có tăng
+if a >= b:
+    làm cho b = a => ans = a - b
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    It is optimal to apply the third operation at most once, because is does not decrease a and always makes b≤a.
+    This means that after we use it, we can only apply the second operation.
+
+    If we don't apply the third operation, the answer is b−a.
+
+    Suppose we do apply it. Before that, we used the first and second operations some number of times,
+    let the resulting values of a and b be a′ and b′ respectively (a≤a′,b≤b′).
+    The answer in this case will be (a′−a)+(b′−b)+((a′ | b′)−b′)+1 = a′+(a′ | b′)+(1−a−b).
+    This is equivalent to minimizing a′+(a′ | b′) , since (1−a−b) is constant.
+
+    To do that, we can iterate a′ from a to b.
+    For a fixed a′ , we have to minimize a′ | b′ , the optimal b′ can be constructed like this:
+
+    Set b′ to zero and iterate over bits from highest to lowest. There are 4 cases:
+
+    If current bit of a′ is 0 and b is 1 , set the current bit of b′ to 1.
+    If current bit of a′ is 0 and b is 0 , set the current bit of b′ to 0.
+    If current bit of a′ is 1 and b is 1 , set the current bit of b′ to 1.
+    If current bit of a′ is 1 and b is 0 , set the current bit of b′ to 1 and stop.
+
+    This works in O(logb) and can also be sped up to O(1) using bit manipulation.
+
+    Time complexity: O(b) or O(blogb)
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

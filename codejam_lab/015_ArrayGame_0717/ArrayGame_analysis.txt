@@ -1,0 +1,28 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, k và mảng a gồm n phần tử
+    mỗi operation: chọn i, j và thêm |a[i] - a[j]| vào  cuối mảng
+    tìm min của a sau k operation
+
+- Constraints: [Important limits]
+    2 <= n <= 2e3
+    1 <= k <= 1e9
+    1 <= a[i] <= 1e18
+- Time/Space: [Required complexity]
+    O(n^2 * log n)
+
+KEY IDEAS:
+- [Key idea 1]
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    k >= 3 => ans = 0
+    k = 1 = > okay min(a[i] - a[j])
+    k = 2 b = a[j] - a[i] for all i, j: 
+binary serach to find a[i] closest with b[j]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
