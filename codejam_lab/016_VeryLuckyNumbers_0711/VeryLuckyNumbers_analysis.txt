@@ -1,0 +1,23 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho a, b
+    số may mắn là số chỉ chứa 4, 7 và là tích của những số đó
+
+    đến số lượng số may mắn trong khoảng [a, b]
+- Constraints: [Important limits]
+    1 <= a <= b <= 10^12
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    Gen tất cả số lucky numbers
+    Gen tất cả số very lucky dựa trên tích của các số lucky numbers <= 1e12
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

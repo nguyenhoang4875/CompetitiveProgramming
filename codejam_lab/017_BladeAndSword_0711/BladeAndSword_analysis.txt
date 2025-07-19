@@ -1,0 +1,29 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho matrix n, m mỗi ô có thể là:
+        . empty có thể đi qua
+        * teleport có thể dịch chuyển tức thời qua port với 1 đơn vị time
+        # tường ko thể đi qua
+    điểm start: P, end: D
+    tìm thời gian đi ngắn nhất khi đi từ P -> D
+    nếu ko thể đi in: impossible
+- Constraints: [Important limits]
+    2 <= n, m <= 200
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    nết có 1 port: xem nó như tường #
+    Có 2 port trở lên:
+    bfs từ 1 điểm tới port gần nhất: có khoảng cách là minDist.
+    Trong bán kính là minDist nếu có >= 2 port thì khoảng cách tới mỗi port là minDist + 1
+    Ngược lại thì tới port đầu tiên là minDist + 2: vì phải qua port khác và đi về
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
