@@ -1,0 +1,27 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    n queue:
+    Mỗi giây:
+        mỗi hàng tăng lên 1 đơn vị
+        M phục vụ q queue và hàng đó = 0
+
+    Mex lơn nhất của các hàng sau n giây
+- Constraints: [Important limits]
+    1 <= n <= 300
+    1 <= a[i][j] <= 1e9
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    tính suf cho mỗi hàng
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    đi từ cột 1 xuống cột n: nễu tổng hiện tại là n - i + 1 => mex + 1
+    nếu mex < n => mex + 1 => cột cuối cùng thì luôn đúng
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
