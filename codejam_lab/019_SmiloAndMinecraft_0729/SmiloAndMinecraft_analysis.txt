@@ -1,0 +1,30 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    matrix: n, m  va k
+    mỗi ô có thể là: empty, vàng(g), đá (#)
+    nổ thì ô vuông có cạnh: 2 *k + 1 bay màu, trung tâm tại vị trí thuốc nổ
+    => vàng ở biên => lụm
+    đếm số vàng tối đa có thể lụm
+
+- Constraints: [Important limits]
+    1 <= n, m, k <= 500
+
+    n * m <= 2.5e5
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    sau khi nổ ô đầu tiên những cục vàng khác chưa bị nổ sẽ lụm được
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    Tính tổng số vàng: tot
+    Tính số vàng ít nhất của việc nổ ô đầu tiên: mn
+        => dùng 2d prefix sum để tính nhanh
+    ans = tot - mn
+
+EDGE CASES:
+- [Special cases to watch for]

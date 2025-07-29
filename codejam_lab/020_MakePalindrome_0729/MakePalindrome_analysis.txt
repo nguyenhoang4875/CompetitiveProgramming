@@ -1,0 +1,34 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    array a size n and k
+    operation:
+        select l, r sao cho r - l + 1 >= k
+        select index i: l <= i <= r, a[i] is k-th smallest number in sub array[l, r], if multiple select any
+        delete a[i], concat other parts
+        => Can make a palindrome
+        empty array is palindrome
+
+- Constraints: [Important limits]
+    1 <= k <= n <= 2e5
+    1 <= a[i] <= n
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    mảng tối thiêu cần ít nhất k - 1 phần tử sau khi xóa.
+    sort(all) x = a[k - 2]: phần tử lớn nhất thứ k - 1
+    xoá phần tử lớn hơn x
+    dùng 2 con trỏ đề xóa những phần tử không giống nhau:
+    if a[l] == a[r]: l++, r--
+    else: if(max(a[l], a[r]) < x) => NO 
+          else if(a[l] == x) l++; else r++;
+               cnt++;
+    Nếu độ dài của mảng sau khi xóa >= k => YES else NO
+
+EDGE CASES:
+- [Special cases to watch for]
