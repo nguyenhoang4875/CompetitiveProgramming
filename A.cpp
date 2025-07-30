@@ -6,6 +6,7 @@ using namespace std;
 #define pb push_back
 #define all(x) (x).begin(), (x).end()
 #define all1(x) (x).begin() + 1, (x).end()
+#define sz(x) static_cast<int>((x).size())
 #define el '\n'
 #define F first
 #define S second
