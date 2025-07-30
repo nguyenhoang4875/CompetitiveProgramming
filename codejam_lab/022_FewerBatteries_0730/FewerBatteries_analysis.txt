@@ -1,0 +1,27 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho: n, m
+    mảng b: có n phần từ: là số lượng pin tại điểm i
+    cho m con đường, mỗi con đường: u, v, w
+    đi từ u -> v hết w đơn vị pin
+    Nếu có thể đi từ 1 -> n thì in ra giá trị pin nhỏ nhất cần mang theo
+    Ngược lại in ra -1
+
+- Constraints: [Important limits]
+    2 <= n <= 2e5
+    0 <= m <= 3e5
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    Binary search for each capacity:
+        Dùng dijkstra đi từ đỉnh 1: đi từ 1 tới n sử dụng pin <= capacity 
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

@@ -1,0 +1,28 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho tree gồn n đỉnh.
+    cặp (u, v) có hướng là tồn tại đường oneway từ u -> v
+    => tree có thể có n căp good pair hay ko
+    NO
+    YES: in ra pair
+    
+- Constraints: [Important limits]
+    1 <= n <= 2e5
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    tìm bậc == 2 của 1 node (x) => YES else NO
+    l, r  là 2 node kề với x:
+    in ra l x, x r
+    dfs(l, l, true) 
+    dfs(r, r, false)
+    true: parent to child, false: child to parent
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
