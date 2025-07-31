@@ -1,0 +1,33 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, k, string s, size n
+    string s chỉ chứa first k lowercase letter
+    cho q queries, mỗi query cho string t.
+    t chỉ chưa first k lowercase letter
+    cần thêm ít nhất bao nhiêu ký tự  (first k letter) để t ko là subsequence của 
+
+- Constraints: [Important limits]
+    1 <= n <= 1e6
+    1 <= k <= 26
+    1 <= q <= 2e5 
+    sum(len(all(t))) <= 1e6
+- Time/Space: [Required complexity]
+    O(n * 26 + sum(len(all(t))))
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    với mỗi ký tự c tìm index của vị trí tiếp theo của c trong s nếu ko có trả về: n + 1
+    => dùng suffix next[i][c]: vị trí tiếp theo của ký tự c tính từ vị trí i
+    gọi f[i] là số ký tự cần thêm vào tại vị trí i để chuỗi t ko là subsequece của s
+    f[i] = min(f[i], f[next[i][c]])
+    int p = 0;
+    for(auto &c: t) p = next[p][c]
+    ans = f[p]
+
+EDGE CASES:
+- [Special cases to watch for]
