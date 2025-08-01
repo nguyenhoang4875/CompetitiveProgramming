@@ -1,0 +1,31 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Give n, need to construct a permutation p1, p2, ..., pn
+    For 1 <= i <= n c[i] = ceil((p1 + p2 + ... pi) / i)
+    among c1, c2, ..., cn the must be at least floor(n/3) - 1 prime numbers
+
+- Constraints: [Important limits]
+    2 <= n <= 1e5
+- Time/Space: [Required complexity]
+    O(n * log n)
+
+KEY IDEAS:
+- [Key idea 1]
+    Lemma (Bertrand's postulate):
+    For each positive integer x , there is a prime p inside the interval [x,2x]
+    https://en.wikipedia.org/wiki/Bertrand%27s_postulate
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    sàng nguyên tố: tìm số nguyên tố từ 2 -> 1e5
+    binary search tìm số nguyên tố  x < n/2
+    xây dựng mảng a sao cho tổng trung bình cộng bằng x:
+    l = x - 1, r = x + 1
+    while(l >= 1 or r <= n) in ra l, r: --l, ++r;
+
+
+EDGE CASES:
+- [Special cases to watch for]
