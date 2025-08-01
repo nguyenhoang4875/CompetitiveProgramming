@@ -1,0 +1,32 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    
+    rizzness của mảng a được tính: For(i, 1, n) ans += i * a[i]
+    
+    q và cho mảng a, ban đầu rỗng 
+    có 3 loại operation:
+    #1: dịch phải mảng a, 1 lần:  [a1, a2, .. an] -> [an, a1, ... a[n -1]]
+    #2: Reverse mảng a:  [a1, a2, .. an] -> [an, a1, ... a[n -1]]
+    #3: thêm k vào cuối mảng a.
+    thực hiện q operatin thuộc 1 trong 3 loại trên
+    sau mỗi lần opration tính ans và in ra
+- Constraints: [Important limits]
+    1 <
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    #1: shift array => sử dụng deque
+    #2: tính ans và reverse ans, khi thực hiện #2 thì swap
+    #3: ans += (n + 1) * k
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    #1: ans -= n * a[n], ans += sum; tùy thuộc vào mảng đang l2r or r2l để lấy phần tử cuối hợp lý.
+    #2: ans = (n + 1) * sum - ans, l2r ^= 1;
+    #3: n++, sum += k, ans += n * k: if(l2r) push_back else push_front
+
+EDGE CASES:
+- [Special cases to watch for]
