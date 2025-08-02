@@ -1,0 +1,34 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho, n, m, T
+    mảng a size n: có n track, run track i hết a[i] time
+    mảng b size m: có m runner start at b[i]
+
+    tại vị trí i, sau khi chạy xong track [i] có thể move qua trái hoặc phải nếu được.
+    => Số lượng track mà best runner hoàn thành full là bao nhiêu
+
+- Constraints: [Important limits]
+    1 <= m <= n <= 3e5
+    1 <= T <= 1e9
+    1 <= a[i] <= 1e9
+    1 <= b[1] < b[2] < ... < b[m] <= n
+- Time/Space: [Required complexity]
+    O(n)
+
+KEY IDEAS:
+- [Key idea 1]
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    Dùng prefix sum để tính nhanh những track phải chạy
+    Chỉ chạy từ i qua trái hoặc qua phải 1 chiều: ko có trường hợp qua trái xong qua phải và ngược lại
+    trái qua phải: 
+    vị trí xuất phải là x => chạy từ x -> i - 1: mỗi track 1 lần vào dồn toàn bộ thời gian cho i
+    phải qua trái: 
+    vị trí xuất phải là x => chạy từ x -> i + 1: mỗi track 1 lần vào dồn toàn bộ thời gian cho i
+
+EDGE CASES:
+- [Special cases to watch for]

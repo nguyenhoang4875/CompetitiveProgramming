@@ -1,0 +1,25 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    array a size n;
+    cout pair (i, j) such as lc(a[i], a[j]) = p * q: p, q is prime number (p can equal q)
+- Constraints: [Important limits]
+    2 <= n <= 2e5
+    2 <= a[i] <= n
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    lcm(a[i], [j]) = a[i] * a[j] / gcd(a[i], a[j])
+    # 1: prime number: cnt[p] * (numPrime - cnt[p])
+    # 2: x = p * q: pair x, p and x, q
+    # 3: x = p * q: pair x, x
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
