@@ -19,4 +19,6 @@
     3. Enable "Whether to run code in Integrated Terminal" option.
 - [Markdown Preview Enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
 
+- [Excalidraw](https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor) for draw
+
 <b>Hope you have fun, have a nice day</b>

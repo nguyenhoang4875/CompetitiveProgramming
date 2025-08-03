@@ -1,0 +1,34 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+- Constraints: [Important limits]
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    # Tag: Greedy, binary search
+    sa = a, sort sa asc 
+    sb = b, sort sb acs 
+    Rep(i, n) p *= pro(min(sa[i], sb[i]))
+    cout << p << without modification
+
+    if o == 1:
+        // tìm phần tử sau cùng mà có sa[pos] = a[x] => để có b[pos] lớn nhất
+        pos = upper_bound(all(sa), a[x]) - sa.begin() - 1;
+        ++a[x];
+        p *= p * modInversion(min(sa[pos], sb[pos]))
+        sa[pos]++;
+        p *= p * modInversion(min(sa[pos], sb[pos]))
+    Tương tự co o == 2
+
+    cal => P => can rearrange array b
+    recalculate P after each operation
+
+EDGE CASES:
+- [Special cases to watch for]
