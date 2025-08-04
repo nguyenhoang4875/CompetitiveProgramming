@@ -1,0 +1,33 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho ma trận 2 * n: mỗi ô là '.' hoặc '#'
+    cho ô hạn gạch kích thước (2 x 1) và (1 x 2)
+    Hỏi: có thể lát kín gạch vào ma trận hay ko?
+    Ko => None
+    Nếu có thì có 1 hay nhiêu cách:
+        1 cách Unique
+        nhiều cách: Multiple
+        
+- Constraints: [Important limits]
+    1 <= n <= 2e5
+  
+- Time/Space: [Required complexity]
+    O(n)
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    Tag: Greedy
+    duyện từ trái qua phải theo hàng:
+        vì chỉ có 2 hàng nên tại mỗi ô thử theo cột, nếu ko được thì thử theo hàng
+    Nếu không thể điền kín gạch => None
+    Tính ps[i]: prefixSum số lượng ô '.' từ cột i trở về trước
+    Nếu có trường hợp tại cột (i và i + 1) có 4 ô là '.' và ps[i - 1] là chẵn => Multiple
+    Else Unique
+
+EDGE CASES:
+- [Special cases to watch for]
