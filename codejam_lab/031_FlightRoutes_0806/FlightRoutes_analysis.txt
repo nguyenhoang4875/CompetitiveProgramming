@@ -1,0 +1,25 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, m, k
+    đồ thị gồm n đỉnh m cạnh
+    mỗi cạnh: u, v, w:  là đường 1 chiều từ u đến v hết w 
+    In ra k khoảng cách ngắn nhất đi từ 1 đến n
+- Constraints: [Important limits]
+     2 <= n <= 2e5; 1 <= m <= 2e5
+     1 <= u, v <= n, 1 <= w <= 1e9
+     1 <= k <= 10
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    Dijkstra từ 1 đến n
+    Tại mỗi điểm u lưu k khoảng cách ngắn nhất từ 1 -> u
+    => Dùng priority_queue
+
+EDGE CASES:
+- [Special cases to watch for]
