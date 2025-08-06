@@ -4,14 +4,16 @@
 using namespace std;
 
 #define pb push_back
-#define all(x) x.begin(), x.end()
-#define sz(a) (int)(a).size()
+#define all(x) (x).begin(), (x).end()
+#define all1(x) (x).begin() + 1, (x).end()
+#define sz(x) static_cast<int>((x).size())
 #define el '\n'
 #define F first
 #define S second
-#define For(i, a, b) for (int i = a; i <= (int)b; i++)
-#define Rof(i, a, b) for (int i = a; i >= (int)b; i--)
-#define Fore(it, x) for (auto it = x.begin(); it != x.end(); ++it)
+#define Rep(i, n) for (int i = 0; i < (int)n; ++i)
+#define For(i, a, b) for (int i = (a); i <= (int)b; ++i)
+#define Rof(i, b, a) for (int i = (b); i >= (int)a; --i)
+#define Fore(i, v) for (auto i = (v).begin(); i != (v).end(); ++i)
 
 using vb = vector<bool>;
 using vvb = vector<vb>;
