@@ -1,0 +1,25 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho maxtrix n * m, mỗi ô là: '.' : ô trống, '#' : tường ko thể đi qua 
+    có S, T: start end
+    => Tìm đường đi ngắn nhất từ S -> T sao cho không đi qua 1 hương 3 lần
+    
+    
+- Constraints: [Important limits]
+ 12 <= n * m <= 2e5
+  3 <= n, m <= 1e4
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    Dijkstra:
+    [d, dir, numDir, x, y]
+    Vì mỗi lần đi là 1 đơn vị => có thể dùng bfs
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
