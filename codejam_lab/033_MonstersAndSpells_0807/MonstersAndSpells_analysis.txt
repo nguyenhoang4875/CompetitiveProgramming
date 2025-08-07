@@ -1,0 +1,41 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho: n, k
+    mảng h: n phần tử
+    mảng k: n phần tử
+    Tính tổng lượng mana ít nhất mà Monocarp cần dùng để tiêu diệt tất cả quái vật.
+    Mỗi quái vật xuất hiện tại một thời điểm xác định và cần một lượng sát thương tối thiểu đúng lúc xuất hiện.
+    Monocarp có thể dùng phép liên tục để tăng sát thương, hoặc bắt đầu lại từ 1 nếu ngắt quãng.
+    Mỗi lần dùng phép sẽ tốn lượng mana bằng sát thương gây ra.
+- Constraints: [Important limits]
+    Có tối đa 10.000 bộ test (t ≤ 10⁴).
+    Mỗi bộ test có tối đa 100 quái vật, tổng số quái vật của tất cả test không vượt quá 10.000.
+    Thời điểm xuất hiện của quái vật tăng dần, mỗi thời điểm từ 1 đến 10⁹.
+    Máu mỗi quái vật từ 1 đến thời điểm xuất hiện của nó (1 ≤ hᵢ ≤ kᵢ ≤ 10⁹).
+    Có thể dùng phép ở bất kỳ giây nào, kể cả khi không có quái vật.
+
+- Time/Space: [Required complexity]
+    O(n)
+
+KEY IDEAS:
+- [Key idea 1]
+    Đi từ phải qua trái nếu có thể cắt để những quái vật có thể đánh bị thì buộc phải cắt.
+    Cắt được khi và chỉ khi: h[i] <= k[i] - k[i - 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    cur_end = n
+    Rof(i, n, 1):
+        if h[i] <= k[i] - k[i - 1] => cắt tại đây
+            len = h[i] + k[cur_end] - k[i]
+            ans += len * (len + 1) / 2
+            cur_end = i - 1;
+        else h[i] = max(h[i - 1], h[i] - (k[i] - k[i-1]))
+
+    cout << ans << e;
+
+
+EDGE CASES:
+- [Special cases to watch for]
