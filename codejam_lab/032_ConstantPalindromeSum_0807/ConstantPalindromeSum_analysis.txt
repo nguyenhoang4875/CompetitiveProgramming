@@ -1,0 +1,38 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho array a size n, k
+    repalce a[i] = [1, k]
+    For(i, 1, n / 2) a[i] + a[n + 1 - i] = x for all i < n / 2
+- Constraints: [Important limits]
+    2 <= n, k <= 2e5
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    Tag: prefix sum
+    It is obvious that if we fix the value of x then there are three cases for the pair of elements:
+        We don't need to change anything in this pair;
+        we can replace one element to fix this pair;
+        we need to replace both elements to fix this pair.
+    The first part can be calculated easily in O(n+k) , we just need to create the array of frequencies cnt,
+    where cntx is the number of such pairs (a[i],a[n−i+1]) that a[i] + a[n−i+1] = x .
+
+    The second part is a bit tricky but still doable in O(n+k).
+    For each pair, let's understand the minimum and the maximum sum we can obtain using at most one replacement.
+    For the i -th pair, all such sums belong to the segment [min(a[i],a[n−i+1]) + 1;max(a[i],a[n−i+1])+k].
+    Let's make +1 on this segment using prefix sums
+    (make +1 in the left border, −1 in the right border plus one and then just compute prefix sums on this array).
+    Let this array be pref Then the value prefx tells the number of such pairs that
+    we need to replace at most one element in this pair to make it sum equals x.
+
+    And the last part can be calculated as n/2−pref[x] . So, for the sum x the answer is (pref[x] − cnt[x])+(n/2−pref[x]) * 2.
+    We just need to take the minimum such value among all possible sums from 2 to 2*k.
+
+EDGE CASES:
+- [Special cases to watch for]
