@@ -14,18 +14,15 @@ using namespace std;
  */
 
 int n, m;
-vector<vector<int>> graph;
+vector<vector<int>> adj;
 vector<int> color;  // -1: unset color, 0: black, 1: white
 bool hasCycle;
 
 bool dfs(int cur, int par, int cl) {
     color[cur] = cl;
-    for (auto& x : graph[cur]) {
+    for (auto& x : adj[cur]) {
         if (color[x] == -1) {
-            bool sub = dfs(x, cur, 1 - cl);
-            if (sub == false) {
-                return false;
-            }
+            if (!dfs(x, cur, 1 - cl)) return false;
         } else if (x != par and color[x] == cl) {
             return false;
         }
@@ -35,14 +32,14 @@ bool dfs(int cur, int par, int cl) {
 
 void solve() {
     cin >> n >> m;
-    graph.clear();
-    graph.resize(n + 1);
+    adj.clear();
+    adj.resize(n + 1);
     color = vector<int>(n + 1, -1);
     while (m--) {
         int u, v;
         cin >> u >> v;
-        graph[u].push_back(v);
-        graph[v].push_back(u);  // remove if directed graph
+        adj[u].push_back(v);
+        adj[v].push_back(u);  // remove if directed graph
     }
     bool ans = true;
     for (int i = 1; i <= n; i++) {
