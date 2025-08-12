@@ -1,0 +1,30 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Let (x, y) be the integer coordinates of a student’s house on a 2D plane. There
+    are 2N students and we want to pair them into N groups. Let di be the distance
+    between the houses of 2 students in group i. Form N groups such that cost = for(i, 1, n)  sum += d[i];
+    is minimized.
+    Output the minimum cost as a floating point number with 2 digits precision in one line
+- Constraints: [Important limits]
+    1 <= n <= 8
+    0 <= x, y <=100 
+
+- Time/Space: [Required complexity]
+    O(2 ^ (2 * n) *n)
+    
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    #Tag: DP bitmask
+    mask ban đầu: má = (1 << (2 * n)) - 1
+    Với mỗi u ta tìm v => cặp (u, v) đi với nhau
+    và tìm tiếp cho những mask còn lại sau khi loại bỏ u và v, mask = mask ^ (1 << u) ^ (1 << v)
+    => lấy kết quả nhỏ nhất sau khi thử hết tất cả trường hợp
+
+EDGE CASES:
+- [Special cases to watch for]
