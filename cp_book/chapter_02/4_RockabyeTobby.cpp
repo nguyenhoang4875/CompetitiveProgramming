@@ -31,31 +31,27 @@ const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
 void solve() {
-    int k;
+    int n, k;
+    cin >> n >> k;
+    map<int, string> m;
+    map<string, int> inter;
 
-    auto merge = [&](vi& a, vi& b) {
-        priority_queue<pii, vii, greater<pii>> q;  // {f, s}: f: val, s: index of b
-        Rep(i, k) q.push({a[i] + b[0], 0});
-        int idx = 0;
-        while (idx < k) {
-            pii cur = q.top();
-            q.pop();
-            int val = cur.F, pos = cur.S;
-            a[idx++] = val;
-            if (pos + 1 < k) q.push({val - b[pos] + b[pos + 1], pos + 1});
-        }
-    };
-
-    while (cin >> k) {
-        vi a(k), b(k);
-        Rep(i, k) cin >> a[i];
-        sort(all(a));
-        For(i, 2, k) {
-            Rep(j, k) cin >> b[j];
-            sort(all(b));
-            merge(a, b);
-        }
-        Rep(i, k) cout << a[i] << " \n"[i == k - 1];
+    priority_queue<pii, vector<pii>, greater<pii>> q;
+    Rep(i, n) {
+        string name;
+        int p;
+        cin >> name >> p;
+        m[i] = name;
+        inter[name] = p;
+        q.push({p, i});
+    }
+    while (k--) {
+        auto cur = q.top();
+        q.pop();
+        int val = cur.F;
+        string name = m[cur.S];
+        cout << val << " " << name << el;
+        q.push({val + inter[name], cur.S});
     }
 }
 
@@ -63,6 +59,10 @@ int32_t main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    solve();
+    int tcs = 1;
+    cin >> tcs;
+    while (tcs--) {
+        solve();
+    }
     return 0;
 }

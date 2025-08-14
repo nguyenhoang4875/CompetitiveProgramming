@@ -31,31 +31,26 @@ const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
 void solve() {
-    int k;
+    vi a(30);
+    a['B' - 'A'] = a['F' - 'A'] = a['P' - 'A'] = a['V' - 'A'] = 1;
+    a['C' - 'A'] = a['G' - 'A'] = a['J' - 'A'] = a['K' - 'A'] = 2;
+    a['Q' - 'A'] = a['S' - 'A'] = a['X' - 'A'] = a['Z' - 'A'] = 2;
+    a['D' - 'A'] = a['T' - 'A'] = 3;
+    a['L' - 'A'] = 4;
+    a['M' - 'A'] = a['N' - 'A'] = 5;
+    a['R' - 'A'] = 6;
 
-    auto merge = [&](vi& a, vi& b) {
-        priority_queue<pii, vii, greater<pii>> q;  // {f, s}: f: val, s: index of b
-        Rep(i, k) q.push({a[i] + b[0], 0});
-        int idx = 0;
-        while (idx < k) {
-            pii cur = q.top();
-            q.pop();
-            int val = cur.F, pos = cur.S;
-            a[idx++] = val;
-            if (pos + 1 < k) q.push({val - b[pos] + b[pos + 1], pos + 1});
+    string s;
+    while (cin >> s) {
+        vi b;
+        for (auto& e : s) {
+            int v = e - 'A';
+            if (b.empty() or b.back() != a[v]) b.pb(a[v]);
         }
-    };
 
-    while (cin >> k) {
-        vi a(k), b(k);
-        Rep(i, k) cin >> a[i];
-        sort(all(a));
-        For(i, 2, k) {
-            Rep(j, k) cin >> b[j];
-            sort(all(b));
-            merge(a, b);
-        }
-        Rep(i, k) cout << a[i] << " \n"[i == k - 1];
+        for (auto& e : b)
+            if (e != 0) cout << e;
+        cout << el;
     }
 }
 

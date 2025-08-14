@@ -31,32 +31,39 @@ const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
 void solve() {
-    int k;
+    int k, n;
+    cin >> k >> n;
+    pii ka;
+    cin >> ka.F >> ka.S;
 
-    auto merge = [&](vi& a, vi& b) {
-        priority_queue<pii, vii, greater<pii>> q;  // {f, s}: f: val, s: index of b
-        Rep(i, k) q.push({a[i] + b[0], 0});
-        int idx = 0;
-        while (idx < k) {
-            pii cur = q.top();
-            q.pop();
-            int val = cur.F, pos = cur.S;
-            a[idx++] = val;
-            if (pos + 1 < k) q.push({val - b[pos] + b[pos + 1], pos + 1});
-        }
-    };
-
-    while (cin >> k) {
-        vi a(k), b(k);
-        Rep(i, k) cin >> a[i];
-        sort(all(a));
-        For(i, 2, k) {
-            Rep(j, k) cin >> b[j];
-            sort(all(b));
-            merge(a, b);
-        }
-        Rep(i, k) cout << a[i] << " \n"[i == k - 1];
+    vii a;
+    a.pb(ka);
+    For(i, 1, n + k - 2) {
+        int y, p;
+        cin >> y >> p;
+        a.pb({y, p});
     }
+    sort(all(a));
+    int m = sz(a);
+    priority_queue<int> q;  // strength
+    Rep(i, k) q.push(a[i].S);
+    int idx = k;
+    int cur_year = a[0].F;
+    while (q.size() >= k) {
+        int cur = q.top();
+        q.pop();
+        if (cur == ka.S) {
+            cout << cur_year << el;
+            return;
+        }
+        if (idx == m) break;
+        cur_year = a[idx].F;
+        while (idx < m and cur_year == a[idx].F) {
+            q.push(a[idx].S);
+            ++idx;
+        }
+    }
+    cout << "unknown" << el;
 }
 
 int32_t main() {

@@ -31,31 +31,28 @@ const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
 void solve() {
-    int k;
-
-    auto merge = [&](vi& a, vi& b) {
-        priority_queue<pii, vii, greater<pii>> q;  // {f, s}: f: val, s: index of b
-        Rep(i, k) q.push({a[i] + b[0], 0});
-        int idx = 0;
-        while (idx < k) {
-            pii cur = q.top();
-            q.pop();
-            int val = cur.F, pos = cur.S;
-            a[idx++] = val;
-            if (pos + 1 < k) q.push({val - b[pos] + b[pos + 1], pos + 1});
+    string s;
+    while (getline(cin, s)) {
+        vi a(60);
+        for (auto &e : s) {
+            if (('A' <= e and e <= 'Z') or ('a' <= e and e <= 'z')) {
+                int v = 0;
+                if (e < 'a') {
+                    v = e - 'A';
+                } else {
+                    v = e - 'a' + 26;
+                }
+                a[v]++;
+            }
         }
-    };
-
-    while (cin >> k) {
-        vi a(k), b(k);
-        Rep(i, k) cin >> a[i];
-        sort(all(a));
-        For(i, 2, k) {
-            Rep(j, k) cin >> b[j];
-            sort(all(b));
-            merge(a, b);
+        int mx = *max_element(all(a));
+        for (int i = 0; i < 52; i++) {
+            if (a[i] == mx) {
+                if (i >= 26) cout << char((i - 26) + 'a');
+                else cout << char(i + 'A');
+            }
         }
-        Rep(i, k) cout << a[i] << " \n"[i == k - 1];
+        cout << " " << mx << el;
     }
 }
 
