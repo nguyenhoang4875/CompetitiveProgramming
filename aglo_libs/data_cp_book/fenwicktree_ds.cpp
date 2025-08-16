@@ -8,7 +8,7 @@ using vi = vector<int>;  // for extra flexibility
 using ll = long long;
 using vll = vector<ll>;
 
-class FenwickTree {  // index 0 is not used: Based index 1 only
+class FenwickTree {  // index 0 is not used: MUST base index 1
    private:
     vll ft;  // internal FT is an array
    public:
