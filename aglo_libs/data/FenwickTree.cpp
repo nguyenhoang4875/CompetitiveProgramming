@@ -13,14 +13,14 @@ struct FenwickTree {
     void update(int i, T val) {
         while (i <= n) {
             t[i] = combine(t[i], val);
-            i += i & (-i);
+            i += (i & (-i));
         }
     }
     T prefixSum(int i) {
         T val = 0;
         while (i > 0) {
             val = combine(val, t[i]);
-            i -= i & -i;
+            i -= (i & (-i));
         }
         return val;
     }
