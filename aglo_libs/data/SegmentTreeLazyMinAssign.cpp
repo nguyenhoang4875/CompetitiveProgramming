@@ -1,3 +1,7 @@
+/**
+ * SegmentTree for Not Accumulate: like min, max, xor, gcd, ...
+ * Update: combine function, INVALID value
+ */
 template <typename T = int>
 struct SegmentTreeLazy {
     int n;
@@ -6,11 +10,7 @@ struct SegmentTreeLazy {
     vector<T> lazyAdd, lazySet;
     vector<bool> hasSet;
 
-    // Configuration for different operations:
-    // For sum: INIT_VAL = 0, INVALID_VAL = 0
-    // For min: INIT_VAL = INF, INVALID_VAL = INF
-    const T INIT_VAL = 0;
-    const T INVALID_VAL = 0;
+    const T INIT_VAL = 0, INVALID_VAL = 2e18;  // for min
 
     SegmentTreeLazy(int _n) {
         n = _n;
@@ -36,22 +36,18 @@ struct SegmentTreeLazy {
             int mid = (tl + tr) / 2;
             build(a, 2 * v, tl, mid);
             build(a, 2 * v + 1, mid + 1, tr);
-            combine(v);
+            t[v] = combine(t[2 * v], t[2 * v + 1]);
         }
     }
 
-    void combine(int v) {
-        // For sum operation
-        t[v] = t[2 * v] + t[2 * v + 1];
-        // For min operation: t[v] = min(t[2*v], t[2*v+1]);
+    T combine(T v1, T v2) {
+        return min(v1, v2);  // for min
     }
 
     void push(int v, int tl, int tr) {
         // Set operation has higher priority than add
         if (hasSet[v]) {
-            // For sum: multiply by segment length
-            t[v] = lazySet[v] * (tr - tl + 1);
-            // For min: t[v] = lazySet[v];
+            t[v] = lazySet[v];  // for min
 
             if (tl != tr) {
                 // Propagate set tag to children
@@ -64,9 +60,7 @@ struct SegmentTreeLazy {
         }
 
         if (lazyAdd[v] != 0) {
-            // For sum: multiply by segment length
-            t[v] += lazyAdd[v] * (tr - tl + 1);
-            // For min: t[v] += lazyAdd[v];
+            t[v] += lazyAdd[v];  // for min
 
             if (tl != tr) {
                 // Propagate add tag to children
@@ -77,23 +71,23 @@ struct SegmentTreeLazy {
         }
     }
 
-    void updateAdd(int v, int tl, int tr, int l, int r, T val) {
+    void update(int v, int tl, int tr, int l, int r, T delta) {
         push(v, tl, tr);
         if (l > r) return;
         if (l == tl && r == tr) {
-            lazyAdd[v] += val;
+            lazyAdd[v] += delta;
             push(v, tl, tr);
             return;
         }
         int mid = (tl + tr) / 2;
         push(2 * v, tl, mid);
         push(2 * v + 1, mid + 1, tr);
-        updateAdd(2 * v, tl, mid, l, min(r, mid), val);
-        updateAdd(2 * v + 1, mid + 1, tr, max(l, mid + 1), r, val);
-        combine(v);
+        update(2 * v, tl, mid, l, min(r, mid), delta);
+        update(2 * v + 1, mid + 1, tr, max(l, mid + 1), r, delta);
+        t[v] = combine(t[2 * v], t[2 * v + 1]);
     }
 
-    void updateSet(int v, int tl, int tr, int l, int r, T val) {
+    void assign(int v, int tl, int tr, int l, int r, T val) {
         push(v, tl, tr);
         if (l > r) return;
         if (l == tl && r == tr) {
@@ -106,9 +100,9 @@ struct SegmentTreeLazy {
         int mid = (tl + tr) / 2;
         push(2 * v, tl, mid);
         push(2 * v + 1, mid + 1, tr);
-        updateSet(2 * v, tl, mid, l, min(r, mid), val);
-        updateSet(2 * v + 1, mid + 1, tr, max(l, mid + 1), r, val);
-        combine(v);
+        assign(2 * v, tl, mid, l, min(r, mid), val);
+        assign(2 * v + 1, mid + 1, tr, max(l, mid + 1), r, val);
+        t[v] = combine(t[2 * v], t[2 * v + 1]);
     }
 
     T query(int v, int tl, int tr, int l, int r) {
@@ -121,15 +115,13 @@ struct SegmentTreeLazy {
         T left = query(2 * v, tl, mid, l, min(r, mid));
         T right = query(2 * v + 1, mid + 1, tr, max(l, mid + 1), r);
 
-        // For sum operation
-        return left + right;
-        // For min operation: return min(left, right);
+        return combine(left, right);
     }
 
     // Public interface (all 1-indexed)
-    void updateAdd(int l, int r, T val) { updateAdd(1, 1, n, l, r, val); }
+    void update(int l, int r, T delta) { update(1, 1, n, l, r, delta); }
 
-    void updateSet(int l, int r, T val) { updateSet(1, 1, n, l, r, val); }
+    void assign(int l, int r, T val) { assign(1, 1, n, l, r, val); }
 
     T query(int l, int r) { return query(1, 1, n, l, r); }
 };

@@ -2,6 +2,7 @@ template <typename T = int>
 struct SegmentTree {
     int n;
     vector<T> t;
+    const long long INVALID = 2e18;
     SegmentTree(int _n) {
         n = _n;
         t.resize(4 * n);
@@ -22,18 +23,16 @@ struct SegmentTree {
         }
     }
 
-    // !!! Important update combine and base case for INVALID
-    T combine(T v1, T v2) { return v1 + v2; }
+    T combine(T v1, T v2) { return min(v1, v2); }
 
     T query(int v, int tl, int tr, int l, int r) {
-        if (l > tr || r < tl) return 0;  // INVALID
+        if (l > tr || r < tl) return INVALID;
         if (l <= tl && tr <= r) return t[v];
 
         int tm = (tl + tr) / 2;
         return combine(query(2 * v, tl, tm, l, r), query(2 * v + 1, tm + 1, tr, l, r));
     }
 
-    // update a[pos] += delta and also update the value of t array
     void update(int v, int tl, int tr, int pos, T delta) {
         if (tl == tr) t[v] += delta;
         else {

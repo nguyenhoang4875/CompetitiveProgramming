@@ -23,7 +23,8 @@ struct SegmentTreeLazy {
             build(a, 2 * v, tl, mid);
             build(a, 2 * v + 1, mid + 1, tr);
             t[v] = combine(t[2 * v], t[2 * v + 1]);
-        }    }
+        }
+    }
 
     // !!! Important update base case for INVALID and push function
     T combine(T v1, T v2) { return v1 + v2; }

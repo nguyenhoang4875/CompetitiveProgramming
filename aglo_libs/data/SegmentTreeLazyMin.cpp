@@ -3,16 +3,17 @@
  * Update: combine function, INVALID value
  */
 template <typename T = int>
-struct SegmentTreeNotAcc {
+struct SegmentTreeLazy {
     int n;
     vector<T> t, lazy;
+    const long long INVALID = 2e18;
 
-    SegmentTreeNotAcc(int _n) {
+    SegmentTreeLazy(int _n) {
         n = _n;
         t.resize(4 * n, 0);
         lazy.resize(4 * n, 0);
     }
-    SegmentTreeNotAcc(const vector<T>& a, int _n) {
+    SegmentTreeLazy(const vector<T>& a, int _n) {
         n = _n;
         t.resize(4 * n, 0);
         lazy.resize(4 * n, 0);
@@ -51,20 +52,20 @@ struct SegmentTreeNotAcc {
     T query(int v, int tl, int tr, int l, int r) {
         push(v, tl, tr);
 
-        if (tl > r || tr < l) return 2e18;     // No overlap INVALID: for min = oo, max = -oo
+        if (tl > r || tr < l) return INVALID;  // No overlap INVALID: for min = oo, max = -oo
         if (l <= tl and tr <= r) return t[v];  // Complete overlap
 
         int mid = (tl + tr) / 2;
         return combine(query(2 * v, tl, mid, l, r), query(2 * v + 1, mid + 1, tr, l, r));
     }
 
-    void update(int v, int tl, int tr, int l, int r, T val) {
+    void update(int v, int tl, int tr, int l, int r, T delta) {
         // No overlap
         if (tl > r || tr < l) return;
 
         // Complete overlap - ONLY update lazy
         if (l <= tl and tr <= r) {
-            lazy[v] += val;
+            lazy[v] += delta;
             push(v, tl, tr);  // Apply immediately
             return;
         }
@@ -72,8 +73,8 @@ struct SegmentTreeNotAcc {
         // Partial overlap - push first
         push(v, tl, tr);
         int mid = (tl + tr) / 2;
-        update(2 * v, tl, mid, l, r, val);
-        update(2 * v + 1, mid + 1, tr, l, r, val);
+        update(2 * v, tl, mid, l, r, delta);
+        update(2 * v + 1, mid + 1, tr, l, r, delta);
 
         // Update current node from children (must push children first)
         push(2 * v, tl, mid);
@@ -82,5 +83,5 @@ struct SegmentTreeNotAcc {
     }
 
     T query(int l, int r) { return query(1, 1, n, l, r); }
-    void update(int l, int r, T val) { update(1, 1, n, l, r, val); }
+    void update(int l, int r, T delta) { update(1, 1, n, l, r, delta); }
 };
