@@ -10,9 +10,9 @@ struct FenwickTree {
     // custom this function if needed (ACCUMULATE ONLY)
     T combine(T x, T y) { return x + y; }
 
-    void update(int i, T val) {
+    void update(int i, T delta) {
         while (i <= n) {
-            t[i] = combine(t[i], val);
+            t[i] = combine(t[i], delta);
             i += (i & (-i));
         }
     }
@@ -26,5 +26,5 @@ struct FenwickTree {
     }
     T query(int l, int r) { return prefixSum(r) - prefixSum(l - 1); }
 
-    void set(int i, T val) { update(i, val - query(i, i)); }
+    void assign(int i, T val) { update(i, val - query(i, i)); }
 };
