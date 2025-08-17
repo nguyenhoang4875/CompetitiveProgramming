@@ -1,0 +1,30 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho bàn cờ vua 8 * 8: và 1 vị trí quân hậu cố định.
+    Kiểm tra và in ra số cách sắp xếp 8 quân không ăn nhau.
+
+- Constraints: [Important limits]
+    n = 8
+- Time/Space: [Required complexity]
+    O(8!) nhưng có tỉa sẽ nhanh hơn
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    Tag: backtracking:
+    row[i] là hàng của con hậu tại cột thứ i
+    cột đi từ: 1 -> 8 (or 0 -> 7 based index 0)
+    kiểm tra hàng: row[pre_col] != r
+    kiểm tra đường chéo: xét 2 ô (r1, c1), (r2, c2);
+        đường chéo chính: r++, c++ => r2 - r1 == c2 - c1 (1)
+        đường chéo phụ: r++, c-- => r2 - r1 = c1 - c2 (2)
+    từ (1) và (2) => 2 điểm cùng nằm trên 1 đường chéo: abs(r2 - r1) == abs(c2 - c1)
+
+    backtracking: gen toàn bộ khả năng, nếu c == 8 và row[y] == x thì in ra
+
+EDGE CASES:
+- [Special cases to watch for]
