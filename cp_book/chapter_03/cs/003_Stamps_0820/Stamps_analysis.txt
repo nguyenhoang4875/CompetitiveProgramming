@@ -1,0 +1,69 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho h và k: tìm n(h, k) là giá trị lớn nhất mà có thể tạo liên tiếp từ 1 -> n
+    h: số lượng đồng tiền tối đa 
+    k: số lượng số lượng mệnh giá tối đa 
+
+- Constraints: [Important limits]
+    h > 0, k > 0
+    h + k <= 9
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    phải có mệnh giá = 1 để có thể tạo giá 1$:
+    dn là mảng chứa các mệnh giá: dn.push_back(1)
+    cur_max là giá trị liên tiếp lớn nhất mà sử dụng tối đa k đồng tiền và mệnh giá trong mảng d
+
+    int n = 0; // giá trị tối đa mà có thể tạo từ 1 -> n
+    vi best; // dãy các mệnh giá nhỏ nhất có thể tạo ra n
+
+    find_cur_max với mảng dn sử dụng tối đa h đồng.
+
+    auto find_cur_max = [&](vi &dn) {
+        vi f(1, 0);  // f[i]: số đồng tiền tiền cần dùng ít nhất để tạo được giá trị i
+
+        int s = 1;
+        while (true) {
+            f.push_back(oo);
+            for (auto &e : dn) {
+                if (s < e) break;
+                f[s] = min(f[s], f[s - e] + 1);
+            }
+            if (f[s] > h) break; // h: h: số lượng đồng tiền tối đa 
+            ++s;
+        }
+        return s - 1;
+    };
+
+    gọi pos = dn.size();
+    nếu pos < k thì thêm 1 mệnh giá trong khoảng: dn.back() + 1, cur_max + 1
+    nếu pos == k: cập nhật kết quả tốt nhất, nếu kết quả giống nhau thì chọn cái nào có phần tử nhỏ hơn
+
+    function<void(int, vi &)> dfs = [&](int pos, vi &dn) {
+        int cur_max = find_cur_max(dn);
+        if (pos == k) {
+            if (n < cur_max or (n == cur_max and dn < best)) {
+                n = cur_max;
+                best = dn;
+            }
+            return;
+        }
+        int next_last = dn.back() + 1;
+        for (int val = next_last; val <= cur_max + 1; val++) {
+            dn.push_back(val);
+            dfs(pos + 1, dn);
+            dn.pop_back();
+        }
+    };
+    
+
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
