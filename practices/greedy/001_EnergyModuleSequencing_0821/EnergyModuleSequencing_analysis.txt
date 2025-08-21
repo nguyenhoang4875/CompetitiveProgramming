@@ -1,0 +1,39 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho E, N:
+    L1 l1, .... l[L1]
+    L2 l1, .... l[L2]
+    ...
+    Ln l1, .... l[Ln]
+
+    At each step, she is allowed to activate the leftmost inactive module from any chain that still has remaining modules. 
+    She is not allowed to skip over inactive modules.
+    => prefix sum
+
+   Find the maximum final energy that can be achieved after a valid sequence of activations.
+   the E will not be negative in any case
+
+
+- Constraints: [Important limits]
+    1 <= N <= 1e5
+    0 <= E <= 1e9
+    sum(all(L)) <= 1e5
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    chỉ được lấy phần tử sau khi mà phần tử trước đó đã lấy:
+    priority_queue: max_heap: {min_ps, i, ps} : min_ps là giá trị nhỏ nhất để mà e + min_ps >= 0 thì đi được tới i
+    dùng queue để thêm vào những thằng đầu tiên của mỗi hàng:
+    lấy từ queue ra: nếu min_ps + e >= 0 thì e += min_ps
+    cho tới khi không lấy được nữa:
+    những thằng mà đã đi được rồi thì thêm vào queue:
+    cứ thế cho đến khi không có được lấy ra từ queue thỏa mãn.
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
