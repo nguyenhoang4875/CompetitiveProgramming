@@ -1,0 +1,41 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho m: tìm Next(2, 3) = n sao cho: n = 2^ i * 3 ^j (i, j >= 0) và n >= m 
+    n là số lớn hơn gần nhất của m thỏa mãn
+
+- Constraints: [Important limits]
+    1 <= m  <= 2^31
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    gen những số có số là 2 ^ i * 3 * j;
+    có bao nhiêu số ?  không quá nhiều: vì tăng theo cấp số nhân
+    vi a;// chứa những số là lũy thừa của 2 và lũy thừa của 3
+
+    function<void(int, int)> f = [&](int v, int p) {
+        if (p > oo) return;
+        a.pb(p);
+        f(v, p * v);
+    };
+
+    gen mảng b dựa vào những phần tử từ mảng a:
+    function<void(int, int)> dfs = [&](int x, int pos) {
+        if (x > oo) return;
+        b.push_back(x);
+        for (int i = pos; i < n; i++) {
+            if (x > oo / a[i]) break;
+            dfs(x * a[i], i);
+        }
+    };
+
+    Binary search để tìm kết quả
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
