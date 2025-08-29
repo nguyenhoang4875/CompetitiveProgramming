@@ -1,0 +1,40 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+Trong một vùng núi có khu vực hình chữ nhật N×M ô đất
+Tính chất đặc biệt:
+    Đi từ Tây → Đông: độ cao không giảm (non-descending)
+    Đi từ Bắc → Nam: độ cao không giảm (non-descending)
+Yêu cầu:
+    Công ty rượu vang muốn thuê đất để trồng nho
+    Mỗi loại nho chỉ phát triển trong khoảng độ cao [L, R]
+    Vùng đất thuê phải:
+        Hình vuông liền kề
+        Tất cả ô đất có độ cao trong khoảng [L, R]
+
+Input:
+    Nhiều test cases, kết thúc khi n = m = 0
+    Ma trận N×M chứa độ cao các ô đất
+    Q queries, mỗi query gồm L, R
+Output:
+    Với mỗi query [L, R]: in ra kích thước cạnh lớn nhất của hình vuông thỏa mãn
+    In "-" sau mỗi test case
+- Constraints: [Important limits]
+    N, M ≤ 500 (grid size)
+    Q ≤ 10⁴ (số queries)
+    Heights: 0 ≤ Hi,j ≤ 10⁵
+    Tính chất: Hi-1,j ≤ Hi,j và Hi,j-1 ≤ Hi,j (non-descending)
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    Binary search để tìm kích thước hình vuông lớn nhất
+    Lower bound để tìm vị trí đầu tiên ≥ L trong mỗi hàng
+    Kiểm tra hình vuông có góc dưới-phải ≤ R
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
