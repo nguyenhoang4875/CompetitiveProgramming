@@ -1,0 +1,42 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, m: n số lượng producers, m: số lượng customer
+        a[1], a[2], ..., a[n]
+        b[1], b[2], ..., b[m]
+    producer i hài lòng khi số tiền >= a[i]
+    customer i hài lòng khi số tiền <= a[i]
+
+    => Tìm giá sao cho số lượng ko hài lòng là ít nhất, nếu giống nhau lấy giá thấp nhất.
+    print: price cnt
+
+- Constraints: [Important limits]
+    0 <= n, m <= 1e4
+    1 <= a[i], b[i] <= 1e8
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    binary search
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+    a.push_back(0);
+    sort(all(a));
+    sort(all(b));
+
+    int price = 0, cnt = n + m;
+    for (auto &e : a) {
+        int ca = a.end() - upper_bound(all(a), e);    // count product > e
+        int cb = lower_bound(all(b), e) - b.begin();  // count customer < e
+        if (cnt > ca + cb) {
+            cnt = ca + cb;
+            price = e;
+        }
+    }
+    cout << price << " " << cnt << el;
+
+EDGE CASES:
+- [Special cases to watch for]
