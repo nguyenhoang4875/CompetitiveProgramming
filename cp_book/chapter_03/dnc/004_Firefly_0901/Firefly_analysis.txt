@@ -1,0 +1,25 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, h: n chẵn là số vật cản, h là chiều cao
+    a[1], a[2], ..., a[n]: i lẻ là hứng dưới lên, chẵn trên xuống
+    Tìm số lượng ý vật cản ít nhất trên đường thẳng và số level đạt được ít nhất đó.
+- Constraints: [Important limits]
+    2 <= n <=2e5
+    2 <= h <= 5e5
+    1 <= a[i] <= h 
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    them le => a, chan b
+    sort a, b
+    moi level co bao nhieu vat can
+    lay it nhat
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
