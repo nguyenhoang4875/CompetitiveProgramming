@@ -1,0 +1,26 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, m, k:
+    n mảnh đất hình tròn bán kính r[i]
+    m, k là ngôi nhà, m là số nhà tròn có bán kính r[i]  và k ngôi nhà hình vuông có cạnh s[i]
+
+    => số lượng ngôi nhà tối đa có thể đặt được trên n mảnh đất
+- Constraints: [Important limits]
+    1 <= n, m, k, r[i], s[i] <= 100
+- Time/Space: [Required complexity]
+    O(n)
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    #TAG: Greedy, matching
+    convert hình vuông thành hình tròn với r = s / sqrt(2)
+    sắp xếp mảnh đất và nhà tăng dần
+    Mỗi ngôi nhà tìm mảnh đất phù hợp (một mảnh đất chỉ được tối đa 1 ngôi nhà)
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

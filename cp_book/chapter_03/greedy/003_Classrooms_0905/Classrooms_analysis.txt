@@ -1,0 +1,27 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, k: số hoạt động và số lớp
+    mỗi hoạt động: s, f
+
+    => có nhiều nhất bao nhiêu hoạt động có thể diễn ra
+    1 lớp tại 1 thời điểm chỉ diễn ra tối đa 1 hoạt động
+- Constraints: [Important limits]
+     1 <= k <= n <= 2e5
+     1 <= s <= f <= 1e9
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    Sort hoạt động theo thời gian kết thúc tăng dần
+    multiset<int, greater<int>> st = {0 ,0, 0 ...} // k phần tử 
+    mỗi i chọn trong lấy ra start và lấy trong set ra cái gần nhất, nếu ko có thì cnt++;
+    ans = n - cnt
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

@@ -1,0 +1,30 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+  cho L, G: L độ dài cần bao phủ, G là số lượng mỗi trạm xăng
+  G dòng tiếp theo: x, r  (với x là tọa độ của trạm xăng, r là bán kính mà nó có thể bao phủ)
+
+  => Tìm số trạm xăng tối đa mà sau khi xóa thì đoạn [0, L] vẫn được bao phủ
+- Constraints: [Important limits]
+    1 <= L <= 1e8
+    1 <= G <= 1e4
+    0 < r <= L
+- Time/Space: [Required complexity]
+    O(n)
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    TAG: Tham lam
+    biến đổi mỗi trạm xăng thành độ phủ [x - r, x + r] lưu trong mảng a
+    sort a tăng dần theo l
+    ban đầu cur = 0;
+    tìm best_i = -1 vị trí hiện tại là cur, nếu cur >= a[i].F, lưu max_r = a[i].S, best_i = i;
+    if best_i == -1 => NO
+    else cứ thế cho đến khi ko đi được hoặc độ phủ >= L
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

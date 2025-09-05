@@ -1,0 +1,26 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, m:
+    a[i]: length of task
+    b[i]: leghth of time to do the task 
+    => matching task and time: 1 vs 1 
+    Tìm số task tối đa có thể hoàn thành
+- Constraints: [Important limits]
+    1 <= n ,m <= 2e5
+    1e5 <= a[i], b[i] < 2e5
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    TAG: tham lam
+    sort(all(a));
+    sort(all(b));
+    dùng two pointer để matching a[i] vs b[j]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
