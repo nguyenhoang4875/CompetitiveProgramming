@@ -1,0 +1,19 @@
+PROBLEM SUMMARY:
+
+Task:
+    Chọn số đoạn ít nhất từ các [L[i], R[i]] để phủ hoàn toàn [0, M];
+    in các đoạn chọn L tăng dần, hoặc 0 nếu không thể.
+   
+Constraints:
+    1 <= M <= 5000
+    |L[i]|, |R[i]| <= 50000
+
+Time/Space: 
+    O(n log n)
+
+KEY IDEAS:
+    Greedy:
+        Sắp xếp mảng các đoạn tăng dần theo L
+        Tại mỗi bước, trong các đoạn có L[i] <= cur chọn đoạn có R[i] lớn nhất => cur = R[i]
+        Lặp lại cho tới hết mảng hoặc ko chọn được vị trí thỏa mãn
+       
