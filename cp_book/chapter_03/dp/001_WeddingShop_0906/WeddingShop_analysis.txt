@@ -1,0 +1,44 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho M, C: buget và số loại quần áo
+    C: dòng tiếp theo là k và k giá tiền cho mỗi loại quần áo
+
+    Chọn mỗi loài quần áo 1 mệnh giá sao cho tống tiền lớn nhất ko vượt quá buget.
+    nếu ko có in ra no solution
+
+- Constraints: [Important limits]
+    1 <= M <= 200
+    1 <= C <= 20
+    1 <= k <= 20
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    TAG: dp
+    state: buget và số loai quần áo dã pick M * C = 4000
+    Mỗi loại quần áo có k mệnh giá: 
+
+    memo[C + 1][M + 1]; // memo[i][j] số tiền tối đa mua được i-th first items và dùng ngân sách j 
+    memset(memo, -1, sizeof(memo));
+
+    function<int(int, int)> f = [&](int idx, int b) {
+        if (b < 0) return (int)-1e9;
+        if (idx == C) return M - b;
+
+        int &ans = memo[idx][b];
+        if (ans != -1) return ans;
+
+        for (int k = 1; k <= price[idx][0]; ++k) {
+            ans = max(ans, f(idx + 1, b - price[idx][k]));
+        }
+        return ans;
+    };
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

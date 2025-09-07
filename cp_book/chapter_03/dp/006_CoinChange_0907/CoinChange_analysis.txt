@@ -1,0 +1,76 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Given a target amount V cents and a list of denominations for n coins, i.e., we
+    have coinValue[i] (in cents, positive integers) for coin types i 2 [0..n-1], what is the
+    minimum number of coins that we must use to represent V ? Assume that we have unlimited
+    supply of coins of any type and 1 <= n <= 1000; 1 <= V <= 10 000
+- Constraints: [Important limits]
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    # Count way:
+    int ways(int type, int value) {
+        if (value == 0) return 1;                      // one way, use nothing
+        if ((value < 0) || (type == N)) return 0;      // invalid or done
+        int &ans = memo[type][value];
+        if (ans != -1) return ans;                     // was computed before
+        return ans = ways(type+1, value) +             // ignore this type
+                    ways(type, value-coinValue[type]);// one more of this type
+    }
+
+    Bottom up:
+    int cntWay(vector<int> &a, int t) {
+        int n = a.size();
+        vector<int> f(t + 1, 0);
+        f[0] = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = a[i]; j <= t; j++) {
+                f[j] += f[j - a[i]];
+            }
+        }
+        return f[t];
+    }
+
+    # Min coins:
+    int dp(int type, int value) {
+        if (value == 0) return 0;        // 0 coins needed to make 0
+        if (type == N) return INF;      // no types left -> impossible
+        int &ans = memo[type][value];
+        if (ans != -1) return ans;
+
+        // Option 1: ignore this coin type
+        int res = dp(type + 1, value);
+
+        // Option 2: use one coin of this type (if possible)
+        if (value >= coinValue[type]) {
+            int take = dp(type, value - coinValue[type]);
+            if (take != INF) res = min(res, take + 1);
+        }
+
+        return ans = res;
+    }
+
+    Or: Bottom up
+
+    int minCoin(vector<int> &a, int t) {
+        int n = a.size();
+        vector<int> f(t + 1, oo);
+        f[0] = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = a[i]; j <= t; j++) {
+                if (f[j - a[i]] != oo) f[j] = min(f[j], f[j - a[i]] + 1);
+            }
+        }
+        return f[t];
+    }
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

@@ -1,0 +1,33 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n items, each item: value v[i] and weight w[i];
+    cho G: number people, each people can carry nw[i] weight
+
+    Max value theat G people can carry
+
+
+- Constraints: [Important limits]
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    Knapsach for each people based on thier can carry
+
+    // for each people
+    vvi f(n + 1, vi(s + 1));
+    For(i, 1, n) {
+        For(j, 1, s) {
+            f[i][j] = max(f[i][j], f[i - 1][j]); // not take
+            if(j >= w[i]) f[i][j] = max(f[i][j], f[i - 1][j - w[i]] + v[i]); // take
+        }
+    }
+    ans += f[n][s];
+    
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

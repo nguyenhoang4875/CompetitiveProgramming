@@ -1,0 +1,30 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Give n: and array n elements
+    Find maximum subarray sum
+- Constraints: [Important limits]
+    1 <= n <= 2e5
+- Time/Space: [Required complexity]
+    O(n)
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    Kadane's algorithm
+
+    int n = a.size();
+    int sum = 0, ans = 0;
+    for (int i = 0; i < n; i++) {
+        sum += a[i];
+        ans = max(ans, sum);
+        if (sum < 0) sum = 0;
+    }
+    return ans;
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

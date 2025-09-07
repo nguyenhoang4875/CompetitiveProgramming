@@ -1,0 +1,67 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Given n, and array n elements
+    Find the longest increasing subsequence (no need contigous)
+
+- Constraints: [Important limits]
+    1 <= n <= 1e4 for (n ^ 2)
+    1 <= n <= 2e5 for (n log n)
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    DP: 
+    // top down:
+    vector<int> a;
+    vector<int> memo;
+    int lis(int i) {
+        if (i == 0)  return 1;
+        int &ans = memo[i];
+        if(ans != -1) return ans;
+        ans = 1;
+        for(int j = 0; j < i; j++) {
+            if(a[j] < a[i]) ans = max(ans, lis(j) + 1);
+        }
+        return ans;
+    }
+
+    int ans = 1;
+    for(int i = 0; i < n; i++) ans = max(ans, lis(i));
+    return ans;
+
+    // bottom up
+    vector<int> f(n, 1);
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j <= i; j++) {
+            if(a[j] < a[i]) f[i] = max(f[i], f[j] + 1);
+        }
+    }
+
+    int ans = 0;
+    for(int i = 0; i < n; i++) ans = max(ans, f[i]);
+    return ans;
+
+
+    Greedy:
+
+    vector<int> ans = {a[0]};
+
+    for (int i = 1; i < n; i++) {
+        if(a[i] > ans.back()) {
+            ans.push_back(a[i]);
+        } else {
+            int idx = lower_bound(ans.begin(), ans.end(), a[i]) - ans.begin();
+            ans[idx] = a[i];
+        }
+        
+    }
+    return ans.size();
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
