@@ -1,0 +1,54 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Given a number N, how many ways can K numbers less than N add up to N?
+    x[1] + x[2] + ... + x[k] = N
+- Constraints: [Important limits]
+    1 <= K, N <= 100
+    0 <= x[i] <= N
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    #TAG: DP
+    Base case: k = 1 => ans = 1
+    f(n, k) += f(n - $x, k - 1) ($x in [0, n])
+
+
+    Buttom up
+    vvi f1(110, vi(110));
+
+    for (int i = 0; i <= 100; i++) f1[i][1] = 1;
+
+    for (int j = 1; j < 100; j++) {
+        for (int i = 0; i <= 100; i++) {
+            for (int split = 0; split <= 100 - i; split++) {
+                f1[i + split][j + 1] += f1[i][j];
+                f1[i + split][j + 1] %= mod;
+            }
+        }
+    }
+
+    return f[n][k]
+
+    Top down
+    function<int(int, int)> f = [&](int n, int k) {
+        if (k == 1) return 1;
+        int &ans = memo[k][n];
+        if (ans != -1) return ans;
+
+        ans = 0;
+        for (int u = 0; u <= n; u++) {
+            ans = (ans + f(n - u, k - 1)) % mod;
+        }
+        return ans;
+    };
+
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

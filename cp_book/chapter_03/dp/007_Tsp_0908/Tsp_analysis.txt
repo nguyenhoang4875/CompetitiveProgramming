@@ -1,0 +1,75 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Given n cities and their pairwise distances in the form of a symmetric
+    matrix dist of size n x n, compute the minimum cost of making a tour that starts from
+    any city s, goes through all the other n − 1 cities exactly once, and finally returns to the
+    starting city s
+- Constraints: [Important limits]
+    1 <= n <= 19
+- Time/Space: [Required complexity]
+    O(n ^ 2 * 2 ^ n)
+
+KEY IDEAS:
+- [Key idea 1]
+    Dp: Bottom up
+    
+    int tspBu(vector<vector<int>>& dist) {
+        int n = dist.size();
+
+        vector<vector<int>> f(n + 1, vector<int>(1LL << n, oo));
+        f[0][1] = 0;  // base case visited vertex 0 with mask 1
+        // mask: bit 1 visited, 0: unvisited
+        for (int mask = 1; mask < (1LL << n); ++mask) {
+            if (!(mask & 1)) continue;  // not contain 0 vertex
+
+            for (int u = 0; u < n; u++) {
+                if (!((mask >> u) & 1)) continue; // u not visited in this mask
+                if (f[u][mask] == oo) continue;
+                for (int v = 0; v < n; v++) {
+                    if ((mask >> v) & 1) continue; // v already visited
+                    int new_mask = mask ^ (1LL << v);
+                    f[v][new_mask] = min(f[v][new_mask], dist[u][v] + f[u][mask]);
+                }
+            }
+        }
+
+        int ans = oo;
+        for (int i = 1; i < n; i++) {
+            ans = min(ans, f[i][(1LL << n) - 1] + dist[i][0]);
+        }
+        return ans;
+    }
+
+
+    Dp: Top down 
+    vvi dist(n, vi(n)); // compute dist
+    vvi memo(n, vi((1LL << (n - 1)), -1));
+
+    // mask bit 0 visited, 1: unvisited
+
+    function<int(int, int)> tspTd = [&](int u, int mask) {
+        if (mask == 0) return dist[u][0];
+
+        int& ans = memo[u][mask];
+        if (ans != -1) return ans;
+
+        ans = oo;
+        int m = mask;
+        while (m) {
+            int p2 = LSOne(m);
+            int v = __builtin_ctz(p2) + 1;  // get pos for 1
+            ans = min(ans, dist[u][v] + tspTd(v, mask ^ p2));
+            m -= p2;
+        }
+        return ans;
+    };
+
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
