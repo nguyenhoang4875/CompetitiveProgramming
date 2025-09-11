@@ -1,0 +1,65 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Given a stick length l and n cuts to be make to the stick
+    The cost of a cut is determined by the length of the stick to be cut.
+    Find a cutting sequence so that the overall cost is minimized.
+- Constraints: [Important limits]
+    1 <= l <= 10000
+    1 <= n <= 50
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    #Tag: Dp
+    
+    let cut(left, right) where left, right is index of the current stick
+    add left = 0 and right = n + 1;
+    
+    base case: cut(i - 1, i) = 0 for i in [1, n + 1] // do not need to cut further
+    cut(left, right) = min(cut(left, i) + cut(i, right) + a[right] - a[left])
+
+    ans = cut(0, n + 1)
+
+    Bottom up: O(n^3)
+
+    int cutBu(vector<int>& a) {
+        int n = a.size();
+        vector<vector<int>> f(n + 1, vector<int>(n + 1, oo));
+        for (int i = 1; i < n; i++) f[i - 1][i] = 0;
+
+        for (int l = n - 1; l >= 0; --l) {
+            for (int r = l; r < n; ++r) {
+                for (int i = l + 1; i < r; ++i) {
+                    f[l][r] = min(f[l][r], f[l][i] + f[i][r] + a[r] - a[l]);
+                }
+            }
+        }
+        return f[0][n - 1];
+    }
+
+
+    Top down: O(n^3)
+
+    vector<vector<int>> memo(n + 1, vector<int>(n + 1, -1));
+
+    function<int(int, int)> cutTd = [&](int l, int r) {
+        if (l + 1 == r) return 0;  // can not cutting
+
+        int& ans = memo[l][r];
+        if (ans != -1) return memo[l][r];
+
+        ans = oo;
+        for (int i = l + 1; i < r; ++i) {
+            ans = min(ans, cutTd(l, i) + cutTd(i, r) + a[r] - a[l]);
+        }
+        return ans;
+    };    
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
