@@ -1,0 +1,19 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho matrix n * m mỗi ô là 0, 1
+    cho k: Tìm giá trị lớn nhất của hình vuông có cạnh (k - 2) * (k - 2)
+- Constraints: [Important limits]
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    2D prefix sum
+    
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

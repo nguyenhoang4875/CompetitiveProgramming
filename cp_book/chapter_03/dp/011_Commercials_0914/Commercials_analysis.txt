@@ -1,0 +1,18 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, p: và a[1], a[2], ... a[2];
+    Find max = max sum subsequence - len(subsequence) * p
+- Constraints: [Important limits]
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    1d sum subsequence
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

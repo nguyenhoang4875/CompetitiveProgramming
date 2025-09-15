@@ -30,23 +30,6 @@ using vii = vector<pii>;
 const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
-// O(n log n)
-int lis(vector<int>& a) {
-    int n = a.size();
-    vector<int> ans = {a[0]};
-
-    for (int i = 1; i < n; i++) {
-        if (a[i] > ans.back()) {
-            ans.push_back(a[i]);
-        } else {
-            int idx = lower_bound(ans.begin(), ans.end(), a[i]) - ans.begin();
-            ans[idx] = a[i];
-        }
-    }
-    return ans.size();
-}
-
-// O(n log n) // long non decreasing subsequence
 int lnds(vector<int>& a) {
     int n = a.size();
     vector<int> ans = {a[0]};
@@ -62,41 +45,23 @@ int lnds(vector<int>& a) {
     return ans.size();
 }
 
-// O(n ^ 2)
-int lisBu(vector<int>& a) {
-    int n = a.size();
-    vector<int> f(n, 1);
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j <= i; j++) {
-            if (a[j] < a[i]) f[i] = max(f[i], f[j] + 1);
-        }
-    }
-
-    int ans = 0;
-    for (int i = 0; i < n; i++) ans = max(ans, f[i]);
-    return ans;
-}
-
-vector<int> a, memo;
-
-// O(n ^ 2)
-int lisTd(int i) {
-    if (i == 0) return 1;
-    int& ans = memo[i];
-    if (ans != -1) return ans;
-    ans = 1;
-    for (int j = 0; j < i; j++) {
-        if (a[j] < a[i]) ans = max(ans, lisTd(j) + 1);
-    }
-    return ans;
-}
-
 void solve() {
-    int n;
-    cin >> n;
-    vi a(n);
-    Rep(i, n) cin >> a[i];
-    cout << lis(a) << el;
+    while (true) {
+        int n;
+        cin >> n;
+        if (!n) {
+            cout << '*' << el;
+            return;
+        }
+        vii a(n);
+        Rep(i, n) cin >> a[i].F >> a[i].S;
+
+        sort(all(a));
+        vi b(n);
+        Rep(i, n) b[i] = a[i].S;
+
+        cout << lnds(b) << el;
+    }
 }
 
 int32_t main() {

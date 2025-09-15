@@ -30,23 +30,32 @@ using vii = vector<pii>;
 const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
-int maxRangeSum(vector<int>& a) {
+int max1dRangeProduct(vector<int>& a) {
     int n = a.size();
-    int sum = 0, ans = a[0];
-    for (int i = 0; i < n; i++) {
-        sum += a[i];
-        ans = max(ans, sum);
-        if (sum < 0) sum = 0;
+    int cur_min = a[0], cur_max = a[0];  // min, max end at i-th
+    int ans = a[0];
+
+    for (int i = 1; i < n; i++) {
+        int x = a[i];
+        if (x < 0) swap(cur_min, cur_max);
+        cur_max = max(x, cur_max * x);
+        cur_min = min(x, cur_min * x);
+        ans = max(ans, cur_max);
     }
     return ans;
 }
 
 void solve() {
-    int n;
-    cin >> n;
-    vi a(n);
-    Rep(i, n) cin >> a[i];
-    cout << maxRangeSum(a) << el;
+    int x;
+    vi a;
+    while (cin >> x) {
+        if (x == -999999) {
+            cout << max1dRangeProduct(a) << el;
+            a.clear();
+        } else {
+            a.pb(x);
+        }
+    }
 }
 
 int32_t main() {

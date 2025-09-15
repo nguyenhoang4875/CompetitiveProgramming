@@ -1,0 +1,24 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho N blocks
+    each block: l, m
+    block (l, m) can tile up on (l1, m1) if l >= l1 and m >= m1
+    Find tallest tiling blocks 
+- Constraints: [Important limits]
+    1 <= n <= 1e4
+    1 <= l[i], m[i] <= 100
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    sort(all(a)); // asc by l
+    Long non decreasing by r[i]
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

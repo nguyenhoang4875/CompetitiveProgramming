@@ -42,10 +42,13 @@ int maxRangeSum(vector<int>& a) {
 }
 
 void solve() {
-    int n;
-    cin >> n;
+    int n, p;
+    cin >> n >> p;
     vi a(n);
-    Rep(i, n) cin >> a[i];
+    Rep(i, n) {
+        cin >> a[i];
+        a[i] -= p;
+    }
     cout << maxRangeSum(a) << el;
 }
 

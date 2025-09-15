@@ -30,23 +30,36 @@ using vii = vector<pii>;
 const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
-int maxRangeSum(vector<int>& a) {
-    int n = a.size();
-    int sum = 0, ans = a[0];
-    for (int i = 0; i < n; i++) {
-        sum += a[i];
-        ans = max(ans, sum);
-        if (sum < 0) sum = 0;
-    }
-    return ans;
-}
-
 void solve() {
-    int n;
-    cin >> n;
-    vi a(n);
-    Rep(i, n) cin >> a[i];
-    cout << maxRangeSum(a) << el;
+    vi a;
+    int x;
+    while (cin >> x) a.pb(x);
+
+    int n = a.size();
+    vi f(n, oo);
+    vi pos(n, -1), pre_pos(n, -1);
+    int len = 0;
+
+    for (int i = 0; i < n; i++) {
+        int e = a[i];
+        int idx = lower_bound(all(f), e) - f.begin();
+        f[idx] = e;
+        pos[idx] = i;
+        if (idx > 0) pre_pos[i] = pos[idx - 1];
+        if (idx + 1 > len) len = idx + 1;
+    }
+
+    vi ans;
+    int last_idx = pos[len - 1];
+    while (last_idx != -1) {
+        ans.push_back(a[last_idx]);
+        last_idx = pre_pos[last_idx];
+    }
+    reverse(all(ans));
+
+    cout << len << el;
+    cout << "-" << el;
+    for (auto &e : ans) cout << e << el;
 }
 
 int32_t main() {

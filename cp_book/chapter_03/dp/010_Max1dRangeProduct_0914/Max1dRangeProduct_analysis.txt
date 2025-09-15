@@ -1,0 +1,41 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n: a[1], a[2], ... a[n]
+    Find max max subsequence product
+
+- Constraints: [Important limits]
+    1 <= n <= 1e3
+    abs(a[i]) <= 1e6
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    Tag: Dp
+
+    int max1dRangeProduct(vector<int>& a) {
+        int n = a.size();
+        int cur_min = a[0], cur_max = a[0];  // min, max end at i-th
+        int ans = a[0];
+
+        for (int i = 1; i < n; i++) {
+            int x = a[i];
+            if (x < 0) swap(cur_min, cur_max); // flip sign
+            cur_max = max(x, cur_max * x);
+            cur_min = min(x, cur_min * x);
+            ans = max(ans, cur_max);
+        }
+        return ans;
+    }
+
+    abs(a[i] <= 1e6) => consider overflow by use: BigInteger or cpp_int
+    #include <boost/multiprecision/cpp_int.hpp>
+    using boost::multiprecision::cpp_int;
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

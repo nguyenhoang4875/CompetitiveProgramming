@@ -1,0 +1,50 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho n
+    n dòng, mỗi dòng: m, p (m: number minute count from opening, p: profit)
+    mỗi phút trôi qua tốn 0.08$ phí duy trì 
+    Tính lợi nhuận cao nhất cho 1 khoảng thời gian để mở cửa hàng
+
+
+- Constraints: [Important limits]
+    1 <= n <= 1000
+    0 <= m <= 1439
+    -100 <= p <= 100
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    Use Max 1d Range Sum with condition
+
+        double C = 0.08;
+
+        double best = 0.0, sum = -oo;
+        int l = 0, al = 0, r = 0, len = n + 1, pret = 0;
+        for (auto& [m, p] : a) {
+            double at_cur = p - C;
+            sum += p - (m - pret) * C;
+            if (at_cur >= sum) {
+                l = m;
+                sum = at_cur;
+            }
+            if (sum > best or (sum == best and m - l < len)) {
+                best = sum;
+                al = l;
+                r = m;
+                len = r - al;
+            }
+            pret = m;
+        }
+        cout << fixed << setprecision(2);
+        if (best == 0.0) cout << "no profit" << el;
+        else cout << best << " " << al << " " << r << el;
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
