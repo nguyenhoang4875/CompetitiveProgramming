@@ -30,14 +30,10 @@ using vii = vector<pii>;
 const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
-void solve() {
-    vi a;
-    int x;
-    while (cin >> x) a.pb(x);
-
+vector<int> lisPrintLast(vector<int>& a) {
     int n = a.size();
-    vi f(n, oo);
-    vi pos(n, -1), pre_pos(n, -1);
+    vector<int> f(n, oo);
+    vector<int> pos(n, -1), pre_pos(n, -1);
     int len = 0;
 
     for (int i = 0; i < n; i++) {
@@ -49,17 +45,24 @@ void solve() {
         if (idx + 1 > len) len = idx + 1;
     }
 
-    vi ans;
+    vector<int> ans;
     int last_idx = pos[len - 1];
     while (last_idx != -1) {
         ans.push_back(a[last_idx]);
         last_idx = pre_pos[last_idx];
     }
     reverse(all(ans));
+    return ans;
+}
 
-    cout << len << el;
+void solve() {
+    vi a;
+    int x;
+    while (cin >> x) a.pb(x);
+    vi ans = lisPrintLast(a);
+    cout << sz(ans) << el;
     cout << "-" << el;
-    for (auto &e : ans) cout << e << el;
+    for (auto& e : ans) cout << e << el;
 }
 
 int32_t main() {

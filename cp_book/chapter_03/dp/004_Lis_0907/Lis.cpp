@@ -30,7 +30,7 @@ using vii = vector<pii>;
 const long long oo = 2e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
-// O(n log n)
+// O(n log n) // longest increasing subsequence
 int lis(vector<int>& a) {
     int n = a.size();
     vector<int> ans = {a[0]};
@@ -46,7 +46,7 @@ int lis(vector<int>& a) {
     return ans.size();
 }
 
-// O(n log n) // long non decreasing subsequence
+// O(n log n) // longest non decreasing subsequence
 int lnds(vector<int>& a) {
     int n = a.size();
     vector<int> ans = {a[0]};
@@ -60,6 +60,64 @@ int lnds(vector<int>& a) {
         }
     }
     return ans.size();
+}
+
+// O(n log n) // longest decreasing subsequence
+int lds(vector<int>& a) {
+    int n = a.size();
+    vector<int> ans = {a[0]};
+
+    for (int i = 1; i < n; i++) {
+        if (a[i] < ans.back()) {
+            ans.push_back(a[i]);
+        } else {
+            int idx = lower_bound(ans.begin(), ans.end(), a[i], greater<int>()) - ans.begin();
+            ans[idx] = a[i];
+        }
+    }
+    return ans.size();
+}
+
+// O(n log n) // longest non increasing subsequence
+int lnis(vector<int>& a) {
+    int n = a.size();
+    vector<int> ans = {a[0]};
+
+    for (int i = 1; i < n; i++) {
+        if (a[i] <= ans.back()) {
+            ans.push_back(a[i]);
+        } else {
+            int idx = upper_bound(ans.begin(), ans.end(), a[i], greater<int>()) - ans.begin();
+            ans[idx] = a[i];
+        }
+    }
+    return ans.size();
+}
+
+// O(n log n) print last occurred of longest increasing subsequence
+vector<int> lisPrintLast(vector<int>& a) {
+    int n = a.size();
+    vector<int> f(n, oo);
+    vector<int> pos(n, -1), pre_pos(n, -1);
+    int len = 0;
+
+    for (int i = 0; i < n; i++) {
+        int e = a[i];
+        int idx = lower_bound(all(f), e) - f.begin();
+        f[idx] = e;
+        pos[idx] = i;
+        if (idx > 0) pre_pos[i] = pos[idx - 1];
+        if (idx + 1 > len) len = idx + 1;
+    }
+
+    vector<int> ans;
+    int last_idx = pos[len - 1];
+    while (last_idx != -1) {
+        ans.push_back(a[last_idx]);
+        last_idx = pre_pos[last_idx];
+    }
+    reverse(all(ans));
+    return ans;
 }
 
 // O(n ^ 2)
