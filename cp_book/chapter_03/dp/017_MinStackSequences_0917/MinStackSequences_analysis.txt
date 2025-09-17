@@ -1,0 +1,39 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho n: và mảng a gồn n cặp (l[i], m[i])
+    #1 (>): 2 cặp (l, m) và (l1, m1) có thể chồng lên nhau khi l > l1 và m > m1
+    #2 (>=): 2 cặp (l, m) và (l1, m1) có thể chồng lên nhau khi l >= l1 và m >= m1
+
+    Đến số chồng(stack) ít nhất để có thể xếp n cặp
+  
+- Constraints: [Important limits]
+    1 <= n <= 2e5
+    1 <= l[i], m[i] <= 1e9
+- Time/Space: [Required complexity]
+    O(n log n)
+
+
+Problem #1: Với l > l1 và m > m1 
+KEY IDEAS:
+    - sort a theo l tăng dần, nếu l bằng nhau thì m giảm dần
+    - cho a[0].S đỉnh của chồng đầu tiên
+    - với mỗi a[i].S tìm đống nào có đỉnh bé hơn gần nhất để thêm a[i].S vào, nếu ko có thì tạo đống mới
+        chain: sequences increasing decreasing => anti chain: longest non increasing sequences (Dilworth's theorem)
+
+    => ans = size of longest non increasing sequences
+
+Problem #2: Với l >= l1 và m >= m1 
+KEY IDEAS:
+    - sort a theo l tăng dần, nếu l bằng nhau thì m tăng dần
+    - cho a[0].S đỉnh của chồng đầu tiên
+    - với mỗi a[i].S tìm đống nào có đỉnh bé hơn hoặc bằng gần nhất để thêm a[i].S vào, nếu ko có thì tạo đống mới
+        chain: sequences non decreasing => anti chain: longest decreasing sequences (Dilworth's theorem)
+
+    => ans = size of longest decreasing sequences
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
