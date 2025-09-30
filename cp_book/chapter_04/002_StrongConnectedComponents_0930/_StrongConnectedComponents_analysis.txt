@@ -1,0 +1,57 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho một đồ thị có hướng ( G = (V, E) ), trong đó ( V ) là tập các đỉnh
+    và ( E ) là tập các cạnh có hướng. Một thành phần liên thông mạnh 
+    (Strongly Connected Component - SCC) là một tập con các đỉnh sao cho với mọi cặp đỉnh ( u, v ) trong tập này 
+    luôn tồn tại đường đi có hướng từ ( u ) đến ( v ) và từ ( v ) đến ( u ).
+
+    Cho đồ thị có hướng ( G ), hãy tìm tất cả các thành phần liên thông mạnh (SCC)
+    của đồ thị này, tức là phân hoạch tập đỉnh ( V ) thành các tập con sao cho mỗi
+    tập con là một SCC.
+
+    Đếm số thành phần liên thông mạnh(SCC)
+    Liệt kê các SCC của đồ thị (mỗi SCC là một tập các đỉnh).
+- Constraints: [Important limits]
+    
+- Time/Space: [Required complexity]
+
+Kosaraju Algorithm:
+
+    KEY IDEAS:
+    - Một SCC là tập các đỉnh mà từ bất kỳ đỉnh nào cũng đi được đến mọi đỉnh còn lại trong tập đó (theo hướng cạnh).
+    - Có thể tìm SCC bằng cách duyệt đồ thị hai lần: một lần trên đồ thị gốc để lấy thứ tự kết thúc (post-order),
+      một lần trên đồ thị đảo ngược theo thứ tự này.
+
+    APPROACH:
+    - Sử dụng thuật toán Kosaraju gồm 2 lượt DFS:
+        1. DFS trên đồ thị gốc để lấy thứ tự kết thúc (order): post order
+        2. DFS trên đồ thị đảo ngược, theo thứ tự ngược lại của order để gom các SCC.
+    - Đếm số SCC bằng số lần bắt đầu DFS ở lượt thứ hai.
+    - Có thể liệt kê các SCC bằng cách lưu lại các đỉnh được duyệt trong mỗi lần DFS ở lượt 2.
+    
+    EDGE CASES:
+    - Đồ thị rỗng (không có cạnh hoặc đỉnh).
+    - Đồ thị chỉ có một đỉnh.
+    - Đồ thị đã là SCC duy nhất (mỗi đỉnh nối với mọi đỉnh khác).
+    - Đồ thị có nhiều SCC rời rạc.
+
+Tarjan Algorithm
+    KEY IDEAS:
+        - Gán cho mỗi đỉnh u hai giá trị:
+            - tin[u] là thời điểm đầu tiên thăm u trong DFS
+            - low[u] (low-link) là thời điểm nhỏ nhất có thể quay lại được từ u (kể cả qua các cạnh ngược).
+        - Nếu low[u] == tin[u], u là gốc của một SCC; các đỉnh trên stack từ u trở lên tạo thành một SCC.
+
+    APPROACH:
+        - Sử dụng một lượt DFS, gán tin[u] và low[u] cho mỗi đỉnh u, đẩy u vào stack.
+        - Với mỗi cạnh (u, v):
+            + Nếu v chưa được thăm, gọi đệ quy tarjan(v).
+            + Nếu v đang ở trên stack, cập nhật low[u] = min(low[u], low[v]).
+        - Khi low[u] == tin[u], lấy các đỉnh từ stack ra cho đến khi gặp u, đó là một SCC.
+
+    EDGE CASES:
+        - Đồ thị có nhiều cạnh song song hoặc tự khép kín (self-loop).
+        - Đồ thị có các đỉnh cô lập (không có cạnh vào/ra).
+        - Đồ thị là chu trình đơn hoặc nhiều chu trình lồng nhau.
+        - Đồ thị có các SCC lồng nhau hoặc chỉ gồm một đỉnh.
+        - Đồ thị có số lượng đỉnh/cạnh lớn (kiểm tra tràn stack hoặc hiệu năng).
