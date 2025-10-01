@@ -1,0 +1,34 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho một bản đồ đường đi (đồ thị vô hướng) với chi phí phá hoại gắn với mỗi giao lộ (đỉnh) và mỗi con đường (cạnh),
+    hãy phá hoại một giao lộ hoặc một con đường sao cho mạng lưới đường bị chia cắt (bị ngắt kết nối) với chi phí nhỏ nhất.
+    Đây là bài toán tìm điểm khớp (Articulation Point) có chi phí nhỏ nhất 
+    hoặc cầu (Bridge) có chi phí nhỏ nhất trong một đồ thị vô hướng (bản đồ đường đi).
+
+    Điểm khớp: là một đỉnh mà khi loại bỏ nó (và các cạnh nối với nó) sẽ làm đồ thị bị ngắt kết nối.
+     Đồ thị không có điểm khớp gọi là đồ thị hai liên thông (Biconnected).
+    Cầu: là một cạnh mà khi loại bỏ nó sẽ làm đồ thị bị ngắt kết nối. Hai khái niệm này thường được định nghĩa cho đồ thị vô hướng.
+- Constraints: [Important limits]
+    O(V + E)
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+    Sử dụng duyệt DFS để gán giá trị thời gian khám phá và giá trị thấp nhất có thể tới cho mỗi đỉnh.
+    Xác định điểm khớp và cầu bằng thuật toán Tarjan trong quá trình DFS.
+
+APPROACH:
+- Algorithm or method: Tarjan's algorithm for finding articulation points and bridges.
+- Main steps:
+    1. Chạy DFS từ mỗi đỉnh chưa được thăm.
+    2. Với mỗi đỉnh:
+        - tin: Theo dõi thời gian khám phá
+        - low: low-link tổ tiên thấp nhất có thể tới.
+    3. Nếu một đỉnh con không thể tới tổ tiên của đỉnh hiện tại, đánh dấu là điểm khớp hoặc cầu.
+        if (low[v] >= tin[u]) arts[u] = 1; // điểm khớp
+        if (low[v] > tin[u]) bridges.push_back({u, v}); // cầu
+    4. Xử lý đặc biệt cho đỉnh gốc (là điểm khớp nếu có >1 con).
+
+EDGE CASES:
+- Đồ thị không liên thông (chạy DFS từ mỗi thành phần).
+- Nhiều cạnh giữa hai đỉnh hoặc cạnh tự nối (cần xử lý hoặc bỏ qua).
+- Đỉnh gốc chỉ có một con thì không phải là điểm khớp.
