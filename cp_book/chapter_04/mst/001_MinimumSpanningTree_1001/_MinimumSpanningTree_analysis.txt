@@ -1,0 +1,64 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho graph gồm N đỉnh và M cạnh
+    mỗi cạnh gồm: u, v, w có cạnh u v với trọng số là w
+    tìm cây khung nhỏ nhất (minimum spanning tree)
+- Constraints: [Important limits]
+    1 <= N <= 1e5
+    N - 1 <= N <= 2e5
+- Time/Space: [Required complexity]
+    O(M * log(N))
+
+KEY IDEAS:
+    - Kruskal: Sắp xếp tất cả các cạnh theo trọng số tăng dần,
+    lần lượt chọn cạnh nhỏ nhất mà không tạo chu trình,
+    sử dụng DSU (Disjoint Set Union) để kiểm tra và hợp nhất các thành phần liên thông.
+
+    - Prim: Luôn chọn cạnh có trọng số nhỏ nhất nối từ tập đỉnh đã chọn đến tập đỉnh chưa chọn,
+    sử dụng min-heap để tối ưu việc chọn cạnh nhỏ nhất
+
+APPROACH:
+    - Kruskal: Sắp xếp tất cả các cạnh, duyệt từng cạnh theo thứ tự tăng dần trọng số,
+    nếu hai đỉnh của cạnh thuộc hai thành phần khác nhau thì thêm cạnh vào cây khung và hợp nhất hai thành phần.
+
+    - Prim: Bắt đầu từ một đỉnh bất kỳ, dùng priority_queue để chọn cạnh nhỏ nhất nối tới đỉnh chưa thuộc cây khung,
+    lặp lại đến khi đủ N-1 cạnh.
+
+EDGE CASES:
+- Đồ thị không liên thông (không thể tạo cây khung).
+- Có nhiều cạnh có cùng trọng số.
+- Đồ thị chỉ có 1 đỉnh hoặc không có cạnh nào.
+
+
+Một số biến thể:
+- Maximum Spanning Tree: 
+    Problem: tìm cây khung lớn nhất
+    Solution: tương tự min nhưng lấy max
+
+- "Minimum" Spanning Subgraph
+    Problem: Một số cạnh đã được cố định, chọn các cạnh còn lại sao cho tạo thành 1 đồ thị liên thông
+        với chi phí (weight) nhỏ nhất, kết quả có thể không phải là tree, hoặc là tree nhưng không phải mst
+    Solution: Chọn trước những cạnh cố định và áp dụng Kruskal hoặc Prim
+
+- Minimum "Spanning Forest"
+    Problem: Chọn mst sao cho thành K thành phần lien thông
+    Solution: Dùng Kruskal hoặc Prim và xóa k - 1 cạnh lớn nhất
+
+- MiniMax (and MaxiMin)
+    Problem: Chọn cạnh nhỏ nhất của cạnh lớn nhất giữa những đường đi có thể từ đỉnh u tời v
+        cost(u, v) của một đường từ i tời j = cạnh lớn nhất của đường đó.
+        minimax(u, v) = min(all(cost(u, v)))
+    Solution: Tìm mst sau đó duyệt theo mst từ u -> v: lấy cạnh có chi phí lớn nhất 
+    Tương tự cho MaxiMin thì tìm Maximum Spanning Tree
+
+- Second Best Spanning Tree (sbst)
+    Problem: Tìm min/max spanning tree tốt thứ 2
+    Solution: Tìm mst: lần lượt remove từng cạnh trong mst và dùng dsu mới để tìm second best spanning tree 
+        Time: O(sort the edges once + find the original MST + find the second best ST) 
+        find the second best ST: vì không phải sắp xếp lại mảng edges nên mỗi đỉnh tốn: O(E) => V đỉnh O(V * E)
+        O(E log V + E + V * E) = O(V * E)
+
+
+
+
+  
