@@ -19,71 +19,61 @@ using namespace std;
  * TC: O(n * m) // n: number of vertices, m: number of edges
  * MC: O(m)
  *
- * Note: based-index: 1
- *
  */
-
-using vb = vector<bool>;
-using vvb = vector<vb>;
-using vi = vector<int>;
-using vvi = vector<vi>;
-using vc = vector<char>;
-using vvc = vector<vc>;
-using pii = pair<int, int>;
 
 //*** START CODING ***//
 const int oo = 1e9;
-int n, m, x;
-struct edge {
-    int a, b, d;  // from: a, to: b, distance: d
-};
-vector<edge> graph[100005];  // max of vertices
-vi dist;
+int n, m, s;
 
-// ********** BELLMAN-FORD ALGORITHM **********//
+vector<vector<pair<int, int>>> adj;
+vector<int> dist;
+
 void bellmanFord(int start) {
-    dist.assign(n + 1, oo);
-    dist[start] = 0;
-    for (int v = 1; v < n; v++) {
-        for (int i = 1; i <= n; i++) {
-            for (auto e : graph[i]) {
-                dist[e.b] = min(dist[e.b], dist[e.a] + e.d);
+    dist.assign(n, oo);
+    dist[s] = 0;
+    for (int i = 0; i < n - 1; ++i) {
+        bool modified = false;
+        for (int u = 0; u < n; ++u) {
+            if (dist[u] == oo) continue;
+            for (auto &[v, w] : adj[u]) {
+                if (dist[u] + w >= dist[v]) continue;
+                dist[v] = dist[u] + w;
+                modified = true;
             }
         }
+        if (!modified) break;
     }
 }
 
-// check is Negative Cycle Bellman-Ford
 bool isNegCycleBellmanFord(int start) {
     bellmanFord(start);
-    for (int v = 1; v < n; v++) {
-        for (int i = 1; i <= n; i++) {
-            for (auto e : graph[i]) {
-                // if we get a shorter path, then there is a cycle
-                if (dist[e.a] != oo && dist[e.a] + e.d < dist[e.b]) {
-                    return true;
-                }
-            }
+    for (int u = 0; u < n; ++u) {
+        if (dist[u] == oo) continue;
+        for (auto &[v, w] : adj[u]) {
+            if (dist[v] > dist[u] + w) return true;
         }
     }
     return false;
 }
 
-void addEdge(int u, int v, int w) {
-    graph[u].push_back({u, v, w});
-    graph[v].push_back({v, u, w});  // if undirected
-}
-
 void solve() {
-    cin >> n >> m;
-    int a, b, d;
+    cin >> n >> m >> s;
+    adj.assign(n, vector<pair<int, int>>());
     while (m--) {
-        cin >> a >> b >> d;
-        addEdge(a, b, d);
+        int u, v, w;
+        cin >> u >> v >> w;
+        // --u, --v; // if base-index 1
+        adj[u].push_back({v, w});
+        // adj[v].push_back({u, w}); // if undirected edge
     }
-    bellmanFord(1);
-    cout << "is Negative Cycle: " << isNegCycleBellmanFord(1) << '\n';
-    cout << dist[n] << endl;
+    bellmanFord(s);
+    bool hasCycle = isNegCycleBellmanFord(s);
+    cout << "Negative Cycle Exist: " << (hasCycle ? "Yes" : "No") << '\n';
+    if (!hasCycle) {
+        for (int u = 0; u < n; ++u) {
+            cout << "SSSP(" << s << " " << u << "): " << dist[u] << '\n';
+        }
+    }
 }
 
 int32_t main() {
