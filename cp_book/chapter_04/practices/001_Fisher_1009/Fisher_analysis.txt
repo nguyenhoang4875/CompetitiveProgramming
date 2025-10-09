@@ -1,0 +1,36 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, t: số đỉnh, t time
+    ma trận time n * n: với time[i][j]: là thời gian đi từ đỉnh i tới j
+    ma trận money n * n: với time[i][j]: là số tiền cần để đi từ đỉnh i tới j
+
+    Tìm số tiền ít nhất để đi từ 1 -> n sao cho không qua thời gian t
+
+- Constraints: [Important limits]
+    n <= 3 <= 50
+    0 <= t < 1000
+
+- Time/Space: [Required complexity]
+    O(n * n * t)
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+    Dp:
+    Bottom up
+    gọi f[i][j] {m, t} : Chi phí nhỏ nhất và thời gian thực tế cần để đi từ cur → n-1 (chợ) khi còn lại t_left đơn vị thời gian.
+    base case: f[n - 1][t] = {0, 0};
+    pii ans = min(f[n - 1][t]) với t >= 0
+
+    // Bottom up: Knapsack problem
+    vvi f(n, vi(t + 1, oo));  // f[i][j]: chi phí nhỏ nhất để đi từ 0 -> i với thời gian đúng là j
+    f[0][0] = 0
+
+ 
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
