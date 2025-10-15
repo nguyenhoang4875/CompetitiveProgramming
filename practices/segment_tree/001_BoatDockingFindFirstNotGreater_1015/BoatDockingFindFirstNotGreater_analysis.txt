@@ -1,0 +1,50 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    n docks p, m boats b
+    boat go left to right: at i-th boat find first b[j] unused that p[i] >= b[j] => a[i] = j
+    if can not find a[i] = 0;
+    find A = a[1] + 2 * a[2] + ... + n * a[n];
+- Constraints: [Important limits]
+    1 <= n, m <= 2e5
+    1 <= p[i], b[i] <= 9e18 (long long)
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+   fill tàu vào bến: tìm bến gần nhất >= tàu chưa dùng cho mỗi tàu từ trái qua phải
+   dùng segment tree min tìm giá trị tàu có index j nhỏ nhất mà bến p[i] >= b[j]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+    Find first index such that b[j] <= p[i]
+    // interactive
+    int find_fist_not_greater(int val) {
+        if (n <= 0) return 0;
+        if (t[1] > val) return 0;
+        int v = 1, tl = 1, tr = n;
+        while (tl != tr) {
+            int tm = (tl + tr) >> 1;
+            if (t[v << 1] <= val) {
+                v = v << 1;
+                tr = tm;
+            } else {
+                v = v << 1 | 1;
+                tl = tm + 1;
+            }
+        }
+        return tl;
+    }
+
+    // recursion
+    int find_rec(int v, int tl, int tr, int x) {
+        if (t[v] > x) return 0;
+        if (tl == tr) return tl;
+        int tm = (tl + tr) >> 1;
+        if (t[v << 1] <= x) return find_rec(v << 1, tl, tm, x);
+        return find_rec((v << 1) | 1, tm + 1, tr, x);
+    }
+
+EDGE CASES:
+- [Special cases to watch for]
