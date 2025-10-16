@@ -1,0 +1,44 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, và matrix (n + 1) * n: mỗi ô là '0' hoặc '1'
+    hàng 0: ở nếu ở cột j-th là '1' thì mega man can kill j-th robot 
+    hàng i: 1 -> n: nếu ở cột j-th là '1' thì vũ khí của robot i có thể kill robot j
+
+    Đến số cách mà megan kill n  hết robot (thứ tự kill)
+
+- Constraints: [Important limits]
+    O(n * (2 ^ n))
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    Dp bitmask:
+    State: 2^n
+    can_kil
+    nếu có thể kill u và u chưa bị kill thì kill u: đánh dấu đã kill
+    nếu kill hết n robot: return 1
+
+    int max_mask = (1LL << n) - 1;
+    vi memo(max_mask + 1, -1);
+
+    function<int(int, int)> f = [&](int mask, int can_kill) {
+        if (memo[mask] != -1) return memo[mask];
+        if (mask == max_mask) return 1LL;
+
+        int ans = 0;
+        Rep(u, n) {
+            if (!getBit(mask, u) and getBit(can_kill, u)) {
+                ans += f(mask | (1LL << u), can_kill | a[u]);
+            }
+        }
+        return memo[mask] = ans;
+    };
+    
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
