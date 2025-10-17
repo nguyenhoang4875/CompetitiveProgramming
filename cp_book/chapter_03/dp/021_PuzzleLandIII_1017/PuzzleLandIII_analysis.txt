@@ -1,0 +1,23 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n vertex, m: edge
+    then n vertext in uppercase [A -> Z]: fist letter: start, last letter: targert
+    m edage: u - v
+    find smallest path from start -> targert in lexicographically lowest one.
+    else print impossible
+
+- Constraints: [Important limits]
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    TSP bitmask:
+        f[new_mask][v] = min(f[new_mask][v], f[mask][u] + rmp[v]);
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
