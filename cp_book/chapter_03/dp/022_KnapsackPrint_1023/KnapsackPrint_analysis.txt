@@ -1,0 +1,50 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho C, n: C: capacity, n: number items
+    each item: v, w: value and weight
+    print the base-index 0 of these items is selected to get maximum value with capacity <= C
+
+- Constraints: [Important limits]
+    1 <= n, C <= 2000
+- Time/Space: [Required complexity]
+    O(n^2)
+
+KEY IDEAS:
+- [Key idea 1]
+    Knapsack problem with tracke back
+
+    vvi f(n + 1, vi(C + 1));
+    vvi take(n + 1, vi(C + 1));
+    for(int i = 1; i <= n; ++i) {
+        for (int c = 1; c <= C; ++c) {
+            auto &[v, w] = a[i];
+            f[i][c] = f[i - 1][c];
+            if(c >= w) {
+                int val = f[i - 1][c - w] + v;
+                if (f[i][c] < val) {
+                    f[i][c] = val;
+                    take[i][c] = 1;
+                }
+            }
+        }
+    }
+
+    // max_value = f[n][C];
+    int c = C; 
+    vi ans;
+    for(int i = n; i >= 1; --i) {
+        if(c > 0 and take[i][c]) {
+            ans.pb(i);
+            c -= a[i].S;
+        }
+    }
+    reverse(all(ans));
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
