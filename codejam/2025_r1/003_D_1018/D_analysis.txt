@@ -1,0 +1,163 @@
+Tổng quan về bài toán
+Trước khi giải thích thuật toán, hãy ôn lại bài toán: Bert bắt đầu từ tầng 0, có N quái vật tại các tầng p_i ≠ 0, mỗi quái vật lấy w_i mana mỗi giờ cho đến khi bị diệt. Bert di chuyển 1 tầng/giờ, diệt quái vật ngay khi đến tầng đó. Có thể teleport một lần từ 0 đến tầng s bất kỳ với chi phí |s|^2 mana (chỉ trước khi bắt đầu diệt). Mục tiêu: minimize tổng mana mất (từ quái vật + teleport).
+Ý tưởng chính của thuật toán
+Thuật toán sử dụng cách tiếp cận tối ưu trên đường thẳng (line), khai thác việc các vị trí p_i là trên một đường thẳng (các tầng). Không dùng DP vì N ≤ 1000 nhưng vấn đề có cấu trúc đặc biệt: thứ tự diệt tối ưu là diệt hết một bên (trái hoặc phải) trước rồi bên kia, tránh zig-zag. Tổng mana mất từ quái vật có thể biểu diễn dưới dạng hàm bậc nhất theo s, cộng với s² thành hàm bậc hai, dễ tìm min O(1).
+Các bước chính:
+
+Chuẩn bị dữ liệu:
+
+Sắp xếp các quái vật theo vị trí p tăng dần (mons vector<pair<ll,ll>> với first = p_i, second = w_i).
+Tính prefix sums:
+
+prefix_S[i]: tổng w của i quái vật đầu tiên (0 đến i-1).
+prefix_P[i]: tổng w_j * p_j của i quái vật đầu tiên.
+
+
+total_W = tổng tất cả w_i, total_P = tổng tất cả w_i * p_i.
+
+
+Xem xét teleport đến khoảng trống (gap):
+
+Lặp j từ 0 đến N: đại diện cho N+1 khoảng (trước mons[0], giữa mons[j-1] và mons[j], sau mons[N-1]).
+Đối với mỗi khoảng [low, high]:
+
+Nếu j=0: low = -10^9, high = mons[0].first - 1 (nếu N>0).
+Nếu j=N: low = mons[N-1].first + 1, high = 10^9.
+Nếu giữa: low = mons[j-1].first + 1, high = mons[j].first - 1.
+Nếu low > high: bỏ qua.
+
+
+Nhóm quái vật: left (0 đến j-1), right (j đến N-1).
+
+S_l = tổng w left, S_r = tổng w right.
+P_l = tổng wp left, P_r = tổng wp right.
+local_W = S_l + S_r (tổng w cần diệt).
+L_min_val = mons[0].first (vị trí nhỏ nhất toàn cục, nhưng thực tế là nhỏ nhất left nếu left tồn tại).
+R_max_val = mons[N-1].first (lớn nhất right nếu right tồn tại).
+
+
+Hai lựa chọn từ s:
+
+Left first (diệt hết left trước, rồi right): mana mất từ quái vật = local_W * s + (P_r - P_l - 2 * L_min_val * S_r).
+
+Lý do: Đối với left (p < s): t_i = s - p_i → sum = S_l * s - P_l.
+Sau khi diệt left, ở vị trí L_min_val, thời gian đã mất T_left = s - L_min_val.
+Sau đó diệt right: t_i = T_left + (p_i - L_min_val) = s + p_i - 2L_min_val → sum = S_r(s - 2*L_min_val) + P_r.
+Tổng: như trên.
+
+
+Right first (diệt hết right trước, rồi left): mana mất = -local_W * s + (P_r - P_l + 2 * R_max_val * S_l).
+
+Tương tự: right t_i = p_i - s → P_r - S_r * s.
+Sau right, ở R_max_val, T_right = R_max_val - s.
+Left: t_i = T_right + (R_max_val - p_i) = 2R_max_val - s - p_i → sum = S_l(2*R_max_val - s) - P_l.
+Tổng: như trên.
+
+
+
+
+Đối với mỗi lựa chọn, tổng cost = s² + B*s + C (hàm bậc hai lồi).
+
+Tìm min trong [low, high]: tính vertex v = -B/2, kiểm tra floor(v), ceil(v), và biên nếu v ngoài khoảng.
+Chỉ nếu có left (can_left = j>0) hoặc có right (can_right = j<N).
+
+
+Lấy min của hai lựa chọn cho khoảng đó.
+
+
+Xem xét teleport đến đúng vị trí quái vật (s = mons[k].first):
+
+Lặp k từ 0 đến N-1.
+Teleport đến s = p_k, diệt quái vật k ngay (t_k = 0, không mất w_k * t).
+Nhóm left: 0 đến k-1, right: k+1 đến N-1.
+
+S_l, S_r, P_l, P_r tương tự, loại trừ k (S_r = total_W - prefix_S[k+1], v.v.).
+
+
+Cost teleport = s*s.
+Mana quái vật: tương tự hai lựa chọn (left first hoặc right first), tính local_W * s + C hoặc -local_W * s + C'.
+Nếu không có left/right, mana quái vật = 0.
+Cập nhật ans với min.
+
+
+Trường hợp không teleport:
+
+Được bao phủ ngầm: khi khoảng chứa s=0, việc min hàm bậc hai sẽ xem xét s=0 (cost 0 + mana mất từ 0).
+Vì p_i ≠ 0, 0 luôn ở khoảng trống nào đó.
+
+
+
+Độ phức tạp
+
+Sắp xếp: O(N log N).
+Prefix sums: O(N).
+Lặp gaps (N+1): mỗi O(1) để tìm min quadratic.
+Lặp positions (N): mỗi O(1).
+Tổng: O(N log N) do sắp xếp, phù hợp N≤1000.
+
+Lý do đúng
+
+Bao quát tất cả vị trí s có thể (khoảng trống + đúng p_i).
+Đối với mỗi s, tính đúng min mana mất bằng cách chọn hướng diệt tối ưu (left/right first).
+Không cần DP vì trên line, công thức đóng cho mana mất.
+
+Code xử lý edge cases như N=0 (nhưng N≥1?), no left/right, khoảng rỗng, và giá trị lớn (ll, LLONG_MAX/2 tránh overflow).
+
+
+
+### Ý tưởng chính của thuật toán
+
+Thuật toán giải quyết bài toán bằng cách tận dụng cấu trúc đường thẳng (line) của các tầng (positions p_i), nơi Bert di chuyển tuyến tính. Mục tiêu là minimize tổng mana mất = chi phí teleport (s²) + mana từ quái vật (sum w_i * t_i). Vì N ≤ 1000, thuật toán chạy O(N log N) do sắp xếp, rất hiệu quả.
+
+#### 1. **Giả định tối ưu**
+- Bert bắt đầu từ s (sau teleport hoặc s=0 nếu không teleport).
+- Từ s, thứ tự diệt tối ưu là: diệt hết một bên (left: tất cả p < s, hoặc right: tất cả p > s) trước, rồi sang bên kia. Không zig-zag giữa left/right vì tốn thời gian hơn.
+- Do đó, chỉ cần xem 2 lựa chọn: **left first** hoặc **right first**.
+- Mana mất từ quái vật có công thức đóng (closed-form): là hàm bậc nhất theo s (B*s + C), cộng s² thành hàm bậc hai lồi (dễ tìm min O(1) trên khoảng).
+
+#### 2. **Chuẩn bị dữ liệu**
+- **Sắp xếp**: Sort monsters theo p tăng dần (O(N log N)).
+- **Prefix sums** (O(N)):
+  - prefix_S[i]: tổng w của i monster đầu (left group).
+  - prefix_P[i]: tổng w * p của i monster đầu.
+- Điều này giúp tính nhanh S_l, S_r, P_l, P_r cho bất kỳ split point j (left có j monster).
+
+#### 3. **Xem xét các vị trí s có thể**
+Vì s có thể là bất kỳ integer (±1e8), không enumerate hết, mà phân loại:
+- **Khoảng trống (gaps)**: N+1 khoảng (trước đầu, giữa p_{j-1} và p_j, sau cuối). s ở đây không trùng p_i, nên không diệt ngay monster nào tại t=0.
+- **Đúng vị trí p_k**: s = p_k, diệt monster k tại t=0 (không mất w_k * t).
+
+#### 4. **Tính cho khoảng trống (gaps)**
+- Lặp j=0 đến N: left = [0..j-1], right = [j..N-1].
+- Xác định [low, high] cho gap (ví dụ: nếu j=0, low=-2e8, high=p0-1; nếu giữa, low=p_{j-1}+1, high=p_j-1).
+- Nếu gap rỗng (low > high), bỏ qua.
+- Tính S_l, S_r, P_l, P_r từ prefix.
+- Hai option:
+  - **Left first**: Mana quái = local_W * s + C, với C = P_r - P_l - 2 * L_min * S_r (L_min = p nhỏ nhất left).
+    - Ý nghĩa: Thời gian diệt left: phụ thuộc s - p_i; sau đó từ L_min sang right: thêm p_i - L_min.
+  - **Right first**: Mana quái = -local_W * s + C', với C' = P_r - P_l + 2 * R_max * S_l (R_max = p lớn nhất right).
+- Tổng cost = s² + B s + C (quadratic lồi).
+- Tìm min trên [low, high]: Tính vertex v = -B/2, eval tại floor/ceil(v) nếu trong khoảng, hoặc biên low/high.
+- Lấy min của 2 option, cập nhật ans.
+
+#### 5. **Tính cho s = p_k (đúng vị trí monster)**
+- Lặp k=0 đến N-1: s = p_k.
+- Diệt monster k tại t=0 (không cộng w_k * t).
+- Left = [0..k-1], right = [k+1..N-1] (loại k ra khỏi S_l, S_r, P_l, P_r).
+- Cost teleport = s².
+- Tương tự tính 2 option (left/right first), nhưng mana quái = B s + C (đã fix s, eval trực tiếp).
+- Nếu không left/right, mana quái=0.
+- Cập nhật ans.
+
+#### 6. **Trường hợp đặc biệt**
+- Không teleport (s=0): Được bao phủ khi 0 nằm trong gap nào đó (vì p_i ≠ 0).
+- Nếu chỉ 1 bên (left/right rỗng): Chỉ 1 option.
+- Giới hạn: Dùng low/high ±2e8 (thay 1e9 để an toàn), ll để tránh overflow.
+
+#### 7. **Tại sao đúng và hiệu quả?**
+- Bao quát tất cả s: Gaps + positions.
+- Mỗi config tính đúng min mana quái nhờ công thức line.
+- Không cần DP vì không có subproblems phức tạp; prefix + enumerate O(N) đủ.
+- Time: O(N log N) sort + O(N) loops, pass N=1e3 dễ dàng.
+
+Thuật toán thông minh ở chỗ biến vấn đề thành tìm min quadratic trên segments, thay vì brute force order (O(N!)). Nếu cần ví dụ cụ thể, tôi có thể minh họa với sample input!
