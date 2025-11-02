@@ -1,0 +1,45 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, mảng c gồn n item mỗi item có: cost = c[i]
+    cho m, và m phần tử total cost: s
+    Chọn các phần tử trong c có thể trùng, sao cho tổng = total cost 
+    Nếu có 1 cách duy nhất: in ra index của các item được chọn tăng dần
+    Nếu có > 1 cách in ra: Ambiguous
+    Nếu ko có cách nào in ra: Impossible
+
+- Constraints: [Important limits]
+    1 <= n <= 100
+    1 <= c[i] <= 1'000
+    1 <= s <= 30'000
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+
+    const int UNR = -1, ABM = -2;
+    vi f(mx + 1, UNR);  // the index of cost: for last selected item with total cost = s
+    f[0] = 0;
+    For(i, 1, n) {
+        int cost = c[i];
+        for (int s = 0; s + cost <= mx; ++s) {  // can select c[i] multiple times
+            int t = s + cost;
+            if (f[s] == ABM) {
+                f[t] = ABM;
+            } else if (f[s] != UNR) {
+                if (f[t] == UNR) {
+                    f[t] = i;
+                } else {
+                    f[t] = ABM;
+                }
+            }
+        }
+    }
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
