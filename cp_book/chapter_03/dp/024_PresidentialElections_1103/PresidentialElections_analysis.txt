@@ -1,0 +1,52 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Có 2 ứng viên C và F
+    Cho S: number states.
+    Each state: D[i](number delegates in win), C[i](voted for C), F[i] (voted for F), U[i] (Undecided)
+    if voted tie => F win
+
+    Print minimum votes that C need to convince to win, else print -1
+    
+- Constraints: [Important limits]
+    
+    1 <= S <= Sum(all(D)) <= 2016
+    0 <= C[i], F[i], U[i] <= 1e9
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    Knapsack
+
+    vvi f(n + 1, vi(SD + 1, oo));
+    // f[i][j]  min voted needed to convince to make C for first i-th state has exactly j-th point
+
+    f[0][0] = 0;  // base case: không xét state nào, 0 delegates
+
+    For(i, 1, n) {
+        // if can not select i-th state
+        For(s, 0, SD) f[i][s] = f[i - 1][s];
+
+        for (int s = SD; s >= D[i]; --s) {
+            if (f[i - 1][s - D[i]] == oo) continue;
+
+            if (C[i] > F[i] + U[i]) {  // already win
+                f[i][s] = min(f[i][s], f[i - 1][s - D[i]]);
+            } else if (C[i] + U[i] > F[i]) {  // can win
+                int tot = C[i] + F[i] + U[i];
+                int need_c = (tot / 2) + 1 - C[i];
+                f[i][s] = min(f[i][s], f[i - 1][s - D[i]] + need_c);
+            }
+        }
+    }
+    
+
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
