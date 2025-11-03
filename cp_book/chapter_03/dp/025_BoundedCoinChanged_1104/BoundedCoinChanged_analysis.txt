@@ -1,0 +1,68 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n: mảng c gồm n phần tử c[i] là giá trị của coin thứ i
+           mảng d gần n phần tử d[i] là số lượng coin của c[i]
+    cho v
+    đếm số cách tạo thành tổng tiền = v sửa dụng coin ở trên
+   
+- Constraints: [Important limits]
+    1 <= n <= 15
+    1 <= d[i] <= 1e5
+    1 <= v <= 1e5
+
+- Time/Space: [Required complexity]
+    O((2 ^ n) * n + n * v)
+
+
+APPROACH:
+- [Algorithm or method]
+    Dp bounded => dp unbounded + inclusion / exclusion
+
+    #1: Tính dp unbounded: f[v] số cách tạo ra tổng v từ các coins có mệnh giá c[i]
+    vi f(v + 1);
+    f[0] = 1; // base case
+    Rep(i, n) {
+        for(int j = c[i]; j <= v; ++j) {
+            f[j] += f[j - c[i]];
+        }
+    }
+
+    #2: Inclusion/exclusion:
+    A[i] = số cách mà x[i] > d[i] (dùng quá giớ hạn của coin thứ i-th)
+    Số cách hợp lệ = Tổng số cách - |A[0] ∪ A[1] ∪ A[2] ∪ ... ∪ A[n]|
+
+    |A[0] ∪ A[1] ∪ A[2] ∪ ... ∪ A[n]| = ∑|A[i]| - ∑|A[i] ∩ A[j]| + ∑|A[i] ∩ A[j] ∩ A[k]|
+                                        + ....+ (-1) ^ (n - 1) |A[0] ∪ A[1] ∪ A[2] ∪ ... ∪ A[n - 1]|
+    
+    Với x[i] > d[i]:
+    x[i] = y[i] + (d[i] + 1) => y[i] >= 0
+    => c[0] * x[0] + c[1] * x[1] + ... + c[n - 1] * x[n - 1] = v
+    => c[0] * y[0] + c[1] * y[i] + ... + c[n - 1] * y[n - 1] = v - For(i, 0, n - 1) (d[i] + 1) * c[i] = dv
+
+    Chuyển về dạng unbounded với y[i] >= 0
+    Tổng quát với
+    dv = v - For(i, 0, n - 1) (d[i] + 1) * c[i]
+    if dv >= 0 số cách vi phạm là f[dv]
+    Tùy vào số phần tử là chẵn/lẻ mà cộng/trừ
+
+    int ans = 0;
+    for (int mask = 0; mask < (1LL << n); ++mask) {
+        int cnt = 0, dv = v;
+        for (int i = 0; i < n; ++i) {
+            if ((mask >> i) & 1) {
+                dv -= (d[i] + 1) * c[i];
+                ++cnt;
+            }
+        }
+        if (dv >= 0) {
+            if (cnt & 1) ans -= f[dv];
+            else ans += f[dv];
+        }
+    }
+    return ans;
+
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
