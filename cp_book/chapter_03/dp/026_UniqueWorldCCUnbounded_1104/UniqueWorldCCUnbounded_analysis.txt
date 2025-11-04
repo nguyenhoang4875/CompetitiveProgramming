@@ -1,0 +1,75 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho tree gồm n đỉnh, m cạnh. mỗi cạnh: u, v, c (cạnh vô hướng u - v hết chi phí c)
+    cho k queries, mỗi query: u, v, cost
+    Ví dụ đường đi từ u -> v: u -> ..... -> x - > v: thì đường đi từ u -> x có thể đi lặp lại.
+    => Tìm đường có số cạnh ngắn nhất đi từ u -> v hết đúng cost chi phí.
+- Constraints: [Important limits]
+    1 <= n <= 50
+    1 <= k <= 20
+    1 <= c, cost <= 1e5
+
+- Time/Space: [Required complexity]
+    O(k * n * max_cost)
+
+APPROACH:
+- [Algorithm or method]
+Với mỗi query: u, v, cost
+    Tìm chi phí ít nhất cho việc đi từ u -> v => simple path on tree = base
+    Lưu cạnh và chi phí đi từ u -> x;
+
+    vb seen(n, false);
+    vi par_node(n, -1), par_edge_cost(n);
+
+    function<void(int, int)> dfs = [&](int u, int t) {
+        seen[u] = true;
+        for (auto& [v, c] : adj[u]) {
+            if (seen[v]) continue;
+            par_node[v] = u;
+            par_edge_cost[v] = c;
+            dfs(v, t);
+        }
+    };
+
+    Get edge_costs:
+    vi edge_costs;
+    int cur = v;
+    while (cur != u) {
+        int p = par_node[cur];
+        int c = par_edge_cost[cur];
+        edge_costs.pb(c);
+        cur = p;
+    }
+    base_edges = edges_costs.size();
+    base = accumulate(all(edge_costs), 0LL);
+    
+    if (cost < base) => No
+    if (cost == base) => Yes + số cạnh đi từ u -> v
+
+    if (cost > base) cost -= base
+    => Kiểm tra xem cost có bằng 2 * t[i] hay ko
+    Có in ra: Yes + số cạnh ít nhất
+    Ko in ra: No
+
+    // need to construct cost = sum 2 * edge_costs[i] with min number of i
+
+    vi f(cost + 1, oo);
+    f[0] = 0;
+    int cn = edge_costs.size();
+    Rep(i, cn) {
+        int dc = 2 * edge_costs[i];
+        for (int t = dc; t <= cost; ++t) {
+            f[t] = min(f[t], f[t - dc] + 1);
+        }
+    }
+    if (f[cost] == oo) {
+        cout << "No" << el;
+    } else {
+        int tot = base_edges + 2 * f[cost];
+        cout << "Yes " << tot << el;
+    }
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
