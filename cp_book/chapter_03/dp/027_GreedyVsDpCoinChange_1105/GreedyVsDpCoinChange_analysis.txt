@@ -1,0 +1,32 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho mảng a, gồm n đồng coin có mệnh giá khác nhau: luôn chứ đồng coin mệnh giá 1
+    Kiểm tra xem với mọi đồng coi thì việc chọn bằng cách tham lam có tối ưu hay ko.
+    Nếu có trường hợp tham lam không tối ưu => non-canonical
+    Nếu tất cả trường hợp tham lam tối ưu => canonical
+
+- Constraints: [Important limits]
+    2 <= n <= 100
+    1 <= a[i] <= 1e6;
+    mảng a được sắp xếp tăng dần và ko trùng nhau
+
+- Time/Space: [Required complexity]
+    O(n * (a[n - 1] + a[n - 2]))
+
+APPROACH:
+- [Algorithm or method]
+    Ta cần tìm số lượng đồng có tổng là x với cách greedy và dp
+    giả sử x là số tiền nhỏ nhất mà greedy(x) > opt(x);
+    gọi y < x thì: greedy(x) > opt(x)
+    nếu x >= a[n - 1] + a[n - 2] => x = q * c[n] + r;
+    vì r < x nên greedy(x) = q + opt(r);
+    Bằng phép trao đổi có thể thay 1 đồng a[n - 1]: opt(x) >= q + opt(r)
+    => greedy(x) <= opt(x)
+    => x < a[n - 1] + a[n - 2]
+
+    => Thử hết các giá trị trên miền [2, a[n - 1] + a[n - 2] - 1] bằng 2 cách.
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

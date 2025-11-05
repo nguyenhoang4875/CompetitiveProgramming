@@ -1,0 +1,37 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho price: p
+    cho n, và mảng n phần tử: a[i]
+
+    Tìm số lượng phần tử ít nhất mà >= price
+    in ra tổng đó và số lượng coin cần dùng
+
+- Constraints: [Important limits]
+    0 <= p <= 1e4
+    1 <= n <= 100
+    1 <= a[i] <= 1e4
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    dp coin change
+    tìm giá trị >= p mà có thể tạo thành được => lấy ra số coin ít nhất.
+    mỗi coin chỉ chọn 1 lần:
+
+    vi f(sum + 1, oo);
+    f[0] = 0;
+    for (auto &x: a) {
+        for (int s = sum; s >= x; --s) {
+            f[s] = min(f[s], f[s - x] + 1);
+        }
+    }
+    
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
