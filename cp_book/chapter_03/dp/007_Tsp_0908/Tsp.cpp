@@ -92,6 +92,36 @@ int tspBu(vector<vector<int>>& dist) {
     return ans;
 }
 
+int tspBuFast(vector<vector<int>>& dist) {
+    int n = dist.size();
+    int m = n - 1;  // bits for vertices 1..n-1
+    int max_mask = (1 << m) - 1;
+
+    // f[mask][u]: min cost to be at u after visiting 'mask' (mask bits map to vertices 1..n-1)
+    vector<vector<int>> f(1 << m, vector<int>(n, oo));
+    f[0][0] = 0;  // start at 0, visited none of {1..n-1}
+
+    for (int mask = 0; mask <= max_mask; ++mask) {
+        for (int u = 0; u < n; ++u) {
+            if (f[mask][u] == oo) continue;  // ignore if v is not seen
+
+            int remain = max_mask ^ mask;  // bits not visited yet
+            int sub = remain;
+            while (sub) {
+                int p2 = LSOne(sub);
+                int v = __builtin_ctz(p2) + 1;
+                int new_mask = mask ^ p2;
+                f[new_mask][v] = min(f[new_mask][v], f[mask][u] + dist[u][v]);
+                sub -= p2;
+            }
+        }
+    }
+
+    int ans = oo;
+    for (int i = 1; i < n; ++i) ans = min(ans, f[max_mask][i] + dist[i][0]);
+    return ans;
+}
+
 void solve() {
     int x, y;
     cin >> x >> y;
@@ -134,8 +164,8 @@ void solve() {
     };
 
     cout << "The shortest path has length ";
-    // cout << tspBu(dist) << el;
-    cout << tspTd(0, (1LL << (n - 1)) - 1) << el;
+    cout << tspBuFast(dist) << el;
+    // cout << tspTd(0, (1LL << (n - 1)) - 1) << el;
 }
 
 int32_t main() {

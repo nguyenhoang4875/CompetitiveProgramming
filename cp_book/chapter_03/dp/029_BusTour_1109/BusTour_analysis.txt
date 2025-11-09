@@ -1,0 +1,34 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n:
+        trong đó: 0 -> Vị trí của HQ
+        1 - > n -2: vị trí của hotel
+        n - 1: vị trí của chỗ tham quan (A)
+    cho m cạnh: mỗi cạnh u, v, w:
+    Mong muốn đi: Path = HQ -> Permutation(Hotel P1) -> A -> Permutation(Hotel P2) -> HQ
+    Gọi h = số lượng hote
+    Yêu cầu k = h / 2 trong p1 thì phải xuất hiện trong P2.
+    Tìm chi phí nhỏ nhất của Path 
+    
+- Constraints: [Important limits]
+    3 <= n <= 20
+    2 <= m 
+
+- Time/Space: [Required complexity]
+
+
+APPROACH:
+- [Algorithm or method]
+    Floyd: Tính khoảng cách ngắn nhất giữa tất cả cặp điểm
+    Dp bitmask:
+        f1[mask][u]: khoảng cách ngắng nhất đi từ HQ -> u, mask là những đỉnh chưa thăm
+        f2[mask][u]: khoảng cách ngắng nhất đi từ A -> u, mask là những đỉnh chưa thăm
+    Meet in the middle:
+        P1 = S + T
+        P2 = T + S
+        cost = f2[a][T] + f1[a][S \ {a}] + f2[b][S \ {b}] + f1[b][T]
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
