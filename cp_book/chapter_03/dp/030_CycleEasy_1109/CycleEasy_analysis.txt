@@ -1,0 +1,19 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n: và tất cả cạnh vô hướng của graph có n đỉnh
+    cho k cạnh: mỗi cạnh u, v: cấm đi cạnh u-v
+
+    => Đếm số Hamiltonian cycle: đi qua tất cả các đỉnh, mỗi đỉnh 1 lần
+- Constraints: [Important limits]
+    3 <= n <= 10
+    0 <= k <= 15
+- Time/Space: [Required complexity]
+    O(2 ^ n * n ^ 2)
+
+APPROACH:
+- [Algorithm or method]
+    Tsp: Dp bitmask
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

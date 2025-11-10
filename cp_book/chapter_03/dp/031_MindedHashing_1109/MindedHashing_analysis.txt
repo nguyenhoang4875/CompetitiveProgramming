@@ -1,0 +1,37 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho L: leng of word, S: sum of all character
+    (a = 1, b = 2, .... z = 26) 
+    
+    Đếm bao nhiêu word khác nhau có độ dài L và sum = S
+    các letter trong work phải buộc tăng dần.
+
+- Constraints: [Important limits]
+    0 < L, S < 10000
+
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    vì buộc tăng dần nên max_sum = 1 + 2 + ... + 26 = (27 * 26) / 2 = 351
+    vì letter sau buộc phải lớn hơn letter trước đó:
+    f(len, ls, sum) // max_len = 26, ls = 25, max_sum = 351; // ls max letter can choose
+    => total states = 25 * 26 * 351 small
+    f[0][0][0] = 1;
+    For(len, 1, 26) {
+        For(ls, 0, len) {
+            For(sum, 0, 351) {
+                f[len][ls][sum] = f[len - 1][ls][sum];
+                if(ls > 0) f[len][ls][sum] += f[len - 1][ls - 1][sum - ls];
+            }
+        }
+    }
+    ans = f[26][L][S]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
