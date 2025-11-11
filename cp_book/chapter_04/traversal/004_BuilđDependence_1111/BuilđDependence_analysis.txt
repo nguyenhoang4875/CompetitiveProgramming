@@ -1,0 +1,21 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n: số dòng
+    n dòng tiếp theo: f: a, b, c, ..  Với f: a, b, c: nếu build a or b or c thì cần build lại f
+    cho s là module cần build
+    => in ra thứ tự cần build lại.
+
+- Constraints: [Important limits]
+    n <= 1e5
+    f: x1, x2 ...., xk
+    k <= 5
+- Time/Space: [Required complexity]
+
+APPROACH:
+- [Algorithm or method]
+    Topo sort
+    f: a, b, c: build f cần build a: a -> f hay có cạnh 1 chiều a -> f, tương tự cho b, c
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
