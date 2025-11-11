@@ -1,0 +1,41 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, s: n: ngăn kéo, s: số lượng ngăn kéo cần được khóa an toàn.
+    => Số cách đóng mở sao cho có đúng s ngăn kéo được khóa an toàn.
+    Ngăng kéo thứ x được khóa an toàn khi x được khóa(L): x là ngăn trên cùng hoặc ngăn ngay trên x được khóa
+   
+
+
+- Constraints: [Important limits]
+    n <= 65
+    s <= 65
+- Time/Space: [Required complexity]
+    O(2 * n * s)
+
+KEY IDEAS:
+- [Key idea 1]
+    // base case:
+    memo[0][0][1] = 1
+    memo[0][0][0] = 1
+    
+    int memo[ms][ms][2];
+    int cntWay(int n, int s, bool l) {
+        if (n == 0 and s == 0) return memo[n][s][l] = 1;
+
+        if (s > n or n < 0 or s < 0) return 0;
+
+        int& ans = memo[n][s][l];
+        if (ans != -1) return ans;
+        ans = cntWay(n - 1, s - l, true) + cntWay(n - 1, s, false);
+        return ans;
+    };
+
+    
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
