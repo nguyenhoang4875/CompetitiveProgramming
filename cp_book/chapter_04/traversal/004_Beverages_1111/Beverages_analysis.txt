@@ -1,0 +1,23 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n đồ uống dưới dạng chuỗi: b[1], b[2], ... b[n]
+    cho m cạnh:
+        mỗi cạnh b[x] b[y]
+        b[x] phải uống trước b[y] => adj[b[x]].pb(b[y]);
+    
+    in ra thứ tự uống sao cho nồng độ cồn tăng dần
+    nếu 2 đồ uống ko bị ràng buộc thì in ra đồ uống có thự tự xuất hiện trong input trước
+
+- Constraints: [Important limits]
+    O((n + m) log n)
+- Time/Space: [Required complexity]
+
+APPROACH:
+- [Algorithm or method]
+    Kahn's algorithm + modified bfs topo sort
+    using priority_queue to keep order as input appear if they are not relative
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
