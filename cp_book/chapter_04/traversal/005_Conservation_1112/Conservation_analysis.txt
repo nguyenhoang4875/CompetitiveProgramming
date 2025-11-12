@@ -1,0 +1,32 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, m: n: number of task, m: t1 t2: t2 is depended t1
+    array a with n element each a[i] is room of task i (a[i] can be 1 or 2)
+    m line: ech line contain t1 t2
+
+    Find minimum number room to finish all task 
+
+    // can start at 1 or 2:
+
+- Constraints: [Important limits]
+    1 <= n <= 1e5
+    1 <= m <= 1e6
+- Time/Space: [Required complexity]
+    O(n + m)
+
+KEY IDEAS:
+- [Key idea 1]
+    topo bfs with modification
+    try to start at each room:
+        for each room: run topo until the task in that room is empty and switch the room
+        repeat until the task in both room is empty
+    
+
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

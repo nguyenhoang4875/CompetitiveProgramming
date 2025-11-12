@@ -1,0 +1,21 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n vertex, m: edges
+    each edge: u v
+    must pick u before pick v
+
+- Constraints: [Important limits]
+    1 <= n, m <= 1e6
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    Check cycle + topo
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
