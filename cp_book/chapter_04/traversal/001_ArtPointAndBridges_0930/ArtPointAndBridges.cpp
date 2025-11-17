@@ -48,7 +48,8 @@ void solve() {
         adj[v].push_back(u);
     }
 
-    seen.assign(n, false), arts.assign(n, 0), tin.assign(n, 0), low.assign(n, 0);
+    seen.assign(n, false), tin.assign(n, 0), low.assign(n, 0);
+    arts.assign(n, 0), bridges.clear();
     timer = 0;
 
     for (int u = 0; u < n; u++) {
