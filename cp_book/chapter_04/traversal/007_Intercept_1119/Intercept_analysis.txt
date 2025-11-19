@@ -1,0 +1,51 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, m: graph có n đỉnh m cạnh
+    mỗi cạnh: u, v, w: directed
+    cho s, t
+    Gọi SS là khoảng cách ngắn nhất đi từ s -> t: tìm những đỉnh buộc phải đi để có được SS
+
+- Constraints: [Important limits]
+    1 <= n, m <= 1e5
+    0 <= u, v < n
+    0 < w <= 1e9
+- Time/Space: [Required complexity]
+
+APPROACH:
+- [Algorithm or method]
+    Dijkstra: vii d1: F: khoảng cách, S: số cách
+        d1 -> khoảng cách ngắn nhất từ s tới mọi đỉnh và số cách
+        d2 -> khoảng cách ngắn nhất từ t tới mọi đỉnh và số cách
+
+        auto dijkstra = [&](min_pq& q, vii& dist, vector<vii>& adj) {
+            while (q.size()) {
+                auto [d, way, u] = q.top();
+                q.pop();
+                if (dist[u].F != d or dist[u].S != way) continue;  // check latest [d, way]
+                for (auto& [v, w] : adj[u]) {
+                    int nd = d + w;
+                    if (nd < dist[v].F) {
+                        dist[v] = {nd, way};
+                        q.push({nd, way, v});
+                    } else if (nd == dist[v].F) {
+                        dist[v] = {nd, (dist[v].S + way) % mod};
+                        q.push({nd, dist[v].S, v});
+                    }
+                }
+            }
+        };
+
+    SS = khoảng cách ngắn nhất từ s - t
+    T = d1[s].S * d2[s].S // số cách đi từ  s -> t
+
+    Rep(u, n) {
+        if (d1[u].F == oo or d2[u].F == oo) continue;
+        if (d1[u].F + d2[u].F != SS) continue;
+        if (d1[u].S * d2[u].S % mod != T) continue;
+        cout << u << " ";
+    }
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
