@@ -1,0 +1,20 @@
+PROBLEM SUMMARY:
+- Task: Translate book from English to n target languages via translators
+- Priority: Minimize translation distance from English, then minimize total cost
+- Constraints: 1 ≤ n ≤ 100, 1 ≤ m ≤ 4500, costs fit in 32-bit int
+- Time/Space: [Required complexity]
+    O((V + E) log V)
+
+KEY IDEAS:
+- MST problem with English as root node
+- Prim's algorithm naturally minimizes distance first and cost from source while building MST
+- Graph: languages are nodes, translator costs are edges
+
+APPROACH:
+1. Build graph with English + all target languages as nodes, bidirectional edges for translators
+2. Run Prim's MST starting from "English"
+3. If MST connects all n+1 nodes, output total cost; otherwise "Impossible"
+
+EDGE CASES:
+- Unreachable target languages → "Impossible"
+- No translators but n > 0 → "Impossible"
