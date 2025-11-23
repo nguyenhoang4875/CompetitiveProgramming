@@ -1,0 +1,26 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho tree n đỉnh, n - 1 cạnh: root tại 1
+    mỗi cạnh: u, v, x, t
+        cạnh vô hướng u - v, x: phần trăm chải từ cha tới con, p: supper pipe or not
+    Tổng phần trăm(x) chảy ra từ 1 cha tới các con = 100
+    Nếu là supper pipe thì có thể bình phương lượng nước sau khi chảy qua.
+    cho dãy: k[i] cho n: if (k[i] = -1) ko phải lá, lượng nước cần thiết cho mỗi lá
+
+    Tính số lít nước cần thiết để tưới đủ nước cho toàn bộ lá 
+
+- Constraints: [Important limits]
+    1 <= n <= 1000 
+    0 <= t <= 1
+    1 <= u, v <= N
+    1 <= x <= 100
+
+- Time/Space: [Required complexity]
+
+APPROACH:
+- [Algorithm or method]
+    Xây dựng tree, tìm lượng nước lớn nhất cần thiết đề đi từ lá -> root
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]

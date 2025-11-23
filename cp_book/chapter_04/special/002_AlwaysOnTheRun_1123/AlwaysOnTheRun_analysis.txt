@@ -1,0 +1,52 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, k: n city, k days
+
+    n * (n - 1)  lines:
+    
+    first n - 1 lines for city 1
+    d c[1], ..., c[d] (city x) c[x] = 0 mean no fly
+    ...
+
+    Each day fly with one cost
+    the cost fly form 1 -> city cost c[k]  on day k
+
+    Find the best cost fro fly 1 -> n within k day
+    Else print No flight possible.
+
+- Constraints: [Important limits]
+    1 <= n <= 10 
+    1 <= k <= 1000
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+    map<pii, vi> cost; 
+    f[d][last_city]; // the minimum cost for first day days and the last city is city
+
+    f[0][1] = 0; // base case;
+    vvi f(k + 1, vi(n + 1, oo));
+    f[0][1] = 0;
+    for (int d = 1; d <= k; ++d) {
+        for (int u = 1; u <= n; ++u) {
+            for (int v = 1; v <= n; ++v) {
+                if (u == v) continue;
+                if (!cost.count({u, v})) continue;
+                if (f[d - 1][u] == oo) continue;
+                vi& c = cost[{u, v}];
+                int idx = (d - 1) % c.size();
+                if (c[idx] == 0) continue;
+                f[d][v] = min(f[d][v], f[d - 1][u] + c[idx]);
+            }
+        }
+    }
+    ans = f[k][n];
+    
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
