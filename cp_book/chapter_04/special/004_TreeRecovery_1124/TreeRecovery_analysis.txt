@@ -1,0 +1,37 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho thứ tự duyện pre order và in order của binary tree (upper case alphabet)
+    gọi n là size của pre order n <= 26
+    => In ra thứ tự duyện post order
+    Pre order: N - L - R
+    In order: L - N - R
+    Post order: L - R - N
+
+- Constraints: [Important limits]
+    1 <= n <= 26
+     
+- Time/Space: [Required complexity]
+
+APPROACH:
+- [Algorithm or method]
+    trong pre order root của toàn bộ tree: pre[0]
+    trong in order root của toàn bộ tree: left side, root, right sid
+    Tìm ra node của mỗi sub tree sau đó duyện cây trái, duyệt cây phải, in ra root
+
+        function<void(int, int, int)> dfs = [&](int in_start, int in_end, int pre_idx) {
+            if (in_start >= in_end) return;
+            char root = pre[pre_idx];
+            // tìm vị trí của root trong in order để chia đôi và duyện 2 phía
+            int pos = find(in.begin() + in_start, in.begin() + in_end, root) - in.begin();
+            int left_len = pos - in_start;  // left side | root | right size inside in order
+
+            dfs(in_start, in_start + left_len, pre_idx + 1); // duyện bên trái
+            dfs(pos + 1, in_end, pre_idx + left_len + 1); // duyệt bên phải
+            post.pb(root); // lưu lại root
+        };
+        dfs(0, n, 0);    
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
