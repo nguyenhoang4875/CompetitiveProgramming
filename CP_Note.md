@@ -11,6 +11,17 @@ Or
     cout.precision(8);
 ```
 
+**Calculate the Euclid distance:**
+**2D points**: hypot(dx, dy) = sqrt((dx * dx) + (dy * dy))
+``` C++
+    hypot(dx, dy)
+```
+
+**3D points**: hypot(dx, dy, dz) = sqrt((dx * dx) + (dy * dy) + (dz * dz))
+``` C++
+    hypot(dx, dy, dz)
+```
+
 **Count for interval ranges**
 
 Given array a and b size m
