@@ -1,0 +1,39 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    cho n, k: vector a n element
+    split a with k segment
+    find minimum of maximum of the sum segment of all split ways
+- Constraints: [Important limits]
+    1 <= n <= 600
+    1 <= k <= 300
+- Time/Space: [Required complexity]
+
+APPROACH:
+- [Algorithm or method]
+    Way 1: Binary search on answer: count sum >= val
+
+    Way 2: dp top down:
+        int f(int pos, int night_left) {
+            if (memo[pos][night_left] != -1) return memo[pos][night_left];
+            if (pos == n) return oo;
+            // base case
+            if (night_left == 0) {
+                return accumulate(a.begin() + pos, a.end(), 0LL);
+            }
+            int ans = oo;
+            int sum_day = 0;
+            for (int i = pos; (i < n) and (i - pos + night_left < n); ++i) {
+                sum_day += a[i];
+                int sub = f(i + 1, night_left - 1);
+                int cur = max(sum_day, sub);
+                ans = min(ans, cur);
+            }
+            return memo[pos][night_left] = ans;
+        };
+    
+    Way 3: dp bottom up
+        Similar with dp top down (see in the code)
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
