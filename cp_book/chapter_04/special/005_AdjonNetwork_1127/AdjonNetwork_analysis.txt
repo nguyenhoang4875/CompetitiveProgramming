@@ -1,0 +1,15 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+- Constraints: [Important limits]
+- Time/Space: [Required complexity]
+
+KEY IDEAS:
+- [Key idea 1]
+- [Key idea 2]
+
+APPROACH:
+- [Algorithm or method]
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
