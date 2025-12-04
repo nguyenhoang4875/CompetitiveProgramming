@@ -1,0 +1,47 @@
+PROBLEM SUMMARY:
+- Task: [Short task description]
+    Cho tree gồm n node và c, mỗi node là 1 clock devices có hiển thị giờ [1, 12]
+    Khi điều chỉnh giờ của 1 clock device X thì tất cả các clock devices chung component với X cũng được điều chỉnh
+    c: là cost bị trừ khi cắt 1 dây
+    cho mảng d gồn n phần tử: d[i] thời gian hiện tại trên đồng hồ thứ i
+    cho mảng w gồn n phần tử: w[i] là cost nhận được khi điều chỉnh đồng hồ thứ i thành 12h
+
+- Constraints: [Important limits]
+    O(n * 12 * 12)
+- Time/Space: [Required complexity]
+
+APPROACH:
+- [Algorithm or method]
+    f[u][i]: max profit at subtree root at u and current time i o'clock
+
+    function<void(int, int)> dfs = [&](int u, int p) {
+        for (auto& v : adj[u]) {
+            if (v == p) continue;
+            dfs(v, u);
+
+            for (int t = 1; t <= 12; ++t) {
+                int tv = d[v] + t;
+                if (tv > 12) tv -= 12;
+
+                // not cut the edge
+                int max_val = f[v][tv];
+
+                // cut the edge
+                for (int t2 = 1; t2 <= 12; ++t2) {
+                    max_val = max(max_val, f[v][t2] - c);
+                }
+
+                int tu = d[u] + t;
+                if (tu > 12) tu -= 12;
+
+                f[u][tu] += max_val;
+            }
+        }
+
+        f[u][12] += w[u];
+    };
+
+- [Main steps]
+
+EDGE CASES:
+- [Special cases to watch for]
