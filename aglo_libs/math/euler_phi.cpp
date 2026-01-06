@@ -21,20 +21,18 @@ int phi(int n) {
 }
 
 // O(n * log(log(n)))
-vector<int> phi1ToN(int n) {
-    vector<int> vPhi(n + 1, 0);
-    for (int i = 1; i <= n; i++) {
-        vPhi[i] = i;
-    }
-    for (int i = 2; i <= n; i++) {
-        // If i is prime
-        if (vPhi[i] == i) {
+vector<int> phiN(int n) {
+    vector<int> ans(n + 1, 0);
+    for (int i = 1; i <= n; ++i) ans[i] = i;
+
+    for (int i = 2; i <= n; ++i) {
+        if (ans[i] == i) {
             for (int j = i; j <= n; j += i) {
-                vPhi[j] -= vPhi[j] / i;
+                ans[j] -= ans[j] / i;
             }
         }
     }
-    return vPhi;
+    return ans;
 }
 
 void solve() {
@@ -42,9 +40,9 @@ void solve() {
     cin >> n;
     cout << "phi " << n << " = " << phi(n) << '\n';
 
-    vector<int> vPhi = phi1ToN(n);
+    vector<int> ans = phiN(n);
     for (int i = 1; i <= n; i++) {
-        cout << vPhi[i] << " ";
+        cout << ans[i] << " ";
     }
     cout << endl;
 }
