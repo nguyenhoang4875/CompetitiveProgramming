@@ -10,7 +10,7 @@ long long power(long long a, long long b) {
     return ans;
 }
 
-int modInverse(int n) { return power(n, mod - 2); }
+int inv(int n) { return power(n, mod - 2); }
 
 int nCr(int n, int k) {
     if (k > n or k < 0) return 0;
@@ -23,5 +23,5 @@ int nCr(int n, int k) {
     for (int i = 1; i <= k; i++) {
         mau = mau * i % mod;
     }
-    return tu * modInverse(mau) % mod;
+    return tu * inv(mau) % mod;
 }
