@@ -4,60 +4,69 @@
 
 using namespace std;
 
-//*** Sieve max prime number of a number ***//
+//*** Sieve min prime number of a number ***//
 // O(n log log n)
-vector<int> max_prime;
-void maxSieve(int n) {
-    max_prime = vector<int>(n + 1, 0);
-    for (int i = 1; i <= n; i++) max_prime[i] = i;
+vector<int> min_prime;
+void minSieve(int n) {
+    min_prime.assign(n + 1, 0);
+    for (int i = 1; i <= n; i++) min_prime[i] = i;
 
     for (int i = 2; i <= n; i++) {
-        if (max_prime[i] == i) {
-            for (int j = i; j <= n; j += i) max_prime[j] = i;
+        if (min_prime[i] == i) {
+            for (int j = i; j <= n; j += i)
+                if (min_prime[j] == j) min_prime[j] = i;
         }
     }
 }
 
-// *** Prime Factors by using max_prime"
+// *** Prime Factors Exp by using min_prime"
+// O(log n); (n < sieve size)
+vector<pair<int, int>> primeFactorsExp(int n) {
+    vector<pair<int, int>> f;
+
+    while (n > 1) {
+        int p = min_prime[n];
+        int cnt = 0;
+
+        while (n % p == 0) {
+            n /= p;
+            ++cnt;
+        }
+        f.push_back({p, cnt});
+    }
+    return f;
+}
+
+// *** Prime Factors by using min_prime"
 // O(log n);  (n < sieve size)
 vector<int> primeFactors(int number) {
     vector<int> f;
     while (number != 1) {
-        f.push_back(max_prime[number]);
-        number /= max_prime[number];
+        f.push_back(min_prime[number]);
+        number /= min_prime[number];
     }
     return f;
 }
 
-// *** Prime Map Factor by using max_prime"
-// O(log n); (n < sieve size)
-map<int, int> primeMapFactors(int n) {
-    map<int, int> f;
-    while (n != 1) {
-        f[max_prime[n]]++;
-        n /= max_prime[n];
-    }
-    return f;
-}
-
-// *** Generate Divisors by Prime Map Factors ***//
+// *** Generate Divisors by Prime Factors Exp ***//
 // O(d(n)) where d(n) = number of divisors
-void genDiv(map<int, int>::const_iterator it, map<int, int>::const_iterator end, int cur, vector<int>& div) {
-    if (it == end) {
-        div.push_back(cur);
-        return;
+vector<int> genDiv(const vector<pair<int, int>>& f) {
+    vector<int> div = {1};
+
+    for (auto [p, exp] : f) {
+        int dn = div.size();
+        int mul = 1;
+
+        for (int e = 1; e <= exp; ++e) {
+            mul *= p;
+            for (int i = 0; i < dn; ++i) {
+                div.push_back(div[i] * mul);
+            }
+        }
     }
 
-    int p = it->first;
-    int exp = it->second;
-
-    auto nextIt = next(it);
-    for (int i = 0; i <= exp; i++) {
-        genDiv(nextIt, end, cur, div);
-        cur *= p;
-    }
+    return div;
 }
-
 //*** Find All Divisors ***//
 // O(sqrt(n))
 vector<int> getDivisors(int n) {
@@ -86,14 +95,13 @@ void numDiffPF(int n) {
 
 // Using:
 int32_t main() {
-    maxSieve(1e7);
+    minSieve(1e7);
 
-    map<int, int> m = primeMapFactors(72);
+    vector<pair<int, int>> m = primeFactorsExp(72);
     for (auto& [f, s] : m) cout << f << " " << s << el;
 
     cout << "-------------------------------" << el;
-    vector<int> div;
-    genDiv(m.begin(), m.end(), 1LL, div);
+    vector<int> div = genDiv(m);
     sort(div.begin(), div.end());
     for (auto& e : div) cout << e << " ";
     cout << el;

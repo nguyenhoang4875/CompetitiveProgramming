@@ -32,6 +32,22 @@ bool isPrime(int n) {
     return true;
 }
 
+//*** Prime Factors Exp ***//
+// O(sqrt(n) / ln(sqrt(n))); (n < (ps.back() * ps.back()))
+vector<pair<int, int>> primeFactorsExp(int n) {
+    vector<pair<int, int>> f;
+    for (int i = 0; i < (int)ps.size() and (ps[i] * ps[i] <= n); ++i) {
+        int cnt = 0;
+        while (n % ps[i] == 0) {
+            ++cnt;
+            n /= ps[i];
+        }
+        if (cnt) f.push_back({ps[i], cnt});
+    }
+    if (n != 1) f.push_back({n, 1});
+    return f;
+}
+
 //*** Prime Factors ***//
 // O(sqrt(n) / ln(sqrt(n))); (n < (ps.back() * ps.back()))
 vector<int> primeFactors(int n) {
