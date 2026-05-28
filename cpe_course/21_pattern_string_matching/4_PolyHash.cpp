@@ -27,18 +27,32 @@ using vii = vector<pii>;
 const int oo = 1e18, mod = 1e9 + 7;
 const int ms = 2e5 + 5;
 
-int polyHash(string s) {
-    int hash = 0, p = 31, mod = 1e9 + 7;
-    int pPower = 1;
+int polyHash(const string& s) {
+    const int p = 31, mod = 1000000007;
+    int h = 0, pw = 1;
 
-    for (int i = 0; i < s.size(); i++) {
-        hash += (s[i] - 'a' + 1) * pPower;
-        pPower *= p;
-
-        hash %= mod;
-        pPower %= mod;
+    for (int i = 0; i < (int)s.size(); i++) {
+        int c = s[i] - 'a' + 1;  // lowercase only
+        h = (h + c * pw) % mod;
+        pw = pw * p % mod;
     }
-    return hash;
+    return h;
+}
+
+pair<int, int> doubleHash(const string& s) {
+    const int p1 = 131, mod1 = 1000000007;
+    const int p2 = 137, mod2 = 1000000009;
+    int h1 = 0, h2 = 0;
+    int pw1 = 1, pw2 = 1;
+
+    for (int i = 0; i < (int)s.size(); i++) {
+        int c = s[i] + 1;  // works for any ASCII character
+        h1 = (h1 + c * pw1) % mod1;
+        h2 = (h2 + c * pw2) % mod2;
+        pw1 = pw1 * p1 % mod1;
+        pw2 = pw2 * p2 % mod2;
+    }
+    return {h1, h2};
 }
 
 void solve() {
