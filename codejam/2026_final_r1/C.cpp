@@ -1,0 +1,95 @@
+#include <bits/stdc++.h>
+#define int long long
+
+using namespace std;
+
+#define pb push_back
+#define LSOne(x) ((x) & -(x))
+#define all(x) (x).begin(), (x).end()
+#define sz(x) static_cast<int>((x).size())
+#define el '\n'
+#define F first
+#define S second
+#define Rep(i, n) for (int i = 0; i < (int)n; ++i)
+#define For(i, a, b) for (int i = (a); i <= (int)b; ++i)
+#define Rof(i, b, a) for (int i = (b); i >= (int)a; --i)
+#define Fore(i, v) for (auto i = (v).begin(); i != (v).end(); ++i)
+
+using vb = vector<bool>;
+using vvb = vector<vb>;
+using vc = vector<char>;
+using vvc = vector<vc>;
+using vi = vector<int>;
+using vvi = vector<vi>;
+using pii = pair<int, int>;
+using vii = vector<pii>;
+
+//*** START CODING ***//
+
+const long long oo = 2e18, mod = 1e9 + 7;
+const int ms = 2e5 + 5;
+using node = array<int, 3>;
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<node> a(n);
+    Rep(i, n) {
+        cin >> a[i][0] >> a[i][1] >> a[i][2];
+        if (a[i][0] > a[i][1]) swap(a[i][0], a[i][1]);
+    }
+
+    vi c(n);
+    Rep(i, n) cin >> c[i];
+
+    auto check = [&](int cost) {
+        vii b(n);
+
+        Rep(i, n) {
+            auto [l, r, w] = a[i];
+            int d = cost / w;
+
+            if (d < r - l) return false;
+            int nl = (l + r - d + 1) / 2;  // round up
+            int nr = (l + r + d) / 2;      // round down
+
+            b[i] = {nl, nr};
+        }
+
+        sort(all(b));
+        priority_queue<int, vi, greater<int>> q;
+        int si = 0;
+        Rep(i, n) {
+            while (si < n and b[si].F <= c[i]) {
+                q.push(b[si].S);
+                ++si;
+            }
+            if (q.size() and q.top() < c[i]) return false;
+            if (q.size()) q.pop();
+        }
+        return si == n and q.empty();
+    };
+
+    int l = 0, r = oo;
+    int ans = r;
+
+    while (l <= r) {
+        int mid = (l + r) / 2;
+        if (check(mid)) {
+            ans = mid;
+            r = mid - 1;
+        } else l = mid + 1;
+    }
+    cout << ans << el;
+}
+
+int32_t main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int tcs = 1;
+    while (tcs--) {
+        solve();
+    }
+    return 0;
+}
