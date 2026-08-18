@@ -1,0 +1,27 @@
+{
+  ".cpp": {
+    "compileCommand": [
+      "g++",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-Wconversion",
+      "-Wfloat-equal",
+      "-Wduplicated-cond",
+      "-Wlogical-op",
+      "-Wl,--stack=536870912",
+      "${file}",
+      "-o",
+      "${fileDirname}/${fileBasenameNoExtension}"
+    ],
+    "runCommand": ["${fileDirname}/${fileBasenameNoExtension}"]
+  },
+  ".py": {
+    "runCommand": ["python", "${file}"]
+  },
+  ".java": {
+    "compileCommand": ["javac", "${file}"],
+    "runCommand": ["java", "-cp", "${fileDirname}", "${fileBasenameNoExtension}"]
+  }
+}
