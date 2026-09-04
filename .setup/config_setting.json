@@ -1,5 +1,5 @@
 {
-    "workbench.iconTheme": "material-icon-theme",
+    "files.autoSave": "afterDelay",
     "editor.fontSize": 15.5,
     "editor.fontFamily": "Jetbrains Mono,'Fira Code', monospace",
     "editor.fontLigatures": false,
@@ -7,113 +7,36 @@
     "editor.smoothScrolling": true,
     "editor.mouseWheelZoom": true,
     "editor.cursorBlinking": "expand",
-    "[cpp]": {
-        "editor.defaultFormatter": "ms-vscode.cpptools"
-    },
-    "C_Cpp.formatting": "clangFormat",
-    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 120, AllowShortIfStatementsOnASingleLine: AllIfsAndElse, AllowShortBlocksOnASingleLine: false, AllowShortFunctionsOnASingleLine: None, AllowShortLambdasOnASingleLine: false, BraceWrapping: { AfterFunction: true, AfterControlStatement: false }}",
-    "C_Cpp.default.cStandard": "gnu17",
-    "C_Cpp.default.cppStandard": "c++17",
-    "cph.language.cpp.Args": "-Wall -Wextra -Wshadow -Wconversion -Wfloat-equal -Wduplicated-cond -Wlogical-op -Wl,--stack=536870912",
-    "cph.general.timeOut": 5000,
-    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-    "cph.language.python.Command": "python",
-    "vim.insertModeKeyBindings": [
-        {
-            "before": [
-                "j",
-                "j"
-            ],
-            "after": [
-                "<esc>"
-            ]
-        }
-    ],
+    "vim.useSystemClipboard": true,
     "vim.handleKeys": {
-        "<C-a>": true,
         "<C-c>": false,
         "<C-v>": false
     },
-    "vim.visualModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "p"
-            ],
-            "after": [
-                "p",
-                "g",
-                "v",
-                "y"
-            ]
-        }
-    ],
-    "vim.visualModeKeyBindings": [
-        {
-            "before": [
-                "<C-c>"
-            ],
-            "after": [
-                "\"",
-                "+",
-                "y"
-            ]
-        },
-        {
-            "before": [
-                "<C-v>"
-            ],
-            "after": [
-                "\"",
-                "+",
-                "p"
-            ]
-        }
-    ],
-    "vim.normalModeKeyBindings": [
-        {
-            "before": [
-                "<C-c>"
-            ],
-            "after": [
-                "\"",
-                "+",
-                "y"
-            ]
-        },
-        {
-            "before": [
-                "<C-v>"
-            ],
-            "after": [
-                "\"",
-                "+",
-                "p"
-            ]
-        }
-    ],
-    "vim.useSystemClipboard": true,
-    "diffEditor.ignoreTrimWhitespace": false,
-    "files.autoSave": "afterDelay",
-    "[json]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
+    "vim.smartRelativeLine": true,
+    "editor.lineHeight": 1.5,
+    "debug.onTaskErrors": "showErrors",
+    "explorer.confirmDragAndDrop": false,
+    "code-runner.runInTerminal": true,
+    "explorer.confirmDelete": false,
+    "files.autoSaveDelay": 500,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "workbench.colorTheme": "Visual Studio Light",
+    "git.openRepositoryInParentFolders": "never",
+    "workbench.editor.enablePreview": false,
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "editor.lineHeight": 1.5,
-    "files.autoSaveDelay": 200,
-    "code-runner.runInTerminal": true,
-    "code-runner.saveFileBeforeRun": true,
-    "code-runner.clearPreviousOutput": true,
+    "editor.guides.bracketPairs": true,
+    "diffEditor.ignoreTrimWhitespace": false,
     "code-runner.executorMap": {
         "javascript": "node",
         "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
         "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "zig": "zig run",
-        "cpp": "cd $dir && g++ -std=c++17 -Wall -Wextra -Wshadow -Wconversion -Wfloat-equal -Wduplicated-cond -Wlogical-op '-Wl,--stack=536870912' $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "cpp": "cd $dir && g++ -Wall -Wextra -Wshadow -Wconversion -Wfloat-equal -Wduplicated-cond -Wlogical-op -std=c++17 -Wl,--stack=536870912 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "objective-c": "cd $dir && gcc -framework Cocoa $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "php": "php",
-        "python": "python $fullFileName",
+        "python": "python -u",
         "perl": "perl",
         "perl6": "perl6",
         "ruby": "ruby",
@@ -157,6 +80,36 @@
         "fortran-modern": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "fortran_fixed-form": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "fortran": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-        "sml": "cd $dir && sml $fileName"
+        "sml": "cd $dir && sml $fileName",
+        "mojo": "mojo run",
+        "erlang": "escript",
+        "spwn": "spwn build",
+        "pkl": "cd $dir && pkl eval -f yaml $fileName -o $fileNameWithoutExt.yaml",
+        "gleam": "gleam run -m $fileNameWithoutExt"
+    },
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "extensions.ignoreRecommendations": true,
+    "workbench.editor.empty.hint": "hidden",
+    "chat.viewSessions.orientation": "stacked",
+    "chat.disableAIFeatures": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "clangd.path": "D:\\Program_code\\clangd-windows-22.1.6\\clangd_22.1.6\\bin\\clangd.exe",
+    "clangd.arguments": [
+        "--fallback-style=LLVM"
+    ],
+    "clangd.fallbackFlags": [
+        "-x",
+        "c++",
+        "-target",
+        "x86_64-pc-windows-gnu",
+        "-ID:\\Program_code\\MinGW\\include",
+        "-ID:\\Program_code\\MinGW\\x86_64-w64-mingw32\\include",
+        "-ID:\\Program_code\\MinGW\\lib\\gcc\\x86_64-w64-mingw32"
+    ],
+    "clang-format.executable": "D:\\Program_code\\clang-format.exe",
+    "clang-format.style": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 120, AllowShortIfStatementsOnASingleLine: AllIfsAndElse, AllowShortBlocksOnASingleLine: false, AllowShortFunctionsOnASingleLine: true, AllowShortLambdasOnASingleLine: false, BraceWrapping: { AfterFunction: true, AfterControlStatement: false }}",
+    "clang-format.fallbackStyle": "Google",
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
     }
 }
