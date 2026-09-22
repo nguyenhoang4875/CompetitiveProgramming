@@ -26,10 +26,8 @@ string getBin(int n) {
 
 vector<int> getSubSetMask(int mask) {
     vector<int> ans;
-    int subMask = mask;
-    while(subMask) {
-        ans.push_back(subMask);
-        subMask = (subMask - 1) & mask;
+    for (int sub = mask; sub > 0; sub = (sub - 1) & mask) {
+        ans.push_back(sub);
     }
     return ans;
 }

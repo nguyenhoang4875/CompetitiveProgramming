@@ -23,10 +23,12 @@ struct SegmentTree {
         }
     }
 
-    T combine(T v1, T v2) { return min(v1, v2); }
+    T combine(T v1, T v2) {
+        return min(v1, v2);  // return T() for Node default with (is_null = true)
+    }
 
     T query(int v, int tl, int tr, int l, int r) {
-        if (l > tr || r < tl) return INVALID;
+        if (l > tr || r < tl) return INVALID;  // (T() for Node)
         if (l <= tl && tr <= r) return t[v];
 
         int tm = (tl + tr) / 2;
@@ -43,7 +45,7 @@ struct SegmentTree {
         }
     }
 
-    int query(int l, int r) { return query(1, 1, n, l, r); }
+    T query(int l, int r) { return query(1, 1, n, l, r); }
     void update(int pos, T delta) { update(1, 1, n, pos, delta); }
     void assign(int pos, T newVal) { update(pos, newVal - query(pos, pos)); }
 };
