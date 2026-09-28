@@ -39,11 +39,24 @@ vector<pair<int, int>> primeFactorsExp(int n) {
 
 // *** Prime Factors by using min_prime"
 // O(log n);  (n < sieve size)
-vector<int> primeFactors(int number) {
+vector<int> primeFactors(int n) {
     vector<int> f;
-    while (number != 1) {
-        f.push_back(min_prime[number]);
-        number /= min_prime[number];
+    while (n > 1) {
+        f.push_back(min_prime[n]);
+        n /= min_prime[n];
+    }
+    return f;
+}
+
+// *** Prime Divisors by using min_prime"
+// O(log n);  (n < sieve size)
+vector<int> primeDiv(int n) {
+    vector<int> f;
+
+    while (n > 1) {
+        int mp = min_prime[n];
+        f.push_back(mp);
+        while (n % mp == 0) n /= mp;
     }
     return f;
 }
