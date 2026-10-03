@@ -3,9 +3,7 @@
 
 using namespace std;
 
-//*** debug(x) ***//
 #define DEBUG 1
-
 #if DEBUG
 #define del cout << '\n'
 #define debug(...) _debug(#__VA_ARGS__, __VA_ARGS__)
@@ -13,7 +11,8 @@ template <class X, class Y>
 ostream& operator<<(ostream& os, pair<X, Y> const& p) {
     return os << "(" << p.first << ", " << p.second << ")";
 }
-template <class Ch, class Tr, class Container>
+template <class Ch, class Tr, class Container,
+          typename = typename enable_if<!is_same<Container, string>::value && !is_array<Container>::value>::type>
 basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {
     int i = 0, n = (int)distance(x.begin(), x.end());
     os << "{ ";
