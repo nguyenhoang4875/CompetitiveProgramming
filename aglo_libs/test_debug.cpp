@@ -6,32 +6,31 @@ using namespace std;
 #define DEBUG 1
 #if DEBUG
 #define del cout << '\n'
-#define debug(...) _debug(#__VA_ARGS__, __VA_ARGS__)
+#define debug(...) cout << "[ " << #__VA_ARGS__ << " ]: ", _debug(__VA_ARGS__)
+
+template <class X, class Y>
+ostream& operator<<(ostream& os, pair<X, Y> const& p);
+template <class Container, typename enable_if<!is_same<Container, string>::value,
+                                              decltype(declval<Container>().begin())>::type* = nullptr>
+ostream& operator<<(ostream& os, Container const& x);
 template <class X, class Y>
 ostream& operator<<(ostream& os, pair<X, Y> const& p) {
     return os << "(" << p.first << ", " << p.second << ")";
 }
-template <class Ch, class Tr, class Container,
-          typename = typename enable_if<!is_same<Container, string>::value && !is_array<Container>::value>::type>
-basic_ostream<Ch, Tr>& operator<<(basic_ostream<Ch, Tr>& os, Container const& x) {
+template <class Container,
+          typename enable_if<!is_same<Container, string>::value, decltype(declval<Container>().begin())>::type*>
+ostream& operator<<(ostream& os, Container const& x) {
     int i = 0, n = (int)distance(x.begin(), x.end());
     os << "{ ";
     for (const auto& y : x) os << y << (++i < n ? ", " : "");
     return os << " }";
 }
-template <typename... Args>
-void _debug(const char* s, Args&&... args) {
-    cout << "{ ";
-    size_t i = 0, cnt = 0, n = sizeof...(args);
-    auto next = [&]() {
-        while (s[i] && (s[i] == ' ' || s[i] == ',')) ++i;
-        size_t st = i;
-        while (s[i] && s[i] != ',') ++i;
-        return string(s + st, i - st);
-    };
-    auto dummy = {(cout << next() << ": " << args << (++cnt < n ? ", " : ""), 0)...};
-    (void)dummy;
-    cout << " }" << '\n';
+void _debug() { cout << '\n'; }
+template <typename T, typename... Args>
+void _debug(T first, Args... args) {
+    cout << first;
+    if (sizeof...(args)) cout << ", ";
+    _debug(args...);
 }
 #else
 #define del
@@ -65,7 +64,7 @@ void solve() {
     vector<vector<int>> vvi{{1, 2}, {5, 6, 8}, {}};
     vector<int> vi{1, 3, 5, 7, 8};
     vector<char> vc{'a', 'c', 'f'};
-    vector<pair<int, string>> vpi{{10, "muoi"}, {11, "muoi mot"}, {-6, "bon"}, {}, {12, "muoi hai"}};
+    vector<pair<int, string>> vpi{{10, "ten"}, {11, "eleven"}, {4, "four"}, {}, {12, "twelve"}};
     set<string> ss{"heh", "hah"};
     set<set<int>> ssi{{1, 2}, {5, 6, 8}, {}};
     const char* cs = "hah";
@@ -88,6 +87,29 @@ void solve() {
     debug(vb);
 
     debug(m, i, s, um, vs, vvi, vi, vc, vpi, ss, ssi, cs, c, vb);
+
+    list<int> my_list = {1, 2, 3};
+    deque<string> my_deque = {"a", "b", "c"};
+
+    unordered_set<int> my_uset = {10, 20, 30};
+    unordered_map<string, int> my_umap = {{"apple", 5}, {"banana", 3}};
+
+    vector<vector<int>> matrix2d = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
+
+    vector<map<string, pair<int, vector<int>>>> brain_melting_type = {
+        {{"groupA", {100, {1, 2, 3}}}, {"groupB", {200, {4, 5}}}}, {{"groupC", {300, {9, 9, 9}}}}};
+
+    pair<int, pair<string, double>> nested_pair = {1, {"nested", 2.718}};
+    map<pair<int, int>, vector<string>> pair_key_map;
+    pair_key_map[{1, 2}] = {"one", "two"};
+    pair_key_map[{3, 4}] = {"three"};
+
+    debug(my_list, my_deque);
+    debug(my_uset, my_umap);
+    debug(matrix2d);
+    debug(nested_pair);
+    debug(pair_key_map);
+    debug(brain_melting_type);
 }
 
 int32_t main() {
